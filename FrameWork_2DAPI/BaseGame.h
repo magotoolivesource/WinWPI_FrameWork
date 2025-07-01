@@ -15,6 +15,7 @@ public:
     bool isRunning = true;
 
     void Init();
+    void Release();
     void Run();
     void CleanUp();
 
@@ -30,6 +31,9 @@ protected:
 
 	COLORREF m_BGColor = RGB(255, 255, 255); // 배경색 초기화 (검정색)
 
+    ULONG_PTR gdiplusToken;
+	void InitGDIPlus(); // GDI+ 초기화 함수
+    void ReleaseGDIPlus(); // GDI+ 해제 함수
 public:
     void Test_InitScene();
 

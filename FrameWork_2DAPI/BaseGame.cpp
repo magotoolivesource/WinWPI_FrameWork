@@ -1,36 +1,52 @@
 #include <Windows.h>
 #include "BaseGame.h"
 #include <WinUser.h>
+#include <gdiplus.h>
 
 #include "Core/TimerManager.h"
 #include "Core/InputManager.h"
 
 #include "Compoment/Component.h"
 #include "Compoment/Transform.h"
+#include "Compoment/ImageComponent.h"
 #include "UICompoment/Button.h"
+
+
+
+using namespace Gdiplus;
 
 BaseGame::~BaseGame()
 {
-    if (m_pTimerManager)
-    {
-		delete m_pTimerManager;
-        m_pTimerManager = nullptr;
-    }
-
-    if (m_pInputManager)
-    {
-		delete m_pInputManager;
-        m_pInputManager = nullptr;
-    }
+	Release();
 }
 
 void BaseGame::Init()
 {
+    InitGDIPlus();
+    
 	m_pTimerManager = new TimerManager();
 	m_pInputManager = new InputManager();
 
 
     Test_InitScene();
+}
+
+void BaseGame::Release()
+{
+    if (m_pTimerManager)
+    {
+        delete m_pTimerManager;
+        m_pTimerManager = nullptr;
+    }
+
+    if (m_pInputManager)
+    {
+        delete m_pInputManager;
+        m_pInputManager = nullptr;
+    }
+
+
+    ReleaseGDIPlus();
 }
 
 void BaseGame::Run() {
@@ -100,12 +116,40 @@ void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 	currentScene.Render(p_hdc);
 }
 
+void BaseGame::InitGDIPlus()
+{
+    GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+}
+
+void BaseGame::ReleaseGDIPlus()
+{
+    GdiplusShutdown(gdiplusToken);
+}
+
 void BaseGame::Test_InitScene()
 {
-	GameObject* bunobj = currentScene.CreateObject("TestObject");
-
-    bunobj->AddComponent< Transform>();
+	
+    GameObject* bunobj = currentScene.CreateObject("TestObject");
     bunobj->AddComponent< Button>();
+    bunobj->GetComponent<Transform>()->setPosition(50, 100);
+
+
+	GameObject* pngimgobj = currentScene.CreateObject("PngImageObject");
+	//pngimgobj->AddComponent<ImageComponent>();
+    pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
+
+
+
+
+
+
+
+    //bunobj->AddComponent< Transform>();
+
+    //bunobj->AddComponent< Transform>();
+    
  //   bunobj->AddComponent< Button>([](Button* pButton) 
  //   {
  //   // 버튼 클릭시 동작

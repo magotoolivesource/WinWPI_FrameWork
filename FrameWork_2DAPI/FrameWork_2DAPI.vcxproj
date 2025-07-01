@@ -126,6 +126,7 @@
     <ClInclude Include="BaseGame.h" />
     <ClInclude Include="Compoment\Collider.h" />
     <ClInclude Include="Compoment\Component.h" />
+    <ClInclude Include="Compoment\ImageComponent.h" />
     <ClInclude Include="Compoment\Transform.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="BaseGame.cpp" />
     <ClCompile Include="Compoment\Component.cpp" />
+    <ClCompile Include="Compoment\ImageComponent.cpp" />
     <ClCompile Include="Compoment\Transform.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />

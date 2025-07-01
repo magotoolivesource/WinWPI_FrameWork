@@ -81,6 +81,9 @@
     <ClInclude Include="UICompoment\Button.h">
       <Filter>UICompoment</Filter>
     </ClInclude>
+    <ClInclude Include="Compoment\ImageComponent.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -109,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="Core\InputManager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Compoment\ImageComponent.cpp">
+      <Filter>Compoment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

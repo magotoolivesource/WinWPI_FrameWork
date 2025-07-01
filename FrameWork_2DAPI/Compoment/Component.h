@@ -18,6 +18,7 @@ public:
     virtual void Update(float dt) {}
     virtual void Render(HDC hdc) {}
     virtual ~Component() {}
+    virtual void Initialize(){}
 
 };
 
