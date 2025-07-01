@@ -90,8 +90,13 @@ void BaseGame::Update()
 {
     currentScene.Update( m_pTimerManager->GetDeltaTime() );
 }
-void BaseGame::Render(HDC p_hdc)
+void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 {
+    // 2. 배경 지우기 (하얀색)
+    HBRUSH bg = CreateSolidBrush(m_BGColor );
+    FillRect(p_hdc, &p_clientRect, bg);
+    DeleteObject(bg);
+
 	currentScene.Render(p_hdc);
 }
 

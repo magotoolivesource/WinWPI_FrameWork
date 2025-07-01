@@ -18,6 +18,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+void Test_DrawRectBox(HDC memDC, RECT& clientRect, int width);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
@@ -87,7 +88,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
         // g_hWnd 사용해도됨
-        InvalidateRect(msg.hwnd, nullptr, TRUE);
+        // 깜빡임 줄이기 위해 TRUE → FALSE
+        InvalidateRect(msg.hwnd, nullptr, FALSE);
 
         //// 게임 로직 / 렌더링
         //Update();   // 예: 게임 상태 갱신
@@ -167,6 +169,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+
+int x = 0; // 사각형의 x 위치를 저장하는 전역 변수
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
@@ -198,7 +202,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
 
 
-			g_BaseGame.Render(hdc); // BaseGame의 렌더링 함수 호출
+            RECT clientRect;
+            GetClientRect(hWnd, &clientRect);
+            int width = clientRect.right;
+            int height = clientRect.bottom;
+
+            // 1. 백 버퍼용 메모리 DC 및 비트맵 생성
+            HDC memDC = CreateCompatibleDC(hdc);
+            HBITMAP backBuffer = CreateCompatibleBitmap(hdc, width, height);
+            HBITMAP oldBitmap = (HBITMAP)SelectObject(memDC, backBuffer);
+
+            //// 2. 배경 지우기 (하얀색)
+            //HBRUSH bg = CreateSolidBrush(RGB(255, 255, 255));
+            //FillRect(memDC, &clientRect, bg);
+            //DeleteObject(bg);
+            //Test_DrawRectBox(memDC, clientRect, width);
+
+			g_BaseGame.Render(memDC, clientRect);
+
+            // 4. 최종적으로 메모리 DC → 화면 DC 전송
+            BitBlt(hdc, 0, 0, width, height, memDC, 0, 0, SRCCOPY);
+
+            // 5. 리소스 정리
+            SelectObject(memDC, oldBitmap);
+            DeleteObject(backBuffer);
+            DeleteDC(memDC);
 
 
             EndPaint(hWnd, &ps);
@@ -211,6 +239,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
+}
+
+void Test_DrawRectBox(HDC memDC, RECT& clientRect, int width)
+{
+    // 3. 그리기 (예: 움직이는 사각형)
+    HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
+    HBRUSH brush = CreateSolidBrush(RGB(0, 255, 0));
+    SelectObject(memDC, pen);
+    SelectObject(memDC, brush);
+
+    //x = 100;
+    Rectangle(memDC, 100 + x, 100, 200 + x, 200);
+    x = (x + 2) % width;  // 위치 이동
+
+    DeleteObject(brush);
+    DeleteObject(pen);
 }
 
 // 정보 대화 상자의 메시지 처리기입니다.
