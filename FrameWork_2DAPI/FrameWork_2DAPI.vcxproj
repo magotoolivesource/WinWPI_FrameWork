@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseGame.cpp" />
+    <ClCompile Include="Compoment\Collider.cpp" />
     <ClCompile Include="Compoment\Component.cpp" />
     <ClCompile Include="Compoment\ImageComponent.cpp" />
     <ClCompile Include="Compoment\Transform.cpp" />

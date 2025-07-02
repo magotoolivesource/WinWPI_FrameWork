@@ -3,7 +3,9 @@
 
 GameObject::GameObject()
 {
-	AddComponent<Transform>();
+	//AddComponent<Transform>();
+    Initialize();
+
 }
 
 GameObject::~GameObject()
@@ -13,5 +15,15 @@ GameObject::~GameObject()
 
 void GameObject::Initialize()
 {
+    InitCreateTransform();
+}
 
+void GameObject::InitCreateTransform()
+{
+    Transform* comp = new Transform();
+    comp->owner = this;
+    comp->Initialize(); // 컴포넌트 초기화 호출 추가
+    components[std::type_index(typeid(Transform))].reset(comp);
+
+    transform = comp;
 }

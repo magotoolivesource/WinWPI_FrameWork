@@ -116,6 +116,9 @@
     <ClCompile Include="Compoment\ImageComponent.cpp">
       <Filter>Compoment</Filter>
     </ClCompile>
+    <ClCompile Include="Compoment\Collider.cpp">
+      <Filter>Compoment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork_2DAPI.rc">

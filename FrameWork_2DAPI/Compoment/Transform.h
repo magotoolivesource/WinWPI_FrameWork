@@ -14,6 +14,7 @@ class Transform : public Component
 
 public:
     Vec2 position;
+	int zdepth = 0; // Z-order for rendering
     float width = 50.0f;
     float height = 50.0f;
     float rotation = 0.0f; // in degrees

@@ -7,8 +7,10 @@
 #include <unordered_set>
 
 #include "../Compoment/Component.h"
+//#include "../Compoment/Transform.h"
 
 //class Component;
+class Transform;
 
 class GameObject
 {
@@ -61,19 +63,7 @@ public:
     std::unordered_set<std::string> tags;
 
     template <typename T, typename... Args>
-    T* AddComponent(Args&&... args) {
-
-   //     if (typeid(T) == typeid(Transform))
-   //     {
-			//return nullptr; // Transform은 GameObject에 자동으로 추가되므로, 명시적으로 추가하지 않음
-   //     }
-
-        T* comp = new T(std::forward<Args>(args)...);
-        comp->owner = this;
-		comp->Initialize(); // 컴포넌트 초기화 호출 추가
-        components[std::type_index(typeid(T))].reset(comp);
-        return comp;
-    }
+    T* AddComponent(Args&&... args);
 
     template <typename T, typename... Args>
     bool RemoveComponent() {
@@ -91,8 +81,6 @@ public:
 
             return true;
         }
-
-        
 
         return false;
     }
@@ -136,5 +124,24 @@ public:
 
 protected:
     void Initialize();
+	void InitCreateTransform();
+
+public:
+    Transform* transform;// = nullptr;
 };
 
+template<typename T, typename ...Args>
+inline T* GameObject::AddComponent(Args && ...args)
+{
+    if (typeid(T) == typeid(Transform))
+    {
+        _ASSERT(false && "Transform 만들수 없습니다.");
+        return nullptr; // Transform은 GameObject에 자동으로 추가되므로, 명시적으로 추가하지 않음
+    }
+
+    T* comp = new T(std::forward<Args>(args)...);
+    comp->owner = this;
+    comp->Initialize(); // 컴포넌트 초기화 호출 추가
+    components[std::type_index(typeid(T))].reset(comp);
+    return comp;
+}
