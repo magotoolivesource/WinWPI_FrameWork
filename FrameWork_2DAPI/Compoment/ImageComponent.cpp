@@ -2,13 +2,16 @@
 #include "ImageComponent.h"
 #include "../Core/GameObject.h"
 #include "Transform.h"
+#include "../Manager/ImageManager.h"
 
 #pragma comment(lib, "gdiplus.lib")
 
 ImageComponent::~ImageComponent()
 {
+    //GdiplusShutdown(gdiplusToken);
+    // 에서 image들이 메모리 해제가됨
 	if (image) {
-		delete image;
+		//delete image;
 		image = nullptr;
 	}
 }
@@ -21,11 +24,16 @@ void ImageComponent::Initialize()
 
 bool ImageComponent::ImageLoadImage(const std::wstring& path)
 {
-    if (image) {
-        delete image;
-        image = nullptr;
-    }
-    image = new Gdiplus::Image(path.c_str());
+    //if (image) {
+    //    delete image;
+    //    image = nullptr;
+    //}
+    //image = new Gdiplus::Image(path.c_str());
+
+
+	image = nullptr;
+    image = ImageManager::GetI()->Load(path);
+
 
     bool isimage = image&& image->GetLastStatus() == Gdiplus::Ok;
 

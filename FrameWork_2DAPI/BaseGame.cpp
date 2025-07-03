@@ -15,6 +15,11 @@
 
 using namespace Gdiplus;
 
+BaseGame::BaseGame()
+{
+	m_CurrentScene = new Scene();
+}
+
 BaseGame::~BaseGame()
 {
 	Release();
@@ -33,6 +38,13 @@ void BaseGame::Init()
 
 void BaseGame::Release()
 {
+    if (m_CurrentScene)
+    {
+        m_CurrentScene->Release();
+        delete m_CurrentScene;
+        m_CurrentScene = nullptr;
+    }
+
     if (m_pTimerManager)
     {
         delete m_pTimerManager;
@@ -50,7 +62,7 @@ void BaseGame::Release()
 }
 
 void BaseGame::Run() {
-    currentScene.Start();
+    m_CurrentScene->Start();
 
     MSG msg = {};
     while (isRunning) {
@@ -104,7 +116,7 @@ void BaseGame::UpdateInput(UINT message, WPARAM wParam, LPARAM lParam)
 
 void BaseGame::Update()
 {
-    currentScene.Update( m_pTimerManager->GetDeltaTime() );
+    m_CurrentScene->Update( m_pTimerManager->GetDeltaTime() );
 }
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 {
@@ -113,7 +125,7 @@ void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
     FillRect(p_hdc, &p_clientRect, bg);
     DeleteObject(bg);
 
-	currentScene.Render(p_hdc);
+	m_CurrentScene->Render(p_hdc);
 }
 
 void BaseGame::InitGDIPlus()
@@ -127,19 +139,26 @@ void BaseGame::ReleaseGDIPlus()
     GdiplusShutdown(gdiplusToken);
 }
 
+
+
 void BaseGame::Test_InitScene()
 {
 	
-    GameObject* bunobj = currentScene.CreateObject("TestObject");
+    GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
     bunobj->AddComponent< Button>();
+    bunobj->AddComponent<Button>([](Button* p_owerbtn) 
+    {
+        // 버튼 클릭시 동작
+        MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
+		});
+
     bunobj->GetComponent<Transform>()->setPosition(50, 100);
 
 
-	GameObject* pngimgobj = currentScene.CreateObject("PngImageObject");
+	GameObject* pngimgobj = m_CurrentScene->CreateObject("PngImageObject");
 	//pngimgobj->AddComponent<ImageComponent>();
     pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
     pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
-
 
 
 

@@ -130,12 +130,15 @@
     <ClInclude Include="Compoment\Transform.h" />
     <ClInclude Include="Core\GameObject.h" />
     <ClInclude Include="Core\InputManager.h" />
+    <ClInclude Include="Core\Material.h" />
     <ClInclude Include="Core\MyTime.h" />
     <ClInclude Include="Core\Rect.h" />
+    <ClInclude Include="Core\SingletonT.h" />
     <ClInclude Include="Core\TimerManager.h" />
     <ClInclude Include="Core\Vector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FrameWork_2DAPI.h" />
+    <ClInclude Include="Manager\ImageManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="targetver.h" />
@@ -149,8 +152,10 @@
     <ClCompile Include="Compoment\Transform.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />
     <ClCompile Include="Core\InputManager.cpp" />
+    <ClCompile Include="Core\Material.cpp" />
     <ClCompile Include="Core\MyTime.cpp" />
     <ClCompile Include="FrameWork_2DAPI.cpp" />
+    <ClCompile Include="Manager\ImageManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="UICompoment\Button.cpp" />
   </ItemGroup>

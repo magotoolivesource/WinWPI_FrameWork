@@ -20,5 +20,11 @@ public:
     virtual ~Component() {}
     virtual void Initialize(){}
 
+
+public:
+    bool enabled = true;
+    void SetEnabled(bool e) { enabled = e; }
+    bool IsEnabled() const { return enabled; }
+
 };
 

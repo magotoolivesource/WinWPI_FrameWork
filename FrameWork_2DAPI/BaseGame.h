@@ -8,10 +8,11 @@ class InputManager;
 class BaseGame
 {
 public:
+    BaseGame();
     virtual ~BaseGame();
 
 public:
-    Scene currentScene;
+    Scene* m_CurrentScene;
     bool isRunning = true;
 
     void Init();

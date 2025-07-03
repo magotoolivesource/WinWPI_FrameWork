@@ -13,7 +13,8 @@ public:
 
     GameObject* CreateObject(const std::string& name) {
         auto obj = std::make_unique<GameObject>();
-        obj->name = name;
+        //obj->name = name;
+        obj->SetName(name);
         GameObject* ptr = obj.get();
         objects.emplace_back(std::move(obj));
         return ptr;
@@ -35,6 +36,14 @@ public:
     {
         for (auto& obj : objects) 
             obj->Render(p_hdc);
+	}
+
+    void Release() 
+    {
+        for (size_t i = 0; i < objects.size(); i++)
+        {
+			objects[i].release();
+        }
 	}
 };
 

@@ -6,6 +6,9 @@
 #include <typeindex>
 #include <unordered_set>
 
+#include <type_traits>
+#include <iostream>
+
 #include "../Compoment/Component.h"
 //#include "../Compoment/Transform.h"
 
@@ -52,15 +55,25 @@ public:
     //}
 
 
+protected:
+    std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
+    // 새로 추가
+    std::unordered_set<std::string> tags;
+    bool active = true;
+    std::string name;
 
 public:
     GameObject();
     virtual ~GameObject();
 
-    std::string name;
-    std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
-    // 새로 추가
-    std::unordered_set<std::string> tags;
+    
+
+    void SetName(const std::string& n) { name = n; }
+    const std::string& GetName() const { return name; }
+    
+
+    void SetActive(bool a) { active = a; }
+    bool IsActive() const { return active; }
 
     template <typename T, typename... Args>
     T* AddComponent(Args&&... args);
@@ -133,10 +146,15 @@ public:
 template<typename T, typename ...Args>
 inline T* GameObject::AddComponent(Args && ...args)
 {
-    if (typeid(T) == typeid(Transform))
-    {
-        _ASSERT(false && "Transform 만들수 없습니다.");
-        return nullptr; // Transform은 GameObject에 자동으로 추가되므로, 명시적으로 추가하지 않음
+
+    //if (typeid(T) == typeid(Transform))
+    //{
+    //    _ASSERT(false && "Transform 만들수 없습니다.");
+    //    return nullptr; // Transform은 GameObject에 자동으로 추가되므로, 명시적으로 추가하지 않음
+    //}
+    if constexpr (std::is_same<T, Transform>::value) {
+        std::cerr << "[경고] Transform은 자동 생성되므로 추가하지 마세요.";
+        return GetComponent<T>();
     }
 
     T* comp = new T(std::forward<Args>(args)...);

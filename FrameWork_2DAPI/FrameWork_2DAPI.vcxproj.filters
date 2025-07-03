@@ -84,6 +84,15 @@
     <ClInclude Include="Compoment\ImageComponent.h">
       <Filter>Compoment</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Material.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ImageManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SingletonT.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -118,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="Compoment\Collider.cpp">
       <Filter>Compoment</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Material.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ImageManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

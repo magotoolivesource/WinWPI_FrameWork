@@ -4,6 +4,11 @@
 
 class Transform : public Component
 {
+    // new Transform 막기위한것
+protected:
+    Transform() = default;
+    friend class GameObject;
+
     ////float x = 0, y = 0;
     ////float rotation = 0;
     ////float scaleX = 1, scaleY = 1;

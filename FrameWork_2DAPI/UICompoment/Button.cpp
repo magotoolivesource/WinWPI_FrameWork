@@ -20,7 +20,7 @@ void Button::Update(float dt)
         }
         else if (!InputManager::mouseLeftDown && isPressed) {
             isPressed = false;
-            if (onClick) onClick();
+            if (onClick) onClick(this);
         }
     }
     else {
