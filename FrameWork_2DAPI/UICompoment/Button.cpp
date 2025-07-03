@@ -29,7 +29,6 @@ void Button::Update(float dt)
     }
 }
 
-
 void Button::Render(HDC hdc)
 {
     Transform* t = owner->GetComponent<Transform>();

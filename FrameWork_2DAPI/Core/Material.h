@@ -3,7 +3,6 @@
 #include <gdiplus.h>
 //#include <gdiplustypes.h>
 
-
 class Material {
 public:
     Gdiplus::Image* image;

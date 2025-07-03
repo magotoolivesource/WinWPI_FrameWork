@@ -1,4 +1,5 @@
 template <typename T>
+
 class SingletonT
 {
 protected:

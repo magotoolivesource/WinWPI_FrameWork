@@ -16,10 +16,14 @@ ImageComponent::~ImageComponent()
 	}
 }
 
-void ImageComponent::Initialize()
+void ImageComponent::Initialize_AddCompoment()
 {
     transform = owner->GetComponent<Transform>();
     drawRect = { 0, 0, 32, 32 };
+}
+void ImageComponent::Initialize()
+{
+    
 }
 
 bool ImageComponent::ImageLoadImage(const std::wstring& path)
@@ -52,7 +56,9 @@ bool ImageComponent::ImageLoadImage(const std::wstring& path)
 void ImageComponent::Render(HDC hdc)
 {
 
-	Transform* temptransform = owner->GetComponent<Transform>();
+	//Transform* temptransform = owner->GetComponent<Transform>();
+    //Transform* temptransform = owner->transform;
+    Transform* temptransform = transform;
 
     if (!image || !temptransform) return;
 

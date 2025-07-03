@@ -159,7 +159,7 @@ inline T* GameObject::AddComponent(Args && ...args)
 
     T* comp = new T(std::forward<Args>(args)...);
     comp->owner = this;
-    comp->Initialize(); // 컴포넌트 초기화 호출 추가
+    comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
     components[std::type_index(typeid(T))].reset(comp);
     return comp;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 
+
 class TimerManager {
 private:
     LARGE_INTEGER frequency;

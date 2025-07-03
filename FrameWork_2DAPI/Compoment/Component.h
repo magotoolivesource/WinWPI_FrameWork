@@ -18,8 +18,10 @@ public:
     virtual void Update(float dt) {}
     virtual void Render(HDC hdc) {}
     virtual ~Component() {}
+    virtual void Initialize_AddCompoment() {}
     virtual void Initialize(){}
-
+	virtual void Release() {}
+    virtual void Destroy() {}
 
 public:
     bool enabled = true;

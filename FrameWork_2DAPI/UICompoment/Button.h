@@ -21,7 +21,7 @@ public:
     bool isHovered = false;
     bool isPressed = false;
 
-    void Update(float dt) override;
+    virtual void Update(float dt) override;
 
-    void Render(HDC hdc) override;
+    virtual void Render(HDC hdc) override;
 };

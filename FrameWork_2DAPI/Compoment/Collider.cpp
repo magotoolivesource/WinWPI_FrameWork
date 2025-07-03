@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Transform.h"
 
+
 bool Collider::Intersects(Collider* other)
 {
     Rect a = GetWorldRect();

@@ -93,6 +93,12 @@
     <ClInclude Include="Core\SingletonT.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="UICompoment\TextComponent.h">
+      <Filter>UICompoment</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DefineHeader.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -133,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Manager\ImageManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UICompoment\TextComponent.cpp">
+      <Filter>UICompoment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

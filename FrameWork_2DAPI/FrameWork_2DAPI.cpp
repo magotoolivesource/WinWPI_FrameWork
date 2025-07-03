@@ -241,6 +241,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
+
 void Test_DrawRectBox(HDC memDC, RECT& clientRect, int width)
 {
     // 3. 그리기 (예: 움직이는 사각형)

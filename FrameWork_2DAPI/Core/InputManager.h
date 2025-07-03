@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <cstring>
 
+
 class InputManager {
 public:
     static bool keys[256];

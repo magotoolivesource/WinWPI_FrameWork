@@ -10,7 +10,7 @@
 #include "Compoment/Transform.h"
 #include "Compoment/ImageComponent.h"
 #include "UICompoment/Button.h"
-
+#include "UICompoment/TextComponent.h"
 
 
 using namespace Gdiplus;
@@ -144,6 +144,7 @@ void BaseGame::ReleaseGDIPlus()
 void BaseGame::Test_InitScene()
 {
 	
+    // 버턴
     GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
     bunobj->AddComponent< Button>();
     bunobj->AddComponent<Button>([](Button* p_owerbtn) 
@@ -151,10 +152,10 @@ void BaseGame::Test_InitScene()
         // 버튼 클릭시 동작
         MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 		});
-
     bunobj->GetComponent<Transform>()->setPosition(50, 100);
 
 
+    // 이미지
 	GameObject* pngimgobj = m_CurrentScene->CreateObject("PngImageObject");
 	//pngimgobj->AddComponent<ImageComponent>();
     pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
@@ -162,6 +163,13 @@ void BaseGame::Test_InitScene()
 
 
 
+    // 문자
+    GameObject* textobj = m_CurrentScene->CreateObject("Text");
+    TextComponent* textcom = textobj->AddComponent<TextComponent>();
+    textcom->SetText(L"Game Start!");
+    textcom->SetFontColor(100, 255, 0, 0); // 반투명 흰색
+    textcom->SetFont(L"Consolas", 28);
+    textobj->transform->setPosition(200, 100);
 
 
 

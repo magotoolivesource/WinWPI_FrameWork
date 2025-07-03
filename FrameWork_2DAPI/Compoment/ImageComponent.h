@@ -41,6 +41,7 @@ public:
   //      transform = t;
   //  }
 
+    virtual void Initialize_AddCompoment() override;
     virtual void Initialize() override;
 
     bool ImageLoadImage(const std::wstring& path);

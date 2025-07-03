@@ -6,6 +6,7 @@
 //#pragma comment(lib, "gdiplus.lib")
 
 
+
 ImageManager::~ImageManager()
 {
     for (auto& pair : imageMap) {
