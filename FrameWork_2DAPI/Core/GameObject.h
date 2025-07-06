@@ -57,7 +57,7 @@ public:
 
 protected:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
-    // »õ·Î Ãß°¡
+    // ìƒˆë¡œ ì¶”ê°€
     std::unordered_set<std::string> tags;
     bool active = true;
     std::string name;
@@ -149,17 +149,17 @@ inline T* GameObject::AddComponent(Args && ...args)
 
     //if (typeid(T) == typeid(Transform))
     //{
-    //    _ASSERT(false && "Transform ¸¸µé¼ö ¾ø½À´Ï´Ù.");
-    //    return nullptr; // TransformÀº GameObject¿¡ ÀÚµ¿À¸·Î Ãß°¡µÇ¹Ç·Î, ¸í½ÃÀûÀ¸·Î Ãß°¡ÇÏÁö ¾ÊÀ½
+    //    _ASSERT(false && "Transform ë§Œë“¤ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+    //    return nullptr; // Transformì€ GameObjectì— ìë™ìœ¼ë¡œ ì¶”ê°€ë˜ë¯€ë¡œ, ëª…ì‹œì ìœ¼ë¡œ ì¶”ê°€í•˜ì§€ ì•ŠìŒ
     //}
     if constexpr (std::is_same<T, Transform>::value) {
-        std::cerr << "[°æ°í] TransformÀº ÀÚµ¿ »ı¼ºµÇ¹Ç·Î Ãß°¡ÇÏÁö ¸¶¼¼¿ä.";
+        std::cerr << "[ê²½ê³ ] Transformì€ ìë™ ìƒì„±ë˜ë¯€ë¡œ ì¶”ê°€í•˜ì§€ ë§ˆì„¸ìš”.";
         return GetComponent<T>();
     }
 
     T* comp = new T(std::forward<Args>(args)...);
     comp->owner = this;
-    comp->Initialize_AddCompoment(); // ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ È£Ãâ Ãß°¡
+    comp->Initialize_AddCompoment(); // ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” í˜¸ì¶œ ì¶”ê°€
     components[std::type_index(typeid(T))].reset(comp);
     return comp;
 }

@@ -144,6 +144,8 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UICompoment\Button.h" />
+    <ClInclude Include="UICompoment\RichTextAndInputFieldComponent.h" />
+    <ClInclude Include="UICompoment\RichTextComponent.h" />
     <ClInclude Include="UICompoment\TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +162,8 @@
     <ClCompile Include="Manager\ImageManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="UICompoment\Button.cpp" />
+    <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp" />
+    <ClCompile Include="UICompoment\RichTextComponent.cpp" />
     <ClCompile Include="UICompoment\TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>

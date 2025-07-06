@@ -99,6 +99,12 @@
     <ClInclude Include="Core\DefineHeader.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="UICompoment\RichTextComponent.h">
+      <Filter>UICompoment</Filter>
+    </ClInclude>
+    <ClInclude Include="UICompoment\RichTextAndInputFieldComponent.h">
+      <Filter>UICompoment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -141,6 +147,12 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="UICompoment\TextComponent.cpp">
+      <Filter>UICompoment</Filter>
+    </ClCompile>
+    <ClCompile Include="UICompoment\RichTextComponent.cpp">
+      <Filter>UICompoment</Filter>
+    </ClCompile>
+    <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp">
       <Filter>UICompoment</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #include <gdiplus.h>
 #include <string>
@@ -8,6 +8,7 @@
 
 class Transform;
 
+// 한글 사용시 소스파일 인코딩은 UTF-8-BOM 으로 설정 해야지 한글 안깨짐
 class TextComponent : public Component {
 private:
     Transform* transform = nullptr;

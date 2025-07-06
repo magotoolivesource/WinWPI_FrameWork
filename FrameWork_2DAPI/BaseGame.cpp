@@ -1,4 +1,4 @@
-#include <Windows.h>
+ï»¿#include <Windows.h>
 #include "BaseGame.h"
 #include <WinUser.h>
 #include <gdiplus.h>
@@ -11,6 +11,7 @@
 #include "Compoment/ImageComponent.h"
 #include "UICompoment/Button.h"
 #include "UICompoment/TextComponent.h"
+#include "UICompoment/RichTextComponent.h"
 
 
 using namespace Gdiplus;
@@ -75,7 +76,7 @@ void BaseGame::Run() {
 
         //currentScene.Update();
 
-        // ·»´õ¸µ È£Ãâ µî
+        // ë Œë”ë§ í˜¸ì¶œ ë“±
     }
 }
 
@@ -85,14 +86,14 @@ void BaseGame::CleanUp()
 
 void BaseGame::UpdateTimer()
 {
-    // Å¸ÀÌ¸Ó ¾÷µ¥ÀÌÆ® Àû¿ë
+    // íƒ€ì´ë¨¸ ì—…ë°ì´íŠ¸ ì ìš©
 
     m_pTimerManager->Update();
 }
 
 void BaseGame::UpdateInput(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    // Å¸ÀÌ¸Ó¹× ÀÎÇ²ÂÊ °ªµé
+    // íƒ€ì´ë¨¸ë° ì¸í’‹ìª½ ê°’ë“¤
     //m_pInputManager->MouseMove(lParam);
 
     switch (message) {
@@ -120,7 +121,7 @@ void BaseGame::Update()
 }
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 {
-    // 2. ¹è°æ Áö¿ì±â (ÇÏ¾á»ö)
+    // 2. ë°°ê²½ ì§€ìš°ê¸° (í•˜ì–€ìƒ‰)
     HBRUSH bg = CreateSolidBrush(m_BGColor );
     FillRect(p_hdc, &p_clientRect, bg);
     DeleteObject(bg);
@@ -144,33 +145,44 @@ void BaseGame::ReleaseGDIPlus()
 void BaseGame::Test_InitScene()
 {
 	
-    // ¹öÅÏ
+    // ë²„í„´
     GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
     bunobj->AddComponent< Button>();
     bunobj->AddComponent<Button>([](Button* p_owerbtn) 
     {
-        // ¹öÆ° Å¬¸¯½Ã µ¿ÀÛ
+        // ë²„íŠ¼ í´ë¦­ì‹œ ë™ì‘
         MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 		});
     bunobj->GetComponent<Transform>()->setPosition(50, 100);
 
 
-    // ÀÌ¹ÌÁö
+    // ì´ë¯¸ì§€
 	GameObject* pngimgobj = m_CurrentScene->CreateObject("PngImageObject");
 	//pngimgobj->AddComponent<ImageComponent>();
     pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
     pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
 
 
-
-    // ¹®ÀÚ
+    // ë¬¸ì
     GameObject* textobj = m_CurrentScene->CreateObject("Text");
     TextComponent* textcom = textobj->AddComponent<TextComponent>();
-    textcom->SetText(L"Game Start!");
-    textcom->SetFontColor(100, 255, 0, 0); // ¹İÅõ¸í Èò»ö
+    textcom->SetText(L"Game Start!ê°€ë‚˜ë‹¤");
+    textcom->SetFontColor(100, 255, 0, 0); // ë°˜íˆ¬ëª… í°ìƒ‰
     textcom->SetFont(L"Consolas", 28);
-    textobj->transform->setPosition(200, 100);
+	textobj->transform->setPosition(200, 100);
 
+	// richitext ì»´í¬ë„ŒíŠ¸ í…ŒìŠ¤íŠ¸ìš©
+	GameObject* richtextobj = m_CurrentScene->CreateObject("RichText");
+	RichTextComponent* richText = richtextobj->AddComponent<RichTextComponent>();
+	//richText.SetTransform(&transform);
+	richText->SetText(L"ê¸°ë³¸ í…ìŠ¤íŠ¸\\n<color=#FFFF0000>ë¹¨ê°•</color> <color=#FF00FF00>ì´ˆë¡</color>");
+	richText->SetFont(L"Consolas", 28);
+	richText->SetSize(400, 200);
+	richText->SetAlignment(Gdiplus::StringAlignmentCenter, Gdiplus::StringAlignmentNear);
+	richText->SetStyle(true, false, true); // Bold + Underline
+	richText->SetOutline(true, 255, 0, 255, 0); // ê·¸ë¦° í…Œë‘ë¦¬
+
+	richtextobj->transform->setPosition(200, 300);
 
 
     //bunobj->AddComponent< Transform>();
@@ -179,7 +191,7 @@ void BaseGame::Test_InitScene()
     
  //   bunobj->AddComponent< Button>([](Button* pButton) 
  //   {
- //   // ¹öÆ° Å¬¸¯½Ã µ¿ÀÛ
+ //   // ë²„íŠ¼ í´ë¦­ì‹œ ë™ì‘
  //   MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 	//});
 }
