@@ -154,7 +154,7 @@ void BaseGame::Test_InitScene()
         // 버튼 클릭시 동작
         MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 		});
-    bunobj->GetComponent<Transform>()->setPosition(50, 100);
+    bunobj->GetComponent<Transform>()->setLocalPosition(50, 100);
 
 	GameObject* bunobj2 = m_CurrentScene->CreateObject("TestObject2");
 	bunobj2->AddComponent<Button>([ ] (Button* p_owerbtn)
@@ -162,7 +162,7 @@ void BaseGame::Test_InitScene()
 			// 버튼 클릭시 동작
 			MessageBox(nullptr, L"버턴2!", L"Info", MB_OK);
 		});
-	bunobj2->GetComponent<Transform>( )->setPosition(150, -20);
+	bunobj2->GetComponent<Transform>( )->setLocalPosition(150, -20);
 
 	bunobj2->GetComponent<Transform>( )->SetParent(bunobj->GetComponent<Transform>( )); // 부모 설정
 
@@ -180,7 +180,7 @@ void BaseGame::Test_InitScene()
     textcom->SetText(L"Game Start!가나다");
     textcom->SetFontColor(100, 255, 0, 0); // 반투명 흰색
     textcom->SetFont(L"Consolas", 28);
-	textobj->transform->setPosition(200, 100);
+	textobj->transform->setLocalPosition(200, 100);
 
 	// richitext 컴포넌트 테스트용
 	GameObject* richtextobj = m_CurrentScene->CreateObject("RichText");
@@ -193,7 +193,7 @@ void BaseGame::Test_InitScene()
 	richText->SetStyle(true, false, true); // Bold + Underline
 	richText->SetOutline(true, 255, 0, 255, 0); // 그린 테두리
 
-	richtextobj->transform->setPosition(200, 300);
+	richtextobj->transform->setLocalPosition(200, 300);
 
 
     //bunobj->AddComponent< Transform>();

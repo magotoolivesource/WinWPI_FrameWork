@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "ImageComponent.h"
 #include "../Core/GameObject.h"
 #include "Transform.h"
@@ -9,7 +9,7 @@
 ImageComponent::~ImageComponent()
 {
     //GdiplusShutdown(gdiplusToken);
-    // ¿¡¼­ imageµéÀÌ ¸Þ¸ð¸® ÇØÁ¦°¡µÊ
+    // ì—ì„œ imageë“¤ì´ ë©”ëª¨ë¦¬ í•´ì œê°€ë¨
 	if (image) {
 		//delete image;
 		image = nullptr;
@@ -65,7 +65,7 @@ void ImageComponent::Render(HDC hdc)
     Gdiplus::Graphics graphics(hdc);
     graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 
-	Vec2 temppos = temptransform->getPosition();
+	Vec2 temppos = temptransform->getLocalPosition();
     Gdiplus::PointF pos(temppos.x, temppos.y);
 
     graphics.TranslateTransform(pos.X, pos.Y);

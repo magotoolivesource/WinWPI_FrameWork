@@ -1,4 +1,4 @@
-#include "TextComponent.h"
+﻿#include "TextComponent.h"
 #include "../Core/GameObject.h"
 #include "../Compoment/Transform.h"
 #include "../Core/DefineHeader.h"
@@ -101,8 +101,8 @@ void TextComponent::Render(HDC hdc) {
     format.SetLineAlignment(vAlign);
 
     Gdiplus::RectF layoutRect(
-        transform->position.x,
-        transform->position.y,
+        transform->localposition.x,
+        transform->localposition.y,
         static_cast<Gdiplus::REAL>(width),
         static_cast<Gdiplus::REAL>(height)
     );

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Collider.h"
 #include "../Core/GameObject.h"
 #include "Component.h"
@@ -15,6 +15,6 @@ bool Collider::Intersects(Collider* other)
 Rect Collider::GetWorldRect()
 {
     Transform* t = owner->GetComponent<Transform>();
-    return Rect{ t->position, t->width, t->height };
+    return Rect{ t->localposition, t->width, t->height };
 }
 

@@ -131,14 +131,14 @@ void RichTextComponent::Draw(HDC hdc) {
 	format.SetFormatFlags(Gdiplus::StringFormatFlagsLineLimit);
 
 	float lineHeight = fontSize + 4.0f;
-	float y = transform->position.y;
+	float y = transform->localposition.y;
 
 	for ( const auto& seg : parsedSegments ) {
 		std::wistringstream stream(seg.text);
 		std::wstring line;
 		while ( std::getline(stream, line, L'\n') ) {
-			if ( y > transform->position.y + height ) break;
-			Gdiplus::RectF layoutRect(transform->position.x, y, ( Gdiplus::REAL ) width, ( Gdiplus::REAL ) lineHeight);
+			if ( y > transform->localposition.y + height ) break;
+			Gdiplus::RectF layoutRect(transform->localposition.x, y, ( Gdiplus::REAL ) width, ( Gdiplus::REAL ) lineHeight);
 			if ( useOutline ) {
 				for ( int dx = -1; dx <= 1; ++dx ) {
 					for ( int dy = -1; dy <= 1; ++dy ) {
