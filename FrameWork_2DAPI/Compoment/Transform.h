@@ -1,10 +1,10 @@
-#pragma once
+﻿#pragma once
 #include "Component.h"
 #include "../Core/Vector.h"
 
 class Transform : public Component
 {
-    // new Transform �������Ѱ�
+    // new Transform 막기위한것
 protected:
     Transform() = default;
     friend class GameObject;
@@ -19,10 +19,43 @@ protected:
 
 public:
     Vec2 position;
-	int zdepth = 0; // Z-order for rendering
+	Vec2 world_position;
+	float zdepth = 0; // Z-order for rendering
     float width = 50.0f;
     float height = 50.0f;
     float rotation = 0.0f; // in degrees
+
+
+private:
+	Transform* parent = nullptr;
+	std::vector<Transform*> children;
+
+public:
+	void SetParent(Transform* newParent) {
+		if ( parent ) {
+			auto& siblings = parent->children;
+			siblings.erase(std::remove(siblings.begin( ), siblings.end( ), this), siblings.end( ));
+		}
+
+		parent = newParent;
+		if ( newParent ) {
+			newParent->children.push_back(this);
+		}
+	}
+
+	Vec2 GetWorldPosition( ) const {
+		if ( !parent ) return position;
+		auto p = parent->GetWorldPosition( );
+		return { p.x + position.x, p.y + position.y };
+	}
+	float GetWorldDepth( ) const {
+		if ( !parent ) return zdepth;
+		return parent->GetWorldDepth( ) + zdepth;
+	}
+	void UpdateAllPositions( )
+	{
+		// 현재 위치 값 바뀌면 내 위치에서부터 하단값들 무조건 바꾸도록 처리하기
+	}
 
 public:
     // Getters

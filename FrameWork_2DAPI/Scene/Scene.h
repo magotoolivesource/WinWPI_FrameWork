@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include <memory>
 #include <string>
@@ -21,6 +21,19 @@ public:
         return ptr;
     }
 
+	void DestroyObject(GameObject* obj) {
+
+		// for(auto item : objects )
+		for(size_t i = 0; i < objects.size(); i++) {
+			if (objects[i].get() == obj) {
+				objects[i].release(); // Release the unique_ptr
+				objects.erase(objects.begin() + i);
+				return;
+			}
+		}
+
+	}
+
     void Start() 
     {
         for (auto& obj : objects) 
@@ -35,6 +48,11 @@ public:
 
     void Render(HDC p_hdc) 
     {
+		//std::vector<GameObject*> sortedObjects(objects.begin( ), objects.end( ));
+		//std::sort(sortedObjects.begin( ), sortedObjects.end( ), [ ] (GameObject* a, GameObject* b) {
+		//	return a->GetTransform( )->GetWorldDepth( ) < b->GetTransform( )->GetWorldDepth( );
+		//	});
+
         for (auto& obj : objects) 
             obj->Render(p_hdc);
 	}

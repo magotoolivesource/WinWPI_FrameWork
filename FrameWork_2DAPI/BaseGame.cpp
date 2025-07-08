@@ -13,6 +13,7 @@
 #include "UICompoment/TextComponent.h"
 #include "UICompoment/RichTextComponent.h"
 
+#include <cassert>
 
 using namespace Gdiplus;
 
@@ -155,6 +156,16 @@ void BaseGame::Test_InitScene()
 		});
     bunobj->GetComponent<Transform>()->setPosition(50, 100);
 
+	GameObject* bunobj2 = m_CurrentScene->CreateObject("TestObject2");
+	bunobj2->AddComponent<Button>([ ] (Button* p_owerbtn)
+		{
+			// 버튼 클릭시 동작
+			MessageBox(nullptr, L"버턴2!", L"Info", MB_OK);
+		});
+	bunobj2->GetComponent<Transform>( )->setPosition(150, -20);
+
+	bunobj2->GetComponent<Transform>( )->SetParent(bunobj->GetComponent<Transform>( )); // 부모 설정
+
 
     // 이미지
 	GameObject* pngimgobj = m_CurrentScene->CreateObject("PngImageObject");
@@ -194,4 +205,12 @@ void BaseGame::Test_InitScene()
  //   // 버튼 클릭시 동작
  //   MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 	//});
+
+
+
+	//assert(false && "이 메시지는 NDEBUG가 정의되지 않았을 때만 보입니다.");
+
+	//exit(0); // 프로그램 종료
+
+
 }
