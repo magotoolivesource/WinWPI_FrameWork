@@ -108,6 +108,12 @@
     <ClInclude Include="Compoment\Camera.h">
       <Filter>Compoment</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Viewport.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\CameraManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -160,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="Compoment\Camera.cpp">
       <Filter>Compoment</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Viewport.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\CameraManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

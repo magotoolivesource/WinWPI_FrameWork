@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 //#include <windows.h>
 //#include <gdiplus.h>
 #include <unordered_map>
@@ -16,7 +16,7 @@ private:
     std::unordered_map<std::wstring, Gdiplus::Image*> imageMap;
 
 public:
-    ~ImageManager();
+    virtual ~ImageManager();
 
     Gdiplus::Image* Load(const std::wstring& path);
 };

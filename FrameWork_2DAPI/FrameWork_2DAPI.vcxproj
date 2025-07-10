@@ -103,6 +103,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,8 +144,10 @@
     <ClInclude Include="Core\SingletonT.h" />
     <ClInclude Include="Core\TimerManager.h" />
     <ClInclude Include="Core\Vector.h" />
+    <ClInclude Include="Core\Viewport.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FrameWork_2DAPI.h" />
+    <ClInclude Include="Manager\CameraManager.h" />
     <ClInclude Include="Manager\ImageManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -165,7 +168,9 @@
     <ClCompile Include="Core\InputManager.cpp" />
     <ClCompile Include="Core\Material.cpp" />
     <ClCompile Include="Core\MyTime.cpp" />
+    <ClCompile Include="Core\Viewport.cpp" />
     <ClCompile Include="FrameWork_2DAPI.cpp" />
+    <ClCompile Include="Manager\CameraManager.cpp" />
     <ClCompile Include="Manager\ImageManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="UICompoment\Button.cpp" />
