@@ -105,6 +105,9 @@
     <ClInclude Include="UICompoment\RichTextAndInputFieldComponent.h">
       <Filter>UICompoment</Filter>
     </ClInclude>
+    <ClInclude Include="Compoment\Camera.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -155,6 +158,9 @@
     <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp">
       <Filter>UICompoment</Filter>
     </ClCompile>
+    <ClCompile Include="Compoment\Camera.cpp">
+      <Filter>Compoment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork_2DAPI.rc">
@@ -168,5 +174,8 @@
     <Image Include="FrameWork_2DAPI.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

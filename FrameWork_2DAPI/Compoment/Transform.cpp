@@ -39,3 +39,45 @@ void Transform::UpdateIfDirty( ) {
 
 	isDirty = false;
 }
+
+void Transform::SetWorldPosition(Vec2& p_wpos) 
+{ 
+	//if (parent) 
+	//{
+ //       Vec2 parentWorld = parent->GetWorldPosition();
+ //       Vec2 newLocal = { p_wpos.x - parentWorld.x, p_wpos.y - parentWorld.y };
+
+	//	setLocalPosition(newLocal);
+ //   } 
+	//else 
+	//{
+ //       setLocalPosition(p_wpos);
+ //   }
+
+	SetWorldPosition(p_wpos.x, p_wpos.y);
+}
+
+void Transform::SetWorldPosition(float p_x, float p_y) 
+{
+    if (parent) {
+        Vec2 parentWorld = parent->GetWorldPosition();
+        Vec2 newLocal = { p_x - parentWorld.x, p_y - parentWorld.y };
+
+        setLocalPosition(newLocal);
+    } else {
+        setLocalPosition(p_x, p_y);
+    }
+}
+
+void Transform::setLocalPosition(const Vec2& pos)
+{
+    localposition = pos;
+    MarkDirty();
+}
+
+void Transform::setLocalPosition(float p_x, float p_y)
+{
+    localposition.x = p_x;
+    localposition.y = p_y;
+    MarkDirty();
+}

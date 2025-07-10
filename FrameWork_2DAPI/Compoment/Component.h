@@ -1,11 +1,13 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #include <string>
 #include <vector>
 #include <memory>
 
+
 class GameObject;
-class Component
+class Transform;
+class Component abstract // Base class for all components
 {
 public:
     //virtual void Start() {}
@@ -18,7 +20,7 @@ public:
     virtual void Update(float dt) {}
     virtual void Render(HDC hdc) {}
     virtual ~Component() {}
-    virtual void Initialize_AddCompoment() {}
+    virtual void Initialize_AddCompoment();
     virtual void Initialize(){}
 	virtual void Release() {}
     virtual void Destroy() {}
@@ -27,6 +29,9 @@ public:
     bool enabled = true;
     void SetEnabled(bool e) { enabled = e; }
     bool IsEnabled() const { return enabled; }
+
+public:
+    Transform* transform;
 
 };
 

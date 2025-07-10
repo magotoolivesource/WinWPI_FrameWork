@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿//#pragma once
 #include "../Core/GameObject.h"
 #include "../Compoment/Transform.h"
 #include "../Core/InputManager.h"

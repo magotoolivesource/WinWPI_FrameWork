@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿//#pragma once
 #include "RichTextAndInputFieldComponent.h"
 #include "../Core/GameObject.h"
 #include "../Compoment/Transform.h"

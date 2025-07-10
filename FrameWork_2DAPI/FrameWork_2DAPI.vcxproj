@@ -102,11 +102,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -124,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseGame.h" />
+    <ClInclude Include="Compoment\Camera.h" />
     <ClInclude Include="Compoment\Collider.h" />
     <ClInclude Include="Compoment\Component.h" />
     <ClInclude Include="Compoment\ImageComponent.h" />
@@ -150,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseGame.cpp" />
+    <ClCompile Include="Compoment\Camera.cpp" />
     <ClCompile Include="Compoment\Collider.cpp" />
     <ClCompile Include="Compoment\Component.cpp" />
     <ClCompile Include="Compoment\ImageComponent.cpp" />
@@ -172,6 +179,9 @@
   <ItemGroup>
     <Image Include="FrameWork_2DAPI.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿//#pragma once
 #include "ImageComponent.h"
 #include "../Core/GameObject.h"
 #include "Transform.h"

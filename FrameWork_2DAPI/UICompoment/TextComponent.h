@@ -31,8 +31,7 @@ private:
 
 public:
     TextComponent();
-	virtual ~TextComponent();
-
+    virtual ~TextComponent();
 
 public:
     virtual void Initialize() override;
