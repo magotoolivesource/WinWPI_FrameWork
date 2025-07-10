@@ -1,0 +1,459 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+left to right direction
+class "Vec2" as C_0016480947060394780245
+class C_0016480947060394780245 {
++operator*(float scalar) const : Vec2
++operator*(const Vec2 & other) const : Vec2
++operator*=(float scalar) : Vec2
++operator+(const Vec2 & other) const : Vec2
++operator+=(const Vec2 & other) : Vec2
++operator+=(float scalar) : Vec2
++operator-(const Vec2 & other) const : Vec2
++operator-() const : Vec2
++operator-=(const Vec2 & other) : Vec2
++operator/(float scalar) const : Vec2
++operator/(const Vec2 & other) const : Vec2
++operator/=(float scalar) : Vec2
++operator==(const Vec2 & other) const : bool
+..
++Abs() const : Vec2
++Ceil() const : Vec2
++Clamp(const Vec2 & min, const Vec2 & max) const : Vec2
++Floor() const : Vec2
++Length() const : float
++LengthSquared() const : float
++Lerp(const Vec2 & other, float t) const : Vec2
++Max(const Vec2 & other) const : Vec2
++Min(const Vec2 & other) const : Vec2
++Normalize() const : Vec2
++Perpendicular() const : Vec2
++Project(const Vec2 & other) const : Vec2
++Reflect(const Vec2 & normal) const : Vec2
++Rotate(float angleDegrees) const : Vec2
++Round() const : Vec2
+__
++x : float
++y : float
+}
+class "Rect" as C_0008364433741114752039
+class C_0008364433741114752039 {
++Intersects(const Rect & other) : bool
+__
++height : float
++pos : Vec2
++width : float
+}
+class "Component" as C_0012021292812520796288
+class C_0012021292812520796288 {
++~Component() : void
+..
++Destroy() : void
++Initialize() : void
++Initialize_AddCompoment() : void
++IsEnabled() const : bool
++Release() : void
++Render(HDC hdc) : void
++SetEnabled(bool e) : void
++Start() : void
++Update(float dt) : void
+__
++enabled : bool
++owner : GameObject *
++transform : Transform *
+}
+class "Gdiplus::Image" as C_0000370005033936394450
+class C_0000370005033936394450 {
+__
+}
+class "Camera" as C_0006111862596534002478
+class C_0006111862596534002478 {
++Camera() = default : void
++~Camera() : void
+..
++ApplyToMatrix(Gdiplus::Matrix & matrix) const : void
++ApplyToPoint(const Vec2 & worldPos) const : Vec2
++Destroy() : void
++Initialize() : void
++Initialize_AddCompoment() : void
++Release() : void
++Render(HDC hdc) : void
++SetLocalPosition(const Vec2 & pos) : void
++SetLocalPosition(int p_x, int p_y) : void
++SetZoom(float z) : void
++Start() : void
++Update(float dt) : void
+__
+#zoom : float
+}
+class "GameObject" as C_0010250684592540512228
+class C_0010250684592540512228 {
++GameObject() : void
++~GameObject() : void
+..
++AddComponent<T,Args...>(Args &&... args) : T *
++AddTag(const std::string & tag) : void
++GetComponent<T>() : T *
++GetName() const : const std::string &
++HasTag(const std::string & tag) const : bool
+#InitCreateTransform() : void
+#Initialize() : void
++IsActive() const : bool
++RemoveComponent<T,Args...>() : _Bool
++Render(HDC hdc) : void
++SetActive(bool a) : void
++SetName(const std::string & n) : void
++Start() : void
++Update(float dt) : void
+__
+#active : bool
+#components : std::unordered_map<std::type_index,std::unique_ptr<Component>>
+#name : std::string
+#tags : std::unordered_set<std::string>
++transform : Transform *
+}
+class "Transform" as C_0013979161094353040123
+class C_0013979161094353040123 {
+#Transform() = default : void
+..
++GetDepth() const : float
++GetWorldDepth() : float
++GetWorldMatrix() : Gdiplus::Matrix &
++GetWorldPosition() : Vec2 &
++GetWorldRotation() : float
++GetWorldScale() : Vec2 &
+#MarkDirty() : void
++SetDepth(float d) : void
++SetLocalRotation(float angleDegrees) : void
++SetLocalScale(Vec2 scale) : void
++SetLocalScale(float p_scalex, float p_scaley) : void
++SetParent(Transform * newParent) : void
++SetWorldPosition(Vec2 & p_wpos) : void
++SetWorldPosition(float p_x, float p_y) : void
++SetWorldRotation(float worldAngle) : void
++SetWorldScale(Vec2 & worldScale) : void
++UpdateAllPositions() : void
+#UpdateIfDirty() : void
++getHeight() const : float
++getLocalPosition() const : Vec2
++getRotation() const : float
++getWidth() const : float
++setHeight(float h) : void
++setLocalPosition(const Vec2 & pos) : void
++setLocalPosition(float p_x, float p_y) : void
++setWidth(float w) : void
+__
+-cachedWorldDepth : float
+-cachedWorldMatrix : Gdiplus::Matrix
+-cachedWorldPosition : Vec2
+-cachedWorldRotation : float
+-cachedWorldScale : Vec2
+-children : std::vector<Transform *>
++height : float
+-isDirty : bool
++localScale : Vec2
++localposition : Vec2
+-m_tempcachedmatrix : float[6]
+-parent : Transform *
++rotation : float
++width : float
++zdepth : float
+}
+class "Collider" as C_0014710440344490690589
+class C_0014710440344490690589 {
++GetWorldRect() : Rect
++Intersects(Collider * other) : bool
+__
+}
+class "ImageComponent" as C_0007426470158294810457
+class C_0007426470158294810457 {
++ImageComponent() : void
++ImageComponent(Gdiplus::Image * p_img, int p_width, int p_height, bool p_useDrawRect) : void
++~ImageComponent() : void
+..
++Draw(HDC hdc) : void
++ImageLoadImage(const std::wstring & path) : bool
++Initialize() : void
++Initialize_AddCompoment() : void
++Render(HDC hdc) : void
++SetDrawRect(int left, int top, int right, int bottom) : void
++SetSize(int width, int height) : void
+__
+-drawHeight : int
+-drawRect : RECT
+-drawWidth : int
+-image : Gdiplus::Image *
+-transform : Transform *
+-useDrawRect : bool
+}
+class "SingletonT<T>" as C_0011044441207668165372
+class C_0011044441207668165372 {
+#SingletonT() = default : void
+#SingletonT(const SingletonT<T> &) = deleted : void
+#~SingletonT() = default : void
+..
+#operator=(const SingletonT<T> &) = deleted : SingletonT<T> &
+..
+{static} +GetI() : T *
+{static} +Instance() : T &
+__
+{static} -instance : T *
+}
+class "SingletonT<ImageManager>" as C_0011492085545754070408
+class C_0011492085545754070408 {
+__
+}
+class "ImageManager" as C_0017393003743977498017
+class C_0017393003743977498017 {
++~ImageManager() : void
+..
++Load(const std::wstring & path) : Gdiplus::Image *
+__
+-imageMap : std::unordered_map<std::wstring,Gdiplus::Image *>
+}
+class "InputManager" as C_0007529291253653007674
+class C_0007529291253653007674 {
+{static} +GetMousePosition() : POINT
+{static} +Init() : void
+{static} +IsKeyPressed(int key) : bool
+{static} +IsMouseLeftDown() : bool
+{static} +KeyDown(WPARAM key) : void
+{static} +KeyUp(WPARAM key) : void
+{static} +MouseDown(WPARAM btn) : void
+{static} +MouseMove(LPARAM lParam) : void
+{static} +MouseUp(WPARAM btn) : void
+__
+{static} +keys : bool[256]
+{static} +mouseLeftDown : bool
+{static} +mousePosition : POINT
+}
+class "Material" as C_0012798265388312005056
+class C_0012798265388312005056 {
++Material(Gdiplus::Image * img = nullptr) : void
+..
++SetUV(int left, int top, int width, int height) : void
+__
++image : Gdiplus::Image *
++uvRect : Gdiplus::Rect
+}
+class "MyTime" as C_0012543508281110658058
+class C_0012543508281110658058 {
+__
+}
+class "Viewport" as C_0012676504793219311971
+class C_0012676504793219311971 {
++GetViewRect() const : const Gdiplus::RectF &
++IsVisible(const Vec2 & screenPos, float width, float height) const : bool
++SetViewRect(float x, float y, float width, float height) : void
+__
+-viewRect : Gdiplus::RectF
+}
+class "SingletonT<CameraManager>" as C_0013661311382128640226
+class C_0013661311382128640226 {
+__
+}
+class "CameraManager" as C_0010602408877764505757
+class C_0010602408877764505757 {
++~CameraManager() : void
+__
+}
+class "Scene" as C_0005375663403181666835
+class C_0005375663403181666835 {
++CreateObject(const std::string & name) : GameObject *
++DestroyObject(GameObject * obj) : void
++Release() : void
++Render(HDC p_hdc) : void
++Start() : void
++Update(float dt) : void
+__
++objects : std::vector<std::unique_ptr<GameObject>>
+}
+class "Button" as C_0000221405838615140689
+class C_0000221405838615140689 {
++Button() = default : void
++Button(const std::function<void (Button *)> & onClick) : void
++~Button() = default : void
+..
++Render(HDC hdc) : void
++Update(float dt) : void
+__
++isHovered : bool
++isPressed : bool
++onClick : std::function<void (Button *)>
+}
+class "InputFieldComponent" as C_0014246112670391732192
+class C_0014246112670391732192 {
++Backspace() : void
++Draw(HDC hdc) : void
++InputChar(wchar_t c) : void
++SetFocus(bool isFocused) : void
++SetOnChange(std::function<void (const std::wstring &)> callback) : void
++SetPlaceholder(const std::wstring & hint) : void
++SetTransform(Transform * t) : void
+__
+-focused : bool
+-onChange : std::function<void (const std::wstring &)>
+-placeholder : std::wstring
+-text : std::wstring
+-transform : Transform *
+}
+class "RichTextComponent" as C_0006468325429240224623
+class C_0006468325429240224623 {
++RichTextComponent() = default : void
++~RichTextComponent() : void
+..
++Draw(HDC hdc) : void
++Initialize() : void
++Initialize_AddCompoment() : void
+-ParseColor(const std::wstring & hex) : Gdiplus::Color
+-ParseRichText() : void
++Release() : void
++Render(HDC hdc) : void
++SetAlignment(Gdiplus::StringAlignment horizontal, Gdiplus::StringAlignment vertical) : void
++SetFont(const std::wstring & family, float size) : void
++SetOutline(bool use, BYTE a, BYTE r, BYTE g, BYTE b) : void
++SetSize(int w, int h) : void
++SetStyle(bool bold, bool italic, bool underline) : void
++SetText(const std::wstring & text) : void
++SetTransform(Transform * t) : void
++Update(float dt) : void
+__
+-family : Gdiplus::FontFamily *
+-font : Gdiplus::Font *
+-fontFamily : std::wstring
+-fontSize : float
+-fontStyle : int
+-hAlign : Gdiplus::StringAlignment
+-height : int
+-outlineColor : Gdiplus::Color
+-parsedSegments : std::vector<TextSegment>
+-rawText : std::wstring
+-transform : Transform *
+-useOutline : bool
+-vAlign : Gdiplus::StringAlignment
+-width : int
+}
+class "RichTextComponent::TextSegment" as C_0010200758658661813511
+class C_0010200758658661813511 {
+__
++color : Gdiplus::Color
++text : std::wstring
+}
+class "TextComponent" as C_0012700147483782556045
+class C_0012700147483782556045 {
++TextComponent() : void
++~TextComponent() : void
+..
++EnableBlinking(bool enabled) : void
++Initialize() : void
++Initialize_AddCompoment() : void
++Release() : void
++Render(HDC hdc) : void
++SetAlignment(Gdiplus::StringAlignment horizontal, Gdiplus::StringAlignment vertical) : void
++SetFont(const std::wstring & family, float size) : void
++SetFontColor(BYTE a, BYTE r, BYTE g, BYTE b) : void
++SetOutlineColor(BYTE a, BYTE r, BYTE g, BYTE b) : void
++SetSize(int w, int h) : void
++SetText(const std::wstring & str) : void
++SetTransform(Transform * t) : void
++Update(float dt) : void
+__
+-elapsedTime : double
+-family : Gdiplus::FontFamily *
+-font : Gdiplus::Font *
+-fontColor : Gdiplus::Color
+-fontFamily : std::wstring
+-fontSize : float
+-hAlign : Gdiplus::StringAlignment
+-height : int
+-outlineColor : Gdiplus::Color
+-text : std::wstring
+-transform : Transform *
+-useBlink : bool
+-useOutline : bool
+-vAlign : Gdiplus::StringAlignment
+-width : int
+}
+class "BaseGame" as C_0005365101254653150826
+class C_0005365101254653150826 {
++BaseGame() : void
++~BaseGame() : void
+..
++CleanUp() : void
++Init() : void
+#InitGDIPlus() : void
++Release() : void
+#ReleaseGDIPlus() : void
++Render(HDC p_hdc, RECT & p_clientRect) : void
++Run() : void
++Test_InitScene() : void
++Update() : void
++UpdateInput(UINT message, WPARAM wParam, LPARAM lParam) : void
++UpdateTimer() : void
+__
+#gdiplusToken : ULONG_PTR
++isRunning : bool
+#m_BGColor : COLORREF
++m_CurrentScene : Scene *
+#m_pInputManager : InputManager *
+#m_pTimerManager : TimerManager *
+}
+class "TimerManager" as C_0006104864286880803545
+class C_0006104864286880803545 {
++TimerManager() : void
+..
++GetDeltaTime() const : double
++GetTotalTime() const : double
++Update() : void
+__
+-deltaTime : double
+-frequency : LARGE_INTEGER
+-lastTime : LARGE_INTEGER
+-startTime : LARGE_INTEGER
+-totalTime : double
+}
+C_0008364433741114752039 o-- C_0016480947060394780245 : +pos
+C_0012021292812520796288 --> C_0010250684592540512228 : +owner
+C_0012021292812520796288 --> C_0013979161094353040123 : +transform
+C_0006111862596534002478 ..> C_0016480947060394780245
+C_0012021292812520796288 <|-- C_0006111862596534002478
+C_0010250684592540512228 o-- C_0012021292812520796288 : #components
+C_0010250684592540512228 --> C_0013979161094353040123 : +transform
+C_0013979161094353040123 o-- C_0016480947060394780245 : +localposition
+C_0013979161094353040123 o-- C_0016480947060394780245 : +localScale
+C_0013979161094353040123 --> C_0013979161094353040123 : -parent
+C_0013979161094353040123 --> C_0013979161094353040123 : -children
+C_0013979161094353040123 o-- C_0016480947060394780245 : -cachedWorldPosition
+C_0013979161094353040123 o-- C_0016480947060394780245 : -cachedWorldScale
+C_0013979161094353040123 <.. C_0010250684592540512228 : +<<friend>>
+C_0012021292812520796288 <|-- C_0013979161094353040123
+C_0014710440344490690589 ..> C_0008364433741114752039
+C_0012021292812520796288 <|-- C_0014710440344490690589
+C_0007426470158294810457 --> C_0013979161094353040123 : -transform
+C_0012021292812520796288 <|-- C_0007426470158294810457
+C_0011492085545754070408 ..> C_0017393003743977498017
+C_0011492085545754070408 ..|> C_0011044441207668165372
+C_0017393003743977498017 --> C_0000370005033936394450 : -imageMap
+C_0011492085545754070408 <|-- C_0017393003743977498017
+C_0012676504793219311971 ..> C_0016480947060394780245
+C_0013661311382128640226 ..> C_0010602408877764505757
+C_0013661311382128640226 ..|> C_0011044441207668165372
+C_0013661311382128640226 <|-- C_0010602408877764505757
+C_0005375663403181666835 o-- C_0010250684592540512228 : +objects
+C_0000221405838615140689 --> C_0000221405838615140689 : +onClick
+C_0012021292812520796288 <|-- C_0000221405838615140689
+C_0014246112670391732192 --> C_0013979161094353040123 : -transform
+C_0006468325429240224623 --> C_0013979161094353040123 : -transform
+C_0012021292812520796288 <|-- C_0006468325429240224623
+C_0010200758658661813511 --+ C_0006468325429240224623
+C_0012700147483782556045 --> C_0013979161094353040123 : -transform
+C_0012021292812520796288 <|-- C_0012700147483782556045
+C_0005365101254653150826 --> C_0005375663403181666835 : +m_CurrentScene
+C_0005365101254653150826 --> C_0006104864286880803545 : #m_pTimerManager
+C_0005365101254653150826 --> C_0007529291253653007674 : #m_pInputManager
+note top : Generated by clang-uml
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+@enduml
