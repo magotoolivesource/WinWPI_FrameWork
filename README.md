@@ -15,6 +15,20 @@ YAML 에디터
 https://jsonformatter.org/yaml-validator
 
 
+# PlantUML 방식
+> ## 현재 UML Class 
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/class_overview.puml)
+
+>## 현재 Include
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/include_dependencies.puml)
+
+>## 현재 Package
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/package_structure.puml)
+
+
+
+
+# mermaid UML 방식
 # 기본 UML Class 
 ```mermaid
 classDiagram
