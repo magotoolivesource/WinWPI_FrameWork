@@ -26,9 +26,11 @@ public:
     virtual void Destroy() {}
 
 public:
-    bool enabled = true;
     void SetEnabled(bool e) { enabled = e; }
     bool IsEnabled() const { return enabled; }
+
+protected:
+    bool enabled = true;
 
 public:
     Transform* transform;

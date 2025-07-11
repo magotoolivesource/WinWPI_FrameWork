@@ -9,6 +9,21 @@
 
 
 
+enum class MatrixElements : int { 
+	m11,
+    m12,
+    m21,
+    m22,
+    dx,
+    dy,
+    Size, // 추가된 항목
+};
+
+enum class TransformSpace {
+	Local,
+	World 
+};
+
 class Transform : public Component
 {
     // new Transform 막기위한것
@@ -30,10 +45,27 @@ public:
 	float zdepth = 0; // Z-order for rendering
     float width = 50.0f;
     float height = 50.0f;
-    float rotation = 0.0f; // in degrees
-
+    float local_rotation = 0.0f; // in degrees
 
 	Vec2 localScale = { 1, 1 };
+
+
+	// 로컬기준으로한 회전과 스케일의 중심위치값용
+	Vec2 PivotPos = { 0.5f, 0.5f };
+
+	Vec2 cachedPivotPos = { 0, 0 };
+public:
+    Vec2& GetPivotPos() { return PivotPos; }
+    void SetPivotPos(const Vec2& pivot) { 
+        PivotPos = pivot; 
+        MarkDirty();
+    }
+    void SetPivotPos(float x, float y) {
+        PivotPos.x = x;
+        PivotPos.y = y;
+        MarkDirty();
+    }
+
 
 private:
 	Transform* parent = nullptr;
@@ -48,8 +80,9 @@ private:
 	
 	Gdiplus::Matrix cachedWorldMatrix;
 
-	float m_tempcachedmatrix[ 6 ] = { 0, 0, 0, 0, 0, 0 };
-protected:
+	Gdiplus::Matrix m_TempCalcMatrix;
+    float m_tempcachedmatrix[(int)MatrixElements::Size] = { 0, 0, 0, 0, 0, 0 };
+    protected:
 	void MarkDirty( ) {
 		isDirty = true;
 		for ( auto child : children ) {
@@ -159,7 +192,11 @@ public:
 	//	MarkDirty( );
 	//}
 
-	float getRotation( ) const { return rotation; }
+	float getRotation( ) 
+	{ 
+		UpdateIfDirty();
+		return local_rotation; 
+	}
  //   void setRotation(float rot) 
 	//{ 
 	//	rotation = rot; 
@@ -168,7 +205,7 @@ public:
     // Override the clone method
 	//virtual Transform* clone() const override { return new Transform(*this); }
 	void SetLocalRotation(float angleDegrees) {
-		rotation = angleDegrees;
+		local_rotation = angleDegrees;
 		MarkDirty( );
 	}
     float GetWorldRotation() {
@@ -197,14 +234,25 @@ public:
         UpdateIfDirty();
         return cachedWorldScale;
     }
-    void SetWorldScale(Vec2& worldScale) {
+    void SetWorldScale(float p_xscale, float p_yscale) {
         if (parent) {
-            Vec2 parentScale = parent->GetWorldScale();
-            Vec2 newLocal = { worldScale.x / parentScale.x, worldScale.y / parentScale.y };
-            SetLocalScale(newLocal);
+    //    //Vec2 parentScale = parent->GetWorldScale();
+    //    //Vec2 newLocal = { worldScale.x / parentScale.x, worldScale.y / parentScale.y };
+            SetLocalScale(p_xscale, p_yscale);
         } else {
-            SetLocalScale(worldScale);
+            SetLocalScale(p_xscale, p_yscale);
         }
+	}
+    void SetWorldScale(Vec2& worldScale) {
+        SetWorldScale(worldScale.x, worldScale.y);
+        //if (parent) {
+        //    //Vec2 parentScale = parent->GetWorldScale();
+        //    //Vec2 newLocal = { worldScale.x / parentScale.x, worldScale.y / parentScale.y };
+
+        //    SetLocalScale(worldScale);
+        //} else {
+        //    SetLocalScale(worldScale);
+        //}
     }
 };
 

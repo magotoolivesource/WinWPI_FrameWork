@@ -19,7 +19,7 @@ ImageComponent::~ImageComponent()
 void ImageComponent::Initialize_AddCompoment()
 {
     transform = owner->GetComponent<Transform>();
-    drawRect = { 0, 0, 32, 32 };
+    //drawRect = { 0, 0, 32, 32 };
 }
 void ImageComponent::Initialize()
 {
@@ -55,6 +55,8 @@ bool ImageComponent::ImageLoadImage(const std::wstring& path)
 
 void ImageComponent::Render(HDC hdc)
 {
+    if ( !enabled ) return;
+
 
 	//Transform* temptransform = owner->GetComponent<Transform>();
     //Transform* temptransform = owner->transform;
@@ -68,9 +70,22 @@ void ImageComponent::Render(HDC hdc)
 	Vec2 temppos = temptransform->getLocalPosition();
     Gdiplus::PointF pos(temppos.x, temppos.y);
 
-    graphics.TranslateTransform(pos.X, pos.Y);
-    graphics.RotateTransform(temptransform->getRotation() );
-    graphics.TranslateTransform(-pos.X, -pos.Y);
+
+	float rot = temptransform->getRotation();
+
+	//graphics.TranslateTransform(pos.X, pos.Y);
+	//graphics.RotateTransform(temptransform->getRotation());
+    
+
+    //graphics.TranslateTransform(-pos.X, -pos.Y);
+
+	// 백업
+	//graphics.GetTransform(&m_TempTransMatrix);
+
+
+	graphics.ResetTransform();
+	graphics.SetTransform(&temptransform->GetWorldMatrix());
+
 
     int x = static_cast<int>(temppos.x);
     int y = static_cast<int>(temppos.y);
@@ -78,17 +93,21 @@ void ImageComponent::Render(HDC hdc)
     int h = drawHeight > 0 ? drawHeight : image->GetHeight();
 
     if (useDrawRect) {
-        Gdiplus::Rect destRect(x, y, w, h);
+        Gdiplus::Rect destRect(0, 0, w, h);
         Gdiplus::Rect srcRect(drawRect.left, drawRect.top,
             drawRect.right - drawRect.left,
             drawRect.bottom - drawRect.top);
         graphics.DrawImage(image, destRect, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, Gdiplus::UnitPixel);
     }
     else {
-        graphics.DrawImage(image, x, y, w, h);
+        graphics.DrawImage(image, 0, 0, w, h);
     }
 
+
     graphics.ResetTransform();
+
+	// 원복
+	//graphics.SetTransform( &m_TempTransMatrix );
 }
 
 void ImageComponent::Draw(HDC hdc)

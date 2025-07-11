@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 #include <gdiplus.h>
 #include <string>
@@ -13,14 +13,17 @@ private:
     Gdiplus::Image* image;
     Transform* transform;
     int drawWidth, drawHeight;
-    RECT drawRect;
+    RECT drawRect = { 0, 0, 128, 128 };
     bool useDrawRect;
+
+
+	Gdiplus::Matrix m_TempTransMatrix;
 
 public:
     ImageComponent()
         : image(nullptr), transform(nullptr), drawWidth(0), drawHeight(0), useDrawRect(false)
     {
-        drawRect = {0, 0, 32, 32};
+        drawRect = {0, 0, 128, 128};
         //Initialize();
     }
 

@@ -146,7 +146,7 @@ void BaseGame::ReleaseGDIPlus()
 void BaseGame::Test_InitScene()
 {
 	
-    // 버턴
+    // 버턴 1
     GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
     bunobj->AddComponent< Button>();
     bunobj->AddComponent<Button>([](Button* p_owerbtn) 
@@ -156,6 +156,7 @@ void BaseGame::Test_InitScene()
 		});
     bunobj->GetComponent<Transform>()->setLocalPosition(50, 100);
 
+	// 버턴 2
 	GameObject* bunobj2 = m_CurrentScene->CreateObject("TestObject2");
 	bunobj2->AddComponent<Button>([ ] (Button* p_owerbtn)
 		{
@@ -167,11 +168,37 @@ void BaseGame::Test_InitScene()
 	bunobj2->GetComponent<Transform>( )->SetParent(bunobj->GetComponent<Transform>( )); // 부모 설정
 
 
-    // 이미지
+
+	// 이미지 2
+    GameObject* pngimgobj2 = m_CurrentScene->CreateObject("PngImageObject2");
+    pngimgobj2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    pngimgobj2->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
+    pngimgobj2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+    pngimgobj2->transform->SetWorldRotation(-45.f); // 월드 회전 설정
+    pngimgobj2->transform->SetWorldPosition(150, 200);
+    pngimgobj2->transform->SetWorldScale( 0.5f, 0.5f ); // 월드 스케일 설정	
+
+	// 이미지 3
+    GameObject* pngimgobj3 = m_CurrentScene->CreateObject("PngImageObject3");
+    pngimgobj3->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    pngimgobj3->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
+    pngimgobj3->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+    pngimgobj3->transform->SetWorldRotation(45.f); // 월드 회전 설정
+    pngimgobj3->transform->SetWorldPosition(150, 200);
+    //pngimgobj3->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정	
+	pngimgobj3->transform->SetParent(pngimgobj2->transform); // 부모 설정
+
+
+    // 이미지 1
 	GameObject* pngimgobj = m_CurrentScene->CreateObject("PngImageObject");
 	//pngimgobj->AddComponent<ImageComponent>();
     pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-    pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
+    //pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
+	pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	pngimgobj->transform->SetWorldPosition(150, 200);
+    pngimgobj->GetComponent<ImageComponent>()->SetEnabled(false);
+
+	
 
 
     // 문자
