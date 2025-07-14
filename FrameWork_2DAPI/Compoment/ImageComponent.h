@@ -18,6 +18,7 @@ private:
 
 
 	Gdiplus::Matrix m_TempTransMatrix;
+	Gdiplus::REAL matrixElements[6];
 
 public:
     ImageComponent()

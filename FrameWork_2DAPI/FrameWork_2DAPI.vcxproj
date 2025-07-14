@@ -148,6 +148,8 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="FrameWork_2DAPI.h" />
     <ClInclude Include="Manager\CameraManager.h" />
+    <ClInclude Include="Manager\FacadeManager.h" />
+    <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\ImageManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -171,6 +173,8 @@
     <ClCompile Include="Core\Viewport.cpp" />
     <ClCompile Include="FrameWork_2DAPI.cpp" />
     <ClCompile Include="Manager\CameraManager.cpp" />
+    <ClCompile Include="Manager\FacadeManager.cpp" />
+    <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\ImageManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="UICompoment\Button.cpp" />

@@ -13,6 +13,13 @@
 #include "UICompoment/TextComponent.h"
 #include "UICompoment/RichTextComponent.h"
 
+#include "Manager/FacadeManager.h"
+
+
+#include "Manager/CameraManager.h"
+#include "Compoment/Camera.h"
+
+
 #include <cassert>
 
 using namespace Gdiplus;
@@ -29,11 +36,14 @@ BaseGame::~BaseGame()
 
 void BaseGame::Init()
 {
+    FacadeManager::GetI()->Initlize(); // Initialize FacadeManager
+
     InitGDIPlus();
     
 	m_pTimerManager = new TimerManager();
 	m_pInputManager = new InputManager();
 
+	
 
     Test_InitScene();
 }
@@ -59,8 +69,9 @@ void BaseGame::Release()
         m_pInputManager = nullptr;
     }
 
-
     ReleaseGDIPlus();
+
+	FacadeManager::GetI()->DestroyManager();
 }
 
 void BaseGame::Run() {
@@ -146,6 +157,9 @@ void BaseGame::ReleaseGDIPlus()
 void BaseGame::Test_InitScene()
 {
 	
+
+
+	
     // 버턴 1
     GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
     bunobj->AddComponent< Button>();
@@ -221,6 +235,13 @@ void BaseGame::Test_InitScene()
 	richText->SetOutline(true, 255, 0, 255, 0); // 그린 테두리
 
 	richtextobj->transform->setLocalPosition(200, 300);
+
+
+
+	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+	mainCamera->SetWorldPosition(0, 0);
+    mainCamera->SetZoom(0.5f); // 카메라 줌 설정
+	mainCamera->SetWorldRotation(-45.f); // 카메라 회전 설정
 
 
     //bunobj->AddComponent< Transform>();

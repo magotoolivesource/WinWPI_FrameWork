@@ -1,4 +1,5 @@
 ﻿#include "Transform.h"
+#include "Camera.h"
 
 void Transform::UpdateIfDirty( ) {
 	if ( !isDirty ) return;

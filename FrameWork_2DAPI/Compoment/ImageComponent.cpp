@@ -3,6 +3,9 @@
 #include "../Core/GameObject.h"
 #include "Transform.h"
 #include "../Manager/ImageManager.h"
+#include "../Manager/CameraManager.h"
+#include "Camera.h"
+
 
 #pragma comment(lib, "gdiplus.lib")
 
@@ -67,11 +70,11 @@ void ImageComponent::Render(HDC hdc)
     Gdiplus::Graphics graphics(hdc);
     graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 
-	Vec2 temppos = temptransform->getLocalPosition();
-    Gdiplus::PointF pos(temppos.x, temppos.y);
+	//Vec2 temppos = temptransform->getLocalPosition();
+ //   Gdiplus::PointF pos(temppos.x, temppos.y);
 
 
-	float rot = temptransform->getRotation();
+	//float rot = temptransform->getRotation();
 
 	//graphics.TranslateTransform(pos.X, pos.Y);
 	//graphics.RotateTransform(temptransform->getRotation());
@@ -83,12 +86,23 @@ void ImageComponent::Render(HDC hdc)
 	//graphics.GetTransform(&m_TempTransMatrix);
 
 
+	temptransform->GetWorldMatrix().GetElements(matrixElements);
+    m_TempTransMatrix.SetElements(
+		matrixElements[0], matrixElements[1],
+		matrixElements[2], matrixElements[3],
+		matrixElements[4], matrixElements[5]);
+	//Gdiplus::Matrix tempmat(matrixElements);
+
+
+	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+    mainCamera->GetMultiplyMatrix(m_TempTransMatrix);
+
 	graphics.ResetTransform();
-	graphics.SetTransform(&temptransform->GetWorldMatrix());
+    graphics.SetTransform(&m_TempTransMatrix);
 
 
-    int x = static_cast<int>(temppos.x);
-    int y = static_cast<int>(temppos.y);
+    //int x = static_cast<int>(temppos.x);
+    //int y = static_cast<int>(temppos.y);
     int w = drawWidth > 0 ? drawWidth : image->GetWidth();
     int h = drawHeight > 0 ? drawHeight : image->GetHeight();
 

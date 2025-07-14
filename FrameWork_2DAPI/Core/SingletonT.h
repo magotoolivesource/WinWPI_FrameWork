@@ -1,5 +1,5 @@
+﻿#pragma once
 template <typename T>
-
 class SingletonT
 {
 protected:
@@ -35,6 +35,15 @@ public:
         }
         return *instance;
     }
+
+	virtual void DestroyManager()
+	{
+        if (instance) {
+            delete instance;
+            instance = nullptr;
+        }
+	}
+
 };
 
 template <typename T>
