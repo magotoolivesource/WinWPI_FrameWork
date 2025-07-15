@@ -2,6 +2,15 @@
 #include <cmath>
 
 struct Vec2 {
+
+public:
+	Vec2() : x(0), y(0) {}
+	Vec2(float x, float y) : x(x), y(y) {}
+    Vec2(const Vec2& other)
+        : x(other.x)
+        , y(other.y) { }
+
+public:
     float x, y;
 
     Vec2 Rotate(float angleDegrees) const {

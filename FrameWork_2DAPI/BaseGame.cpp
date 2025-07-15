@@ -24,7 +24,13 @@
 
 using namespace Gdiplus;
 
+
+GameObject* g_centerobj = nullptr;
+ImageComponent* g_tempimgcomp = nullptr;
+
+
 BaseGame::BaseGame()
+    : gdiplusToken(0) 
 {
 	m_CurrentScene = new Scene();
 }
@@ -34,12 +40,14 @@ BaseGame::~BaseGame()
 	Release();
 }
 
-void BaseGame::Init()
+void BaseGame::Init(HWND p_hwnd) 
 {
-    FacadeManager::GetI()->Initlize(); // Initialize FacadeManager
-
     InitGDIPlus();
-    
+
+    m_Hwnd = p_hwnd;
+    FacadeManager::GetI()->Initlize(); // Initialize FacadeManager
+	CameraManager::GetI()->SetWindowSize(p_hwnd); // Set the window handle for CameraManager
+
 	m_pTimerManager = new TimerManager();
 	m_pInputManager = new InputManager();
 
@@ -69,9 +77,10 @@ void BaseGame::Release()
         m_pInputManager = nullptr;
     }
 
-    ReleaseGDIPlus();
 
 	FacadeManager::GetI()->DestroyManager();
+
+	ReleaseGDIPlus();
 }
 
 void BaseGame::Run() {
@@ -127,8 +136,72 @@ void BaseGame::UpdateInput(UINT message, WPARAM wParam, LPARAM lParam)
     }
 }
 
-void BaseGame::Update()
-{
+void TestUpdateFN(BaseGame* p_game) 
+{ 
+	static Vec2 wpos = { 0, 0 };
+    static Vec2 rect = { 64, 64 };
+    static Vec2 size = { 32, 32 };
+
+	static float imgangle = 0.0f;
+    static float anirot2 = -0.6f;
+    imgangle += anirot2;
+    if (imgangle > 360.f) {
+        imgangle -= 360.f; // 각도 360도 이상으로 가지 않도록
+    }
+    if (imgangle < -360.f) {
+        imgangle += 360.f; // 각도 360도 이상으로 가지 않도록
+    }
+
+    g_centerobj->GetComponent<ImageComponent>()->SetDrawRect(0, 0, rect.x, rect.y);
+    g_centerobj->GetComponent<ImageComponent>()->SetSize(size.x, size.y);
+    g_centerobj->transform->SetWorldPosition(wpos.x, wpos.y);
+    g_centerobj->transform->SetWorldRotation(imgangle);
+
+
+	// 카메라 세팅
+    static float anirot = 0.3f;// 0.5f;
+    static float anizoom = 0.01f; // 0.005f;
+
+    static Vec2 cameraPos = { -650, -300 };
+    static float angle = 0.0f;
+    static float zoom = 1.f;
+    static bool iscamcenterpos = true;
+	
+	if (iscamcenterpos) {
+        cameraPos.x = -CameraManager::GetI()->GetViewportCenter().x;
+        cameraPos.y = -CameraManager::GetI()->GetViewportCenter().y;
+    }
+
+	angle += anirot;
+	if ( angle > 360.f )
+	{
+        angle -= 360.f; // 각도 360도 이상으로 가지 않도록
+	}
+    if (angle < -360.f) {
+            angle += 360.f; // 각도 360도 이상으로 가지 않도록
+    }
+
+	zoom += anizoom;
+    if (zoom < 0.1f) {
+        anizoom = -anizoom;
+    }
+
+	if (zoom > 2.0f) 
+	{
+		anizoom = -anizoom;
+    }
+	
+    Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+    mainCamera->SetWorldPosition(cameraPos.x, cameraPos.y);
+    mainCamera->SetWorldRotation(angle);
+	mainCamera->SetZoom(zoom); // 줌 설정
+
+}
+
+void BaseGame::Update() {
+
+	::TestUpdateFN(this);
+
     m_CurrentScene->Update( m_pTimerManager->GetDeltaTime() );
 }
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
@@ -139,6 +212,12 @@ void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
     DeleteObject(bg);
 
 	m_CurrentScene->Render(p_hdc);
+}
+
+void BaseGame::SetWindowSize(HWND hwnd) 
+{
+	m_Hwnd = hwnd;
+	CameraManager::GetI()->SetWindowSize(hwnd); // 카메라 매니저에 핸들 설정
 }
 
 void BaseGame::InitGDIPlus()
@@ -214,6 +293,23 @@ void BaseGame::Test_InitScene()
 
 	
 
+	// 이미지 1
+    GameObject* centerobj = m_CurrentScene->CreateObject("center");
+	g_centerobj = centerobj; // 전역 변수에 저장`
+    g_tempimgcomp = centerobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    centerobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png"); // 525사이즈
+    //centerobj->GetComponent<ImageComponent>()->SetDrawRect(0, 0, 64, 64);
+    //centerobj->GetComponent<ImageComponent>()->SetSize(128, 128);
+    //centerobj->transform->SetWorldPosition(-64, -64);
+
+	static Vec2 wpos = { -16, -16 };
+    static Vec2 rect = { 64, 64 };
+    static Vec2 size = { 32, 32 };
+    centerobj->GetComponent<ImageComponent>()->SetDrawRect(0, 0, rect.x, rect.y);
+    centerobj->GetComponent<ImageComponent>()->SetSize(size.x, size.y);
+    centerobj->transform->SetWorldPosition(0.f, 0.f);
+    centerobj->transform->SetPivotPos(wpos.x, wpos.y); // 피봇 위치 설정
+
 
     // 문자
     GameObject* textobj = m_CurrentScene->CreateObject("Text");
@@ -238,10 +334,13 @@ void BaseGame::Test_InitScene()
 
 
 
+	// 카메라 세팅
 	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
 	mainCamera->SetWorldPosition(0, 0);
-    mainCamera->SetZoom(0.5f); // 카메라 줌 설정
-	mainCamera->SetWorldRotation(-45.f); // 카메라 회전 설정
+    //mainCamera->SetZoom(0.5f); // 카메라 줌 설정
+	//mainCamera->SetWorldRotation(-45.f); // 카메라 회전 설정
+
+
 
 
     //bunobj->AddComponent< Transform>();

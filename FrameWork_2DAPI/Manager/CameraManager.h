@@ -10,7 +10,10 @@
 #include <type_traits>
 #include <string>
 #include "../Core/SingletonT.h"
+#include "../Core/Vector.h"
 //#include "../Compoment/Camera.h"
+
+#include <windows.h>
 
 
 class Camera;
@@ -57,7 +60,18 @@ public:
     Camera* AddMainCamera();
     Camera* GetMainCamera();
 
-public:
 
+
+protected:
+    HWND m_hWnd = nullptr;
+    Vec2 m_WindowSize = { 800, 600 }; // Default viewport size
+    Vec2 m_ViewportCenter = { 800 * 0.5f, 600 * 0.5f }; // Viewport size in pixels
+
+	void UpdateViewportSize();
+public:
+    void SetWindowSize(HWND hwnd);
+    //void SetHwnd(HWND hwnd);
+    Vec2& GetWindowSize() { return m_WindowSize; }
+    Vec2& GetViewportCenter() { return m_ViewportCenter; }
 
 };

@@ -1,14 +1,14 @@
 ﻿#include "Camera.h"
 #include "../Core/GameObject.h"
 #include "Transform.h"
+#include "../Manager/CameraManager.h"
 
 
 
-
-Gdiplus::Matrix& Camera::GetWorldMatrix() 
+Gdiplus::Matrix& Camera::GetCameraWorldMatrix() 
 {
     UpdateIfDirty();
-    return cachedWorldMatrix;
+    return cachedCameraWorldMatrix;
 }
 
 float Camera::GetWorldRotation() const
@@ -32,10 +32,10 @@ void Camera::UpdateIfDirty()
 
     Vec2& wpos = transform->GetWorldPosition();
 
-	cachedWorldMatrix.Reset();
-    cachedWorldMatrix.Scale(zoom, zoom, Gdiplus::MatrixOrderAppend);
-    cachedWorldMatrix.Rotate(transform->GetWorldRotation(), Gdiplus::MatrixOrderAppend);
-    cachedWorldMatrix.Translate(wpos.x, wpos.y, Gdiplus::MatrixOrderAppend);
+	cachedCameraWorldMatrix.Reset();
+    cachedCameraWorldMatrix.Scale(1.f / zoom, 1.f / zoom, Gdiplus::MatrixOrderAppend);
+    cachedCameraWorldMatrix.Rotate(transform->GetWorldRotation(), Gdiplus::MatrixOrderAppend);
+    cachedCameraWorldMatrix.Translate(-wpos.x, -wpos.y, Gdiplus::MatrixOrderAppend);
 
 	isDirty = false;
 }
@@ -48,7 +48,7 @@ void Camera::SetWorldPosition( Vec2& pos)
     MarkDirty();
     transform->SetWorldPosition(pos);
 }
-void Camera::SetWorldPosition(int p_x, int p_y) 
+void Camera::SetWorldPosition(float p_x, float p_y) 
 {
     if (!transform) return;
 
@@ -71,7 +71,7 @@ void Camera::SetLocalPosition(const Vec2 &pos)
     transform->setLocalPosition(pos);
 }
 
-void Camera::SetLocalPosition(int p_x, int p_y) 
+void Camera::SetLocalPosition(float p_x, float p_y) 
 {
     if (!transform) return;
 
@@ -95,18 +95,46 @@ void Camera::ApplyToMatrix(Gdiplus::Matrix& matrix) const
 
 Gdiplus::Matrix& Camera::GetMultiplyMatrix( Gdiplus::Matrix& matrix ) 
 {
-    UpdateIfDirty();
+ //   //UpdateIfDirty();
 
-	Vec2 wpos = transform->GetWorldPosition();
-	matrix.Scale(zoom, zoom, Gdiplus::MatrixOrderAppend);
-    matrix.Rotate(transform->GetWorldRotation(), Gdiplus::MatrixOrderAppend);
-    matrix.Translate(-wpos.x, -wpos.y, Gdiplus::MatrixOrderAppend);
+	//Vec2& wpos = transform->GetWorldPosition();
+	//Vec2& viewportsize = CameraManager::GetI()->GetViewportCenter();
+
+
+
+	////matrix.Translate(-wpos.x, -wpos.y, Gdiplus::MatrixOrderAppend);
+	////matrix.Translate(-viewportsize.x, -viewportsize.y, Gdiplus::MatrixOrderAppend);
+	////matrix.Scale(zoom, zoom, Gdiplus::MatrixOrderAppend);
+ ////   matrix.Rotate(transform->GetWorldRotation(), Gdiplus::MatrixOrderAppend);
+	////matrix.Translate(viewportsize.x, viewportsize.y, Gdiplus::MatrixOrderAppend);
+
+
+ //   matrix.Scale(1.f / zoom, 1.f / zoom, Gdiplus::MatrixOrderAppend);
+ //   matrix.Rotate(transform->GetWorldRotation(), Gdiplus::MatrixOrderAppend);
+ //   matrix.Translate(-wpos.x, -wpos.y, Gdiplus::MatrixOrderAppend);
+
+
+	Gdiplus::Matrix& cammatrix = GetCameraWorldMatrix();
+	matrix.Multiply(&cammatrix, Gdiplus::MatrixOrderAppend);
 
 	return matrix;
 }
 
-Camera::~Camera() 
-{
+Camera::Camera() 
+{ 
+	//cachedWorldMatrix.SetElements(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+	//cachedWorldMatrix.Reset();
+
+ //   //GdiPlus::Status state = cachedWorldMatrix.GetLastStatus();
+
+
+	//Gdiplus::Status status = cachedWorldMatrix.SetElements(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+
+	//Gdiplus::Matrix identityMatrix;
+	//identityMatrix.Reset();
+}
+
+Camera::~Camera() {
     // transform = nullptr;
 }
 

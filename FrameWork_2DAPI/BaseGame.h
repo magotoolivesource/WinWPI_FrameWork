@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene/Scene.h"
 
 
-class TimerManager; // Àü¹æ ¼±¾ğ
+class TimerManager; // ì „ë°© ì„ ì–¸
 class InputManager;
 
 class BaseGame
@@ -12,29 +12,32 @@ public:
     virtual ~BaseGame();
 
 public:
-    Scene* m_CurrentScene;
+    Scene* m_CurrentScene = nullptr;
     bool isRunning = true;
 
-    void Init();
+    void Init(HWND p_hwnd);
     void Release();
     void Run();
     void CleanUp();
 
-    void UpdateTimer(); // ¿¹: ÀÔ·Â Ã³¸®
-	void UpdateInput(UINT message, WPARAM wParam, LPARAM lParam); // ¿¹: ÀÔ·Â Ã³¸®
-    void Update();   // ¿¹: °ÔÀÓ »óÅÂ °»½Å
-    void Render(HDC p_hdc, RECT& p_clientRect);   // ¿¹: ±×¸®±â
+    void UpdateTimer(); // ì˜ˆ: ì…ë ¥ ì²˜ë¦¬
+	void UpdateInput(UINT message, WPARAM wParam, LPARAM lParam); // ì˜ˆ: ì…ë ¥ ì²˜ë¦¬
+    void Update();   // ì˜ˆ: ê²Œì„ ìƒíƒœ ê°±ì‹ 
+    void Render(HDC p_hdc, RECT& p_clientRect);   // ì˜ˆ: ê·¸ë¦¬ê¸°
 
-
+	void SetHwnd(HWND hwnd) { m_Hwnd = hwnd; } // ìœˆë„ìš° í•¸ë“¤ ì„¤ì •
+    void SetWindowSize(HWND hwnd);
 protected:
 	TimerManager* m_pTimerManager = nullptr;
 	InputManager* m_pInputManager = nullptr;
 
-	COLORREF m_BGColor = RGB(255, 255, 255); // ¹è°æ»ö ÃÊ±âÈ­ (°ËÁ¤»ö)
+	COLORREF m_BGColor = RGB(255, 255, 255); // ë°°ê²½ìƒ‰ ì´ˆê¸°í™” (ê²€ì •ìƒ‰)
 
     ULONG_PTR gdiplusToken;
-	void InitGDIPlus(); // GDI+ ÃÊ±âÈ­ ÇÔ¼ö
-    void ReleaseGDIPlus(); // GDI+ ÇØÁ¦ ÇÔ¼ö
+	void InitGDIPlus(); // GDI+ ì´ˆê¸°í™” í•¨ìˆ˜
+    void ReleaseGDIPlus(); // GDI+ í•´ì œ í•¨ìˆ˜
+
+	HWND m_Hwnd = nullptr;
 public:
     void Test_InitScene();
 

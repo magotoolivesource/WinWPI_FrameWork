@@ -6,9 +6,10 @@
 #include "../Compoment/Camera.h"
 
 
-CameraManager::CameraManager() 
+CameraManager::CameraManager()
 { 
 	AddMainCamera(); // 생성자에서 메인 카메라를 추가
+
 }
 
 CameraManager::~CameraManager() {
@@ -42,6 +43,28 @@ Camera* CameraManager::AddMainCamera()
 
 Camera* CameraManager::GetMainCamera() 
 { 
-	return m_MainCamera;
+	return m_MainCamera; 
 }
 
+void CameraManager::UpdateViewportSize() 
+{
+    RECT rc;
+    GetClientRect(m_hWnd, &rc);
+    m_WindowSize.x = static_cast<float>(rc.right - rc.left);
+    m_WindowSize.y = static_cast<float>(rc.bottom - rc.top);
+
+	m_ViewportCenter.x = m_WindowSize.x * 0.5f;
+    m_ViewportCenter.y = m_WindowSize.y * 0.5f;
+
+    //isDirty = true;
+}
+
+//void CameraManager::SetHwnd(HWND hwnd) { 
+//	m_hWnd = hwnd; 
+//	UpdateViewportSize();
+//}
+
+void CameraManager::SetWindowSize(HWND hwnd) {
+    m_hWnd = hwnd;
+    UpdateViewportSize();
+}

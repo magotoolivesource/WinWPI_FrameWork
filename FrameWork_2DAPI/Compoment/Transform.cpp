@@ -4,6 +4,7 @@
 void Transform::UpdateIfDirty( ) {
 	if ( !isDirty ) return;
 
+	
 	if ( parent ) {
 
 		// 회전
@@ -17,6 +18,7 @@ void Transform::UpdateIfDirty( ) {
 
 		//cachedPivotPos = PivotPos;
 
+		// 상위 위치를 기준으로한 현재 중심축 위치 변환용
 		m_TempCalcMatrix.Reset();
         m_TempCalcMatrix.Translate(localposition.x, localposition.y, Gdiplus::MatrixOrderAppend);
         m_TempCalcMatrix.Rotate(parentRotation, Gdiplus::MatrixOrderAppend);
@@ -66,6 +68,7 @@ void Transform::UpdateIfDirty( ) {
 		// -pivotpos -> scale -> rotate -> wpos 순서로 적용하고 있음
 		// -pivotpos -> scale -> rotate -> povotpos -> wpos 순서로 적용하면 중심위치 원위치로 바꿈 저렇게 하면 중심위치 원상태로 복구안되고 이상하게 처리될수 있음
 		// 
+		
         // Gdiplus::MatrixOrderAppend 코드에서 이동 처리용
         cachedWorldMatrix.Translate(cachedPivotPos.x, cachedPivotPos.y, Gdiplus::MatrixOrderAppend);
         cachedWorldMatrix.Scale(cachedWorldScale.x, cachedWorldScale.y, Gdiplus::MatrixOrderAppend);

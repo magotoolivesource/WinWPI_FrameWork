@@ -69,7 +69,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //}
 
 
-    g_BaseGame.Init();
+    g_BaseGame.Init(g_hWnd);
     while (g_isRunning) {
         g_BaseGame.UpdateTimer();
         g_BaseGame.Update();
@@ -178,6 +178,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_SIZING: 
+		{
+		
+			g_BaseGame.SetWindowSize(hWnd); // 윈도우 크기 조정 시 g_BaseGame에 핸들 설정
+		}
+        break;
+    case WM_SIZE:
+		{
+
+		}
+		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

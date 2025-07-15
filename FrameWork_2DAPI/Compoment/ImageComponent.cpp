@@ -94,11 +94,24 @@ void ImageComponent::Render(HDC hdc)
 	//Gdiplus::Matrix tempmat(matrixElements);
 
 
-	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
-    mainCamera->GetMultiplyMatrix(m_TempTransMatrix);
 
 	graphics.ResetTransform();
-    graphics.SetTransform(&m_TempTransMatrix);
+
+	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+	if ( false )
+	{
+        mainCamera->GetMultiplyMatrix(m_TempTransMatrix);
+        graphics.SetTransform(&m_TempTransMatrix);
+	}
+	else
+	{
+        Gdiplus::Matrix& campmat = mainCamera->GetCameraWorldMatrix();
+
+        graphics.MultiplyTransform(&m_TempTransMatrix, Gdiplus::MatrixOrderAppend);
+        graphics.MultiplyTransform(&campmat, Gdiplus::MatrixOrderAppend);
+	}
+
+	
 
 
     //int x = static_cast<int>(temppos.x);

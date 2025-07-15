@@ -51,7 +51,8 @@ public:
 
 
 	// 로컬기준으로한 회전과 스케일의 중심위치값용
-	Vec2 PivotPos = { 0.5f, 0.5f };
+	// 픽셀사이즈임 회전과 스케일 중심용 값임
+	Vec2 PivotPos = { 0.f, 0.f };// { 0.5f, 0.5f };
 
 	Vec2 cachedPivotPos = { 0, 0 };
 public:

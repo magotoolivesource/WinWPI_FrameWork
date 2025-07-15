@@ -21,7 +21,7 @@ protected:
 
 
 	bool isDirty = true;
-    Gdiplus::Matrix cachedWorldMatrix;
+    Gdiplus::Matrix cachedCameraWorldMatrix;
     //Gdiplus::Matrix* m_TransformMatrix;
     //Gdiplus::Matrix m_TempCalcMatrix;
 
@@ -32,7 +32,7 @@ public:
 
     void UpdateIfDirty();
 
-	Gdiplus::Matrix& GetWorldMatrix();
+	Gdiplus::Matrix& GetCameraWorldMatrix();
     float GetWorldRotation() const;
     Vec2& GetWorldPos() const;
     float GetZoom() { return zoom; }	
@@ -43,9 +43,9 @@ public:
 
 public:
     void SetWorldPosition( Vec2& pos);
-    void SetWorldPosition(int p_x, int p_y);
+    void SetWorldPosition(float p_x, float p_y);
     void SetLocalPosition(const Vec2& pos);
-    void SetLocalPosition(int p_x, int p_y);
+    void SetLocalPosition(float p_x, float p_y);
     void SetZoom(float z) { zoom = z; }
 
 	Vec2 ApplyToPoint(const Vec2& worldPos) const;
@@ -54,7 +54,7 @@ public:
 	Gdiplus::Matrix& GetMultiplyMatrix( Gdiplus::Matrix& matrix);
 
 public:
-	Camera() = default;
+	Camera();
 	virtual ~Camera();
 
 
