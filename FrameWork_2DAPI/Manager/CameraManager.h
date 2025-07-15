@@ -18,6 +18,10 @@
 
 class Camera;
 
+// 카메라 매트릭스 참고용 자료
+// https://gemini.google.com/u/1/app/d27ffeb5e91fed07
+
+
 class CameraManager : public SingletonT<CameraManager> {
 
 protected:

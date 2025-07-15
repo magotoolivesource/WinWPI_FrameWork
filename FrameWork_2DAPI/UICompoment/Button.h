@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../Compoment/Component.h"
 #include "../Compoment/Transform.h"
 #include <functional>
@@ -15,6 +15,13 @@ public:
     {
     }
     ~Button() = default;
+
+
+private:
+    Gdiplus::Matrix m_TempTransMatrix;
+    Gdiplus::REAL matrixElements[6];
+
+	bool ISClick();
 
 public:
     std::function<void(Button* )> onClick;

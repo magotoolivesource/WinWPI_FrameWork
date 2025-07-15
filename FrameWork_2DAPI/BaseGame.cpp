@@ -159,12 +159,12 @@ void TestUpdateFN(BaseGame* p_game)
 
 
 	// 카메라 세팅
-    static float anirot = 0.3f;// 0.5f;
-    static float anizoom = 0.01f; // 0.005f;
+    static float cam_anirot = 0.3f; // 0.3f; // 0.5f;
+    static float cam_anizoom = 0.f; // 0.01f; // 0.005f;
 
-    static Vec2 cameraPos = { -650, -300 };
-    static float angle = 0.0f;
-    static float zoom = 1.f;
+    static Vec2 cameraPos = { 0, 0 };
+    static float camangle = 0.0f;
+    static float camzoom = 1.f;
     static bool iscamcenterpos = true;
 	
 	if (iscamcenterpos) {
@@ -172,29 +172,29 @@ void TestUpdateFN(BaseGame* p_game)
         cameraPos.y = -CameraManager::GetI()->GetViewportCenter().y;
     }
 
-	angle += anirot;
-	if ( angle > 360.f )
+	camangle += cam_anirot;
+	if ( camangle > 360.f )
 	{
-        angle -= 360.f; // 각도 360도 이상으로 가지 않도록
+        camangle -= 360.f; // 각도 360도 이상으로 가지 않도록
 	}
-    if (angle < -360.f) {
-            angle += 360.f; // 각도 360도 이상으로 가지 않도록
+    if (camangle < -360.f) {
+            camangle += 360.f; // 각도 360도 이상으로 가지 않도록
     }
 
-	zoom += anizoom;
-    if (zoom < 0.1f) {
-        anizoom = -anizoom;
+	camzoom += cam_anizoom;
+    if (camzoom < 0.1f) {
+        cam_anizoom = -cam_anizoom;
     }
 
-	if (zoom > 2.0f) 
+	if (camzoom > 2.0f) 
 	{
-		anizoom = -anizoom;
+		cam_anizoom = -cam_anizoom;
     }
 	
     Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
     mainCamera->SetWorldPosition(cameraPos.x, cameraPos.y);
-    mainCamera->SetWorldRotation(angle);
-	mainCamera->SetZoom(zoom); // 줌 설정
+    mainCamera->SetWorldRotation(camangle);
+	mainCamera->SetZoom(camzoom); // 줌 설정
 
 }
 
@@ -241,13 +241,15 @@ void BaseGame::Test_InitScene()
 	
     // 버턴 1
     GameObject* bunobj = m_CurrentScene->CreateObject("TestObject");
-    bunobj->AddComponent< Button>();
+    //bunobj->AddComponent< Button>();
     bunobj->AddComponent<Button>([](Button* p_owerbtn) 
     {
         // 버튼 클릭시 동작
         MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
 		});
     bunobj->GetComponent<Transform>()->setLocalPosition(50, 100);
+    bunobj->GetComponent<Transform>()->SetWorldRotation(45.f); // 월드 회전 설정
+
 
 	// 버턴 2
 	GameObject* bunobj2 = m_CurrentScene->CreateObject("TestObject2");
@@ -257,7 +259,6 @@ void BaseGame::Test_InitScene()
 			MessageBox(nullptr, L"버턴2!", L"Info", MB_OK);
 		});
 	bunobj2->GetComponent<Transform>( )->setLocalPosition(150, -20);
-
 	bunobj2->GetComponent<Transform>( )->SetParent(bunobj->GetComponent<Transform>( )); // 부모 설정
 
 
