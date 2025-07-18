@@ -29,6 +29,11 @@ private:
     Gdiplus::FontFamily* family;
     Gdiplus::Font* font;
 
+	bool m_ISCameraMatrix = true;
+public:
+    bool GetIsCameraMatrix() const { return m_ISCameraMatrix; }
+    void SetIsCameraMatrix(bool value) { m_ISCameraMatrix = value; }
+
 public:
     TextComponent();
     virtual ~TextComponent();

@@ -44,6 +44,11 @@ public:
 	Vec2 operator-() const {
 		return { -x, -y };
 	}
+
+    float Dot(const Vec2& other) const 
+	{ 
+		return x * other.x + y * other.y; 
+	}
 	float Length() const {
 		return sqrtf(x * x + y * y);
 	}
@@ -54,6 +59,20 @@ public:
 		float len = Length();
 		if (len == 0) return { 0, 0 };
 		return { x / len, y / len };
+
+
+		//float lenSq = x * x + y * y;
+  //      if (lenSq == 0.0f) return { 0, 0 };
+
+  //      // Quake III fast inverse square root
+  //      float x2 = lenSq * 0.5f;
+  //      float y = lenSq;
+  //      long i = *(long*)&y;
+  //      i = 0x5f3759df - (i >> 1);
+  //      y = *(float*)&i;
+  //      y = y * (1.5f - (x2 * y * y)); // 1회 iteration
+
+  //      return { x * y, y * y };
 	}
 	Vec2 Perpendicular() const {
 		return { -y, x };

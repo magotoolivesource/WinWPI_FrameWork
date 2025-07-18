@@ -164,5 +164,40 @@ void Camera::Release()
 }
 
 void Camera::Destroy()
-{
+{ 
+
+}
+
+
+void Camera::Begin_Update_GraphicsMatrix(OUT Gdiplus::Graphics& graphics
+	, Transform* p_transform
+	, bool p_iscameramat
+	, bool p_issmooth) 
+{ 
+	if (p_issmooth)
+		graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+
+	graphics.ResetTransform();
+	
+
+	Gdiplus::Matrix& transformmat = p_transform->GetWorldMatrix();
+    graphics.MultiplyTransform(&transformmat, Gdiplus::MatrixOrderAppend);
+
+	if (p_iscameramat)
+	{
+        Gdiplus::Matrix& campmat = GetCameraWorldMatrix();
+        graphics.MultiplyTransform(&campmat, Gdiplus::MatrixOrderAppend);
+	}
+
+
+}
+
+void Camera::End_Update_GraphicsMatrix(OUT Gdiplus::Graphics& graphics, Transform* p_transform) 
+{ 
+	//Gdiplus::Matrix& campmat = GetCameraWorldMatrix();
+    //Gdiplus::Matrix& transformmat = p_transform->GetWorldMatrix();
+    //graphics.MultiplyTransform(&transformmat, Gdiplus::MatrixOrderAppend);
+    //graphics.MultiplyTransform(&campmat, Gdiplus::MatrixOrderAppend);
+
+	graphics.ResetTransform();
 }

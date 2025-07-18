@@ -120,6 +120,24 @@
     <ClInclude Include="Manager\FacadeManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Core\MyMath.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Compoment\LineComponent.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
+    <ClInclude Include="Compoment\RectLineComponent.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DebugRectLineComponent.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DebugObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\DebugObjectManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -183,6 +201,24 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Manager\FacadeManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyMath.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Compoment\LineComponent.cpp">
+      <Filter>Compoment</Filter>
+    </ClCompile>
+    <ClCompile Include="Compoment\RectLineComponent.cpp">
+      <Filter>Compoment</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugRectLineComponent.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\DebugObjectManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>

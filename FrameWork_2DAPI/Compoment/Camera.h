@@ -74,6 +74,13 @@ public:
 	//void SetViewport(int x, int y, int width, int height) {
 	//	viewport = Rect{ x, y, width, height }; }
 
+
+	virtual void Begin_Update_GraphicsMatrix(OUT Gdiplus::Graphics& graphics
+		, Transform* p_transform
+		, bool p_iscameramat = true
+		, bool p_issmooth = true );
+	virtual void End_Update_GraphicsMatrix(OUT Gdiplus::Graphics& graphics, Transform* p_transform);
+
 public:
 
 };

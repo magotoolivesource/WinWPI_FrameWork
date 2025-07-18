@@ -2,6 +2,11 @@
 #include "../Core/GameObject.h"
 #include "../Compoment/Transform.h"
 #include "../Core/DefineHeader.h"
+#include "../Core/InputManager.h"
+
+#include "../Compoment/Camera.h"
+#include "../Manager/CameraManager.h"
+
 
 
 TextComponent::TextComponent()
@@ -90,6 +95,19 @@ void TextComponent::Render(HDC hdc) {
     Gdiplus::Graphics graphics(hdc);
     graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAliasGridFit);
 
+
+	if ( m_ISCameraMatrix )
+	{
+        Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+        Gdiplus::Matrix& campmat = mainCamera->GetCameraWorldMatrix();
+        graphics.MultiplyTransform(&campmat, Gdiplus::MatrixOrderAppend);
+	}
+	else
+	{
+        graphics.ResetTransform();
+	}
+
+
     //Gdiplus::FontFamily family(fontFamily.c_str());
     //Gdiplus::Font font(&family, fontSize, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
 
@@ -121,4 +139,10 @@ void TextComponent::Render(HDC hdc) {
     }
 
     graphics.DrawString(text.c_str(), -1, font, layoutRect, &format, &brush);
+
+
+	if (m_ISCameraMatrix) {
+        graphics.ResetTransform();
+    }
+
 }

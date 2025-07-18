@@ -19,6 +19,9 @@
 #include "Manager/CameraManager.h"
 #include "Compoment/Camera.h"
 
+#include "Compoment/LineComponent.h"
+#include "Compoment/RectLineComponent.h"
+
 
 #include <cassert>
 
@@ -332,6 +335,20 @@ void BaseGame::Test_InitScene()
 	richText->SetOutline(true, 255, 0, 255, 0); // 그린 테두리
 
 	richtextobj->transform->setLocalPosition(200, 300);
+
+
+	// 라인그리기
+    Gdiplus::PointF startPoint(50, 50);
+    Gdiplus::PointF endPoint(120, 70);
+    GameObject* lineobj = m_CurrentScene->CreateObject("line");
+    LineComponent* linecom = lineobj->AddComponent<LineComponent>(startPoint, endPoint);
+    linecom->SetPoints({ 50, 50 }, {120, 70} );
+    linecom->transform->SetWorldPosition(100, 100);
+
+	// 디버깅용 박스그리기
+    Gdiplus::RectF rectF(100, 100, 200, 100);
+	GameObject* linerect = m_CurrentScene->CreateObject("linerect");
+    RectLineComponent* rectlinecom = linerect->AddComponent<RectLineComponent>(rectF);
 
 
 
