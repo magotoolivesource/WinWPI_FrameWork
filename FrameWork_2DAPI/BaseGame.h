@@ -25,6 +25,8 @@ public:
     void Update();   // 예: 게임 상태 갱신
     void Render(HDC p_hdc, RECT& p_clientRect);   // 예: 그리기
 
+	void UpdateDebugEnd();
+
 	void SetHwnd(HWND hwnd) { m_Hwnd = hwnd; } // 윈도우 핸들 설정
     void SetWindowSize(HWND hwnd);
 protected:

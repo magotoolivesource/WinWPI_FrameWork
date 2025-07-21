@@ -6,6 +6,7 @@
 #include "Core/TimerManager.h"
 #include "Core/InputManager.h"
 
+
 #include "Compoment/Component.h"
 #include "Compoment/Transform.h"
 #include "Compoment/ImageComponent.h"
@@ -14,7 +15,7 @@
 #include "UICompoment/RichTextComponent.h"
 
 #include "Manager/FacadeManager.h"
-
+#include "Manager/DebugObjectManager.h"
 
 #include "Manager/CameraManager.h"
 #include "Compoment/Camera.h"
@@ -146,7 +147,7 @@ void TestUpdateFN(BaseGame* p_game)
     static Vec2 size = { 32, 32 };
 
 	static float imgangle = 0.0f;
-    static float anirot2 = -0.6f;
+    static float anirot2 = -0.6f; //    -0.6f;
     imgangle += anirot2;
     if (imgangle > 360.f) {
         imgangle -= 360.f; // 각도 360도 이상으로 가지 않도록
@@ -205,8 +206,12 @@ void BaseGame::Update() {
 
 	::TestUpdateFN(this);
 
-    m_CurrentScene->Update( m_pTimerManager->GetDeltaTime() );
+	float dt = m_pTimerManager->GetDeltaTime();
+    m_CurrentScene->Update( dt );
+
+	DebugObjectManager::Instance().AllDebugUpdate(dt);
 }
+
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 {
     // 2. 배경 지우기 (하얀색)
@@ -215,6 +220,13 @@ void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
     DeleteObject(bg);
 
 	m_CurrentScene->Render(p_hdc);
+
+	DebugObjectManager::Instance().AllDebugRender(p_hdc);
+}
+
+void BaseGame::UpdateDebugEnd() 
+{
+	DebugObjectManager::Instance().ResetAllDebugObjects();
 }
 
 void BaseGame::SetWindowSize(HWND hwnd) 
@@ -268,22 +280,25 @@ void BaseGame::Test_InitScene()
 
 	// 이미지 2
     GameObject* pngimgobj2 = m_CurrentScene->CreateObject("PngImageObject2");
-    pngimgobj2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-    pngimgobj2->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
+    auto* pngcom2 = pngimgobj2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
     pngimgobj2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
     pngimgobj2->transform->SetWorldRotation(-45.f); // 월드 회전 설정
     pngimgobj2->transform->SetWorldPosition(150, 200);
     pngimgobj2->transform->SetWorldScale( 0.5f, 0.5f ); // 월드 스케일 설정	
+	pngcom2->SetISDebugBoundBox(true);
+
 
 	// 이미지 3
     GameObject* pngimgobj3 = m_CurrentScene->CreateObject("PngImageObject3");
-    pngimgobj3->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+    auto* pngcom3 = pngimgobj3->AddComponent<ImageComponent>(nullptr, 0, 0, true);
     pngimgobj3->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
     pngimgobj3->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
     pngimgobj3->transform->SetWorldRotation(45.f); // 월드 회전 설정
     pngimgobj3->transform->SetWorldPosition(150, 200);
     //pngimgobj3->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정	
 	pngimgobj3->transform->SetParent(pngimgobj2->transform); // 부모 설정
+    pngcom3->SetISDebugBoundBox(true);
 
 
     // 이미지 1
@@ -292,7 +307,7 @@ void BaseGame::Test_InitScene()
     pngimgobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
     //pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/Mobile - Final Fantasy Record Keeper - Elarra Eiko Model.png");
 	pngimgobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png");
-	pngimgobj->transform->SetWorldPosition(150, 200);
+	pngimgobj->transform->SetWorldPosition(200, 200);
     pngimgobj->GetComponent<ImageComponent>()->SetEnabled(false);
 
 	
@@ -301,10 +316,13 @@ void BaseGame::Test_InitScene()
     GameObject* centerobj = m_CurrentScene->CreateObject("center");
 	g_centerobj = centerobj; // 전역 변수에 저장`
     g_tempimgcomp = centerobj->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-    centerobj->GetComponent<ImageComponent>()->ImageLoadImage(L"Assets/Images/UVTexture.png"); // 525사이즈
+    g_tempimgcomp->ImageLoadImage(L"Assets/Images/UVTexture.png"); // 525사이즈
     //centerobj->GetComponent<ImageComponent>()->SetDrawRect(0, 0, 64, 64);
     //centerobj->GetComponent<ImageComponent>()->SetSize(128, 128);
     //centerobj->transform->SetWorldPosition(-64, -64);
+    g_tempimgcomp->SetISDebugBoundBox(true);
+
+
 
 	static Vec2 wpos = { -16, -16 };
     static Vec2 rect = { 64, 64 };

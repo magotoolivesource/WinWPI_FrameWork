@@ -6,6 +6,13 @@
 #include "../Manager/CameraManager.h"
 #include "Camera.h"
 
+#include "../Manager/DebugObjectManager.h"
+#include "../Core/MyMath.h"
+#include "../Core/DebugObject.h"
+#include "../Core/DebugLineComponent.h"
+#include "../Core/DebugRectLineComponent.h"
+
+
 
 #pragma comment(lib, "gdiplus.lib")
 
@@ -138,8 +145,35 @@ bool ImageComponent::ImageLoadImage(const std::wstring& path)
 //}
 
 
-void ImageComponent::Render(HDC hdc)
+void ImageComponent::Update(float dt) 
 {
+
+	if ( m_ISDebugBoundBox )
+	{
+        Vec2& pos = transform->GetWorldPosition();
+		//// uv 영역값
+  //      float width = drawRect.right - drawRect.left;
+  //      float height = drawRect.bottom - drawRect.top;
+
+		float width = drawWidth > 0 ? drawWidth : image->GetWidth();
+        float height = drawHeight > 0 ? drawHeight : image->GetHeight();
+
+		Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
+        //RectF boundbox;
+        MyMath::GetBoundBox(&this->transform->GetWorldMatrix()
+			, &mainCamera->GetCameraWorldMatrix()
+			, width, height
+			, &m_DebugBoundBox);
+        DebugRectLineComponent* com = DebugObjectManager::Instance().DrawRectLine(
+            m_DebugBoundBox.X, m_DebugBoundBox.Y, m_DebugBoundBox.Width, m_DebugBoundBox.Height
+		);
+
+
+	}
+
+}
+
+void ImageComponent::Render(HDC hdc) {
 	if (!enabled) return;
 
     Transform* temptransform = transform;
@@ -166,6 +200,12 @@ void ImageComponent::Render(HDC hdc)
     }
 
 	mainCamera->End_Update_GraphicsMatrix(graphics, temptransform);
+
+	//Gdiplus::RectF* rectf;
+
+
+
+
 }
 
 void ImageComponent::Draw(HDC hdc)

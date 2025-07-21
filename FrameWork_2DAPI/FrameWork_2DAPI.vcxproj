@@ -137,6 +137,7 @@
     <ClInclude Include="Compoment\LineComponent.h" />
     <ClInclude Include="Compoment\RectLineComponent.h" />
     <ClInclude Include="Compoment\Transform.h" />
+    <ClInclude Include="Core\DebugLineComponent.h" />
     <ClInclude Include="Core\DebugObject.h" />
     <ClInclude Include="Core\DebugRectLineComponent.h" />
     <ClInclude Include="Core\DefineHeader.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Compoment\LineComponent.cpp" />
     <ClCompile Include="Compoment\RectLineComponent.cpp" />
     <ClCompile Include="Compoment\Transform.cpp" />
+    <ClCompile Include="Core\DebugLineComponent.cpp" />
     <ClCompile Include="Core\DebugObject.cpp" />
     <ClCompile Include="Core\DebugRectLineComponent.cpp" />
     <ClCompile Include="Core\GameObject.cpp" />

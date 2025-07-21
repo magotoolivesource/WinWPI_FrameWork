@@ -20,6 +20,16 @@ private:
 	Gdiplus::Matrix m_TempTransMatrix;
 	Gdiplus::REAL matrixElements[6];
 
+
+	bool m_ISDebugBoundBox = false;
+    Gdiplus::RectF m_DebugBoundBox;
+
+
+public:
+    bool GetISDebugBoundBox() const { return m_ISDebugBoundBox; }
+    void SetISDebugBoundBox(bool value) { m_ISDebugBoundBox = value; }
+
+
 public:
     ImageComponent()
         : image(nullptr), transform(nullptr), drawWidth(0), drawHeight(0), useDrawRect(false)
@@ -60,6 +70,7 @@ public:
         useDrawRect = true;
     }
 
+	virtual void Update(float dt) override;
     virtual void Render(HDC hdc)  override;
 
     void Draw(HDC hdc);

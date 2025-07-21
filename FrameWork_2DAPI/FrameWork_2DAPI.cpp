@@ -97,6 +97,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         ////Sleep(16);  // or 프레임 타이머에 따른 deltaTime 조절
 
         //g_BaseGame.Run();
+
+		g_BaseGame.UpdateDebugEnd();
     }
 
 
@@ -178,6 +180,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_TIMER: 
+		{
+
+		} break;
     case WM_SIZING: 
 		{
 		
