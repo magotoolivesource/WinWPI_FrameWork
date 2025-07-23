@@ -2,6 +2,9 @@
 #include "BaseGame.h"
 #include <WinUser.h>
 #include <gdiplus.h>
+#include <string>
+#include <format>
+#include <iostream>
 
 #include "Core/TimerManager.h"
 #include "Core/InputManager.h"
@@ -22,6 +25,7 @@
 
 #include "Compoment/LineComponent.h"
 #include "Compoment/RectLineComponent.h"
+#include "Core/MyUtil.h"
 
 
 #include <cassert>
@@ -200,6 +204,7 @@ void TestUpdateFN(BaseGame* p_game)
     mainCamera->SetWorldRotation(camangle);
 	mainCamera->SetZoom(camzoom); // 줌 설정
 
+
 }
 
 void BaseGame::Update() {
@@ -208,6 +213,19 @@ void BaseGame::Update() {
 
 	float dt = m_pTimerManager->GetDeltaTime();
     m_CurrentScene->Update( dt );
+
+
+	// Timer
+    float fps = m_pTimerManager->GetFPS();
+
+    //WCHAR msg[256];
+    //sprintf_s(nullptr, 0, "");
+    //swprintf_s(msg, 256, "%.2f FPS", fps);
+
+	std::wstring msg = std::format(L"{:.2f} FPS", fps);
+
+    Vec2 pos(50, 20);
+    DebugObjectManager::Instance().DrawDebugText(msg, pos);
 
 	DebugObjectManager::Instance().AllDebugUpdate(dt);
 }
@@ -287,6 +305,25 @@ void BaseGame::Test_InitScene()
     pngimgobj2->transform->SetWorldPosition(150, 200);
     pngimgobj2->transform->SetWorldScale( 0.5f, 0.5f ); // 월드 스케일 설정	
 	pngcom2->SetISDebugBoundBox(true);
+
+
+	// 100개 화면에 그리면 10프레임 미만됨 최적화는 나중에
+	// 20개 30프레임 정도
+	for (size_t i = 0; i < 20; i++) 
+	{
+        int randx = MyUtil::GetRandInt(100, 900);
+        int randy = MyUtil::GetRandInt(50, 500);
+
+		std::string name = std::format("{}objimg", i);
+        GameObject* pngimgobj2 = m_CurrentScene->CreateObject(name);
+        auto* pngcom2 = pngimgobj2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+        pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
+        pngimgobj2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+        pngimgobj2->transform->SetWorldRotation(-45.f); // 월드 회전 설정
+        pngimgobj2->transform->SetWorldPosition(randx, randy);
+        pngimgobj2->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정
+        pngcom2->SetISDebugBoundBox(true);
+	}
 
 
 	// 이미지 3

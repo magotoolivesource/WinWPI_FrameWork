@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <windows.h>
 
 
@@ -9,6 +9,7 @@ private:
     LARGE_INTEGER lastTime;
     double deltaTime;
     double totalTime;
+    float fps = 0.f;
 
 public:
     TimerManager() : deltaTime(0), totalTime(0) {
@@ -24,6 +25,11 @@ public:
         deltaTime = static_cast<double>(currentTime.QuadPart - lastTime.QuadPart) / frequency.QuadPart;
         totalTime = static_cast<double>(currentTime.QuadPart - startTime.QuadPart) / frequency.QuadPart;
         lastTime = currentTime;
+
+		if ( deltaTime > 0.f )
+		{
+            fps = 1.f / deltaTime;
+		}
     }
 
     double GetDeltaTime() const {
@@ -33,4 +39,9 @@ public:
     double GetTotalTime() const {
         return totalTime;
     }
+
+	float GetFPS( )
+	{
+        return fps; // 1.f / deltaTime;
+	}
 };

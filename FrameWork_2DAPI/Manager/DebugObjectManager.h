@@ -17,11 +17,12 @@
 
 #include "../Core/DebugLineComponent.h"
 #include "../Core/DebugRectLineComponent.h"
+#include "../Core/DebugText.h"
 
 class DebugObject;
 class DebugLineComponent;
 class DebugRectLineComponent;
-
+class DebugText;
 
 class DebugObjectManager : public SingletonT<DebugObjectManager> {
 
@@ -46,9 +47,14 @@ protected:
 	std::vector<std::unique_ptr<DebugLineComponent>> m_DebugLineVec;
 	
 
+	int m_DebugTextCount = 0;
+    int m_CacheDebugTextSize = 4;
+    std::vector<std::unique_ptr<DebugText>> m_DebugTextVec;
+
 protected:
     void AddDebugRect_ResizeCount(int p_addsize);
     void AddDebugLine_ResizeCount(int p_addsize);
+    void AddDebugText_ResizeCount(int p_addsize);
 
 public:
     DebugObjectManager() = default;
@@ -62,6 +68,8 @@ public:
 		, float p_thickness = 1.f
 		, Gdiplus::Color color = Gdiplus::Color(255, 255, 0, 0)
 	);
+
+	DebugText* DrawDebugText(std::wstring p_str, Vec2& p_pos, Gdiplus::Color color = Gdiplus::Color(255, 255, 0, 0) );
 
 public:
     void ResetAllDebugObjects();

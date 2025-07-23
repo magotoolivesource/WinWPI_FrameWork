@@ -141,6 +141,15 @@
     <ClInclude Include="Core\DebugLineComponent.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\DebugText.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MyString.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MyUtil.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -225,6 +234,15 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Core\DebugLineComponent.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugText.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyString.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MyUtil.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

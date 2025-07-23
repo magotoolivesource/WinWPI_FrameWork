@@ -15,7 +15,7 @@
 #include "../Core/DebugObject.h"
 #include "../Core/DebugLineComponent.h"
 #include "../Core/DebugRectLineComponent.h"
-
+#include "../Core/DebugText.h"
 
 
 void DebugObjectManager::AddDebugRect_ResizeCount(int p_addsize) 
@@ -51,6 +51,21 @@ void DebugObjectManager::AddDebugLine_ResizeCount(int p_addsize)
     }
 
 	m_CacheLineSize = m_DebugLineVec.size();
+}
+
+void DebugObjectManager::AddDebugText_ResizeCount(int p_addsize) 
+{
+    int size = p_addsize; //    m_LineCount;
+    for (size_t i = 0; i < size; i++) {
+        auto line = std::make_unique<DebugText>();
+        line.get()->SetActive(false);
+        m_DebugTextVec.emplace_back(std::move(line));
+
+        // 추가 적용
+        //m_DebugObjects.push_back( rectline.get() );
+    }
+
+    m_CacheDebugTextSize = m_DebugTextVec.size();
 }
 
 DebugObjectManager::~DebugObjectManager() 
@@ -143,6 +158,30 @@ DebugRectLineComponent* DebugObjectManager::DrawRectLine( float p_x, float p_y
     return outrect;
 }
 
+DebugText* DebugObjectManager::DrawDebugText(std::wstring p_str, Vec2& p_pos, Gdiplus::Color color) 
+{ 
+
+	if (m_DebugTextCount >= m_DebugTextVec.size()) {
+		AddDebugText_ResizeCount(m_CacheDebugTextSize);
+    }
+
+
+	DebugText* outtext = m_DebugTextVec[m_DebugTextCount++].get();
+    if (outtext == nullptr) {
+        return nullptr;
+    }
+
+	outtext->SetText(p_str);
+    outtext->SetColor(color);
+    outtext->SetPosition(p_pos);
+    outtext->SetActive(true);
+
+    m_DebugObjects.push_back(outtext);
+
+    return outtext;
+
+}
+
 void DebugObjectManager::ResetAllDebugObjects() 
 {
     //for (auto i = 0; i < length; i++) { }
@@ -155,6 +194,7 @@ void DebugObjectManager::ResetAllDebugObjects()
 
 	m_RectLineCount = 0;
     m_LineCount = 0;
+    m_DebugTextCount = 0;
 }
 
 void DebugObjectManager::AllDebugUpdate(float dt) 
