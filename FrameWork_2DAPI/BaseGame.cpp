@@ -5,6 +5,8 @@
 #include <string>
 #include <format>
 #include <iostream>
+#include <fcntl.h>
+#include <io.h>
 
 #include "Core/TimerManager.h"
 #include "Core/InputManager.h"
@@ -27,6 +29,8 @@
 #include "Compoment/RectLineComponent.h"
 #include "Core/MyUtil.h"
 
+#include "Core/UtilTimerManager.h"
+#include "Core/UtilLoger.h"
 
 #include <cassert>
 
@@ -48,8 +52,12 @@ BaseGame::~BaseGame()
 	Release();
 }
 
+
+
 void BaseGame::Init(HWND p_hwnd) 
 {
+    InitConsoleWindow(); 
+    
     InitGDIPlus();
 
     m_Hwnd = p_hwnd;
@@ -62,6 +70,31 @@ void BaseGame::Init(HWND p_hwnd)
 	
 
     Test_InitScene();
+}
+
+void BaseGame::InitConsoleWindow() 
+{
+    AllocConsole(); // 콘솔창 생성
+    //SetConsoleOutputCP(CP_UTF8); // UTF-8 지원
+
+	setlocale(LC_ALL, "korean");
+    _wsetlocale(LC_ALL, L"korean");
+
+	FILE* fp;
+    freopen_s(&fp, "CONOUT$", "w", stdout);
+    freopen_s(&fp, "CONOUT$", "w", stderr);
+    freopen_s(&fp, "CONIN$", "r", stdin);
+    //// ✅ UTF-16 출력 모드
+    //_setmode(_fileno(stdout), _O_U16TEXT);
+    //_setmode(_fileno(stderr), _O_U16TEXT);
+    //_setmode(_fileno(stdin), _O_U16TEXT);
+
+    std::ios::sync_with_stdio(true);
+    std::wcout.clear();
+
+    std::wcout << L"[Console Initialized] 초기화\n" << std::endl;
+    std::wcout.flush();
+    
 }
 
 void BaseGame::Release()
@@ -118,6 +151,8 @@ void BaseGame::UpdateTimer()
     // 타이머 업데이트 적용
 
     m_pTimerManager->Update();
+
+	UtilTimerManager::GetI()->Update(m_pTimerManager->GetDeltaTime());
 }
 
 void BaseGame::UpdateInput(UINT message, WPARAM wParam, LPARAM lParam)
@@ -242,6 +277,7 @@ void BaseGame::Update() {
 
 void BaseGame::AllUpdate() 
 { 
+
 	UpdateTimer();
     Update();
     // UpdateInputReset 순서 중요 g_BaseGame.Update() 바로 앞에 있으면 눌러지는것이 안될수 있음
@@ -432,6 +468,18 @@ void BaseGame::Test_InitScene()
 	//mainCamera->SetWorldRotation(-45.f); // 카메라 회전 설정
 
 
+
+	UtilTimerManager::GetI()->AddTimer( 2.0f
+		, [](UtilTimer* utiltimer) { 
+			//std::wcout << L"[Timer1] 매 프레임 업로드!\n"; 
+			UtilLoger::Log(L"[Timer1] 매 프레임 업로드!", E_LogLevel::E_WARN);
+		}
+		, [](UtilTimer* utiltimer) { 
+			//std::wcout << L"[Timer1] 2초 후 실행됨!\n"; 
+			UtilLoger::Log(L"[Timer1] 2초 후 실행됨!", E_LogLevel::E_ERROR);
+		}
+		, true
+	);
 
 
     //bunobj->AddComponent< Transform>();

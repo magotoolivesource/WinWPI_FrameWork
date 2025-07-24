@@ -152,6 +152,8 @@
     <ClInclude Include="Core\Rect.h" />
     <ClInclude Include="Core\SingletonT.h" />
     <ClInclude Include="Core\TimerManager.h" />
+    <ClInclude Include="Core\UtilLoger.h" />
+    <ClInclude Include="Core\UtilTimerManager.h" />
     <ClInclude Include="Core\Vector.h" />
     <ClInclude Include="Core\Viewport.h" />
     <ClInclude Include="framework.h" />
@@ -189,6 +191,8 @@
     <ClCompile Include="Core\MyString.cpp" />
     <ClCompile Include="Core\MyTime.cpp" />
     <ClCompile Include="Core\MyUtil.cpp" />
+    <ClCompile Include="Core\UtilLoger.cpp" />
+    <ClCompile Include="Core\UtilTimerManager.cpp" />
     <ClCompile Include="Core\Viewport.cpp" />
     <ClCompile Include="FrameWork_2DAPI.cpp" />
     <ClCompile Include="Manager\CameraManager.cpp" />

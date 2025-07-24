@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BaseGame" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQICAAAAAAAAABQABAQAAAAggAAAAAABBACAFCAQAI=</HashCode>
+      <FileName>BaseGame.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAAAAAACAIAQEAEACERAAAAAAEAAAEABBAYIIABAA=</HashCode>
+      <FileName>Core\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager" Collapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAoAAAAAAAAIgEAAgAgAAAAAAAAAEAAAACAGAACAAAA=</HashCode>
+      <FileName>Core\InputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Material" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAgAAAAAAAAAAAAEAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Core\Material.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyTime" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\MyTime.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rect" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACBAgAAICAgAIMgEAQACAQAAAIAAAAAQAQ4BA=</HashCode>
+      <FileName>C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\um\gdiplustypes.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SingletonT&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAACABAAAAAQAAgAAAAAAA=</HashCode>
+      <FileName>Core\SingletonT.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimerManager">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAAAAEAAQAAAAAgEgAAAQAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\TimerManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Collider" Collapsed="true">
+    <Position X="12.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Compoment\Collider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQiAAAAACAAgQAAAAGAAAAAAABAAAAAABAAABAAAIA=</HashCode>
+      <FileName>Compoment\Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageComponent" Collapsed="true">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACAAAEAAAAAwAAIAAIAAAAUAAEAEACABAAAAQEAAA=</HashCode>
+      <FileName>Compoment\ImageComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Transform" Collapsed="true">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>0CIIBIAAUgAACCVIQgCABAQACAEAwAEEAECAAgEAAkw=</HashCode>
+      <FileName>Compoment\Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageManager" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Manager\ImageManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAABAAAAAAAAAAAAQAAAgAAABAAABAAAAA=</HashCode>
+      <FileName>Scene\Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Button" Collapsed="true">
+    <Position X="1" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAAAAAAAAAAAAAAAAAAQAAAAgAAABAACAEAAAA=</HashCode>
+      <FileName>UICompoment\Button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputFieldComponent" Collapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BIABAACEAAAAAgAAAAAAAAAAAAMEAAAIAAAAAASAAAA=</HashCode>
+      <FileName>UICompoment\RichTextAndInputFieldComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RichTextComponent" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EMYGAAQBAAEAAwQSQIKIAACAAAAEAQAAUDABABQAAAA=</HashCode>
+      <FileName>UICompoment\RichTextComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextComponent" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIYGAIEAAQGAAQQCQICIAACQAAAMAQIIADIAABQAAAA=</HashCode>
+      <FileName>UICompoment\TextComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Vec2" Collapsed="true">
+    <Position X="14.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABABAAAAgAkABACQBBEAAAAAAEgABgAAIAAAA=</HashCode>
+      <FileName>Core\Vector.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

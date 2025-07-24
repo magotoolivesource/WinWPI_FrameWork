@@ -150,6 +150,12 @@
     <ClInclude Include="Core\MyUtil.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\UtilTimerManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\UtilLoger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -243,6 +249,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\MyUtil.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\UtilTimerManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\UtilLoger.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -33,7 +33,12 @@ public:
 protected:
     void UpdateInputReset();
     void UpdateTimer(); // 예: 입력 처리
+
     void Update(); // 예: 게임 상태 갱신
+
+
+protected:
+	void InitConsoleWindow();
 
 protected:
 	TimerManager* m_pTimerManager = nullptr;
