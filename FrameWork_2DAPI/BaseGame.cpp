@@ -136,12 +136,22 @@ void BaseGame::UpdateInput(UINT message, WPARAM wParam, LPARAM lParam)
         InputManager::MouseMove(lParam);
         break;
     case WM_LBUTTONDOWN:
-        InputManager::MouseDown(wParam);
+    case WM_RBUTTONDOWN:
+    case WM_MBUTTONDOWN:
+        InputManager::MouseDown(message, wParam);
         break;
     case WM_LBUTTONUP:
-        InputManager::MouseUp(wParam);
+    case WM_RBUTTONUP:
+    case WM_MBUTTONUP:
+        InputManager::MouseUp(message, wParam);
+
         break;
     }
+}
+
+void BaseGame::UpdateInputReset() 
+{ 
+	InputManager::ResetAllKey();
 }
 
 void TestUpdateFN(BaseGame* p_game) 
@@ -228,6 +238,14 @@ void BaseGame::Update() {
     DebugObjectManager::Instance().DrawDebugText(msg, pos);
 
 	DebugObjectManager::Instance().AllDebugUpdate(dt);
+}
+
+void BaseGame::AllUpdate() 
+{ 
+	UpdateTimer();
+    Update();
+    // UpdateInputReset 순서 중요 g_BaseGame.Update() 바로 앞에 있으면 눌러지는것이 안될수 있음
+    UpdateInputReset();
 }
 
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)

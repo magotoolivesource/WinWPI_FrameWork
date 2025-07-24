@@ -17,6 +17,11 @@ public:
     ~Button() = default;
 
 
+protected:
+    Gdiplus::Color m_DefaultColor = Gdiplus::Color(255, 0, 0, 240);
+    Gdiplus::Color m_HoverColor = Gdiplus::Color(255, 220, 0, 0);
+    Gdiplus::Color m_PressColor = Gdiplus::Color(255, 0, 200, 200);
+
 private:
     Gdiplus::Matrix m_TempTransMatrix;
     Gdiplus::REAL matrixElements[6];

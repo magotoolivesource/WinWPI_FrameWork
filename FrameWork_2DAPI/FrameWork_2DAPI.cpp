@@ -71,8 +71,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     g_BaseGame.Init(g_hWnd);
     while (g_isRunning) {
-        g_BaseGame.UpdateTimer();
-        g_BaseGame.Update();
+
+  //      g_BaseGame.UpdateTimer();
+  //      g_BaseGame.Update();
+		//// UpdateInputReset 순서 중요 g_BaseGame.Update() 바로 앞에 있으면 눌러지는것이 안될수 있음
+  //      g_BaseGame.UpdateInputReset();
+		g_BaseGame.AllUpdate();
 
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
             if (msg.message == WM_QUIT) {
@@ -98,7 +102,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         //g_BaseGame.Run();
 
+
 		g_BaseGame.UpdateDebugEnd();
+
     }
 
 

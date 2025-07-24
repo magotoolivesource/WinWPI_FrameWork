@@ -175,7 +175,7 @@ void Camera::Begin_Update_GraphicsMatrix(OUT Gdiplus::Graphics& graphics
 	, bool p_issmooth) 
 { 
 	if (p_issmooth)
-		graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+		graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighSpeed);
 
 	graphics.ResetTransform();
 	

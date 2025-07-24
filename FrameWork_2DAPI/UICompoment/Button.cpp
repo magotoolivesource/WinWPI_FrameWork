@@ -162,6 +162,15 @@ void Button::Update(float dt) {
         }
         else if (!InputManager::mouseLeftDown && isPressed) {
             isPressed = false;
+            //if (onClick) onClick(this);
+        }
+
+		//if ( InputManager::ISMouseUp( E_MOUSEETYPE::LEFT ) )
+		//{
+  //          if (onClick) onClick(this);
+		//}
+
+		if ( InputManager::ISMouseDown(E_MOUSEETYPE::LEFT) ) {
             if (onClick) onClick(this);
         }
     }
@@ -205,11 +214,11 @@ void Button::Render(HDC hdc)
 
 
 	//static Gdiplus::Color normalColor = Color(255, 240, 240, 240); // ARGB
-    Gdiplus::SolidBrush gdibrush(Gdiplus::Color(255, 0, 0, 240));
+    Gdiplus::SolidBrush gdibrush(m_DefaultColor);
     if (isPressed)
-        gdibrush.SetColor(Gdiplus::Color(255, 0, 200, 200));
+        gdibrush.SetColor(m_PressColor);
 	else if (isHovered)
-        gdibrush.SetColor(Gdiplus::Color(255, 220, 0, 0));
+        gdibrush.SetColor(m_HoverColor);
 
 
 	t->GetWorldMatrix().GetElements(matrixElements);
