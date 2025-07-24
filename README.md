@@ -19,13 +19,13 @@ https://jsonformatter.org/yaml-validator  </br>
 
 # PlantUML 방식
 > ## 현재 UML Class 
-![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/class_overview.puml)
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/class_overview.puml?v=0)
 
 >## 현재 Include
-![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/include_dependencies.puml)
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/include_dependencies.puml?v=0)
 
 >## 현재 Package
-![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/package_structure.puml)
+![다이어그램](http://www.plantuml.com/plantuml/proxy?fmt=svg&src=https://raw.githubusercontent.com/magotoolivesource/WinWPI_FrameWork/refs/heads/main/diagrams/package_structure.puml?v=0)
 
 
 
