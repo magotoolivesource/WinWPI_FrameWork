@@ -1,6 +1,9 @@
 classDiagram
     class C_0016480947060394780245["Vec2"]
     class C_0016480947060394780245 {
+        +Vec2() void
+        +Vec2(float x, float y) void
+        +Vec2(const Vec2 & other) void
         +operator*(float scalar) [const] Vec2
         +operator*(const Vec2 & other) [const] Vec2
         +operator*=(float scalar) Vec2
@@ -17,6 +20,7 @@ classDiagram
         +Abs() [const] Vec2
         +Ceil() [const] Vec2
         +Clamp(const Vec2 & min, const Vec2 & max) [const] Vec2
+        +Dot(const Vec2 & other) [const] float
         +Floor() [const] Vec2
         +Length() [const] float
         +LengthSquared() [const] float
@@ -51,7 +55,7 @@ classDiagram
         +SetEnabled(bool e) void
         +Start() void
         +Update(float dt) void
-        +enabled : bool
+        #enabled : bool
         +owner : GameObject *
         +transform : Transform *
     }
@@ -60,20 +64,38 @@ classDiagram
     }
     class C_0006111862596534002478["Camera"]
     class C_0006111862596534002478 {
-        +Camera() [default] void
+        +Camera() void
         +~Camera() void
         +ApplyToMatrix(Gdiplus::Matrix & matrix) [const] void
         +ApplyToPoint(const Vec2 & worldPos) [const] Vec2
+        +Begin_Update_GraphicsMatrix(Gdiplus::Graphics & graphics, Transform * p_transform, bool p_iscameramat = true, bool p_issmooth = true) void
         +Destroy() void
+        +End_Update_GraphicsMatrix(Gdiplus::Graphics & graphics, Transform * p_transform) void
+        +GetCameraWorldMatrix() Gdiplus::Matrix &
+        +GetMultiplyMatrix(Gdiplus::Matrix & matrix) Gdiplus::Matrix &
+        +GetWorldPos() [const] Vec2 &
+        +GetWorldRotation() [const] float
+        +GetZoom() float
         +Initialize() void
         +Initialize_AddCompoment() void
+        +MarkDirty() void
         +Release() void
         +Render(HDC hdc) void
         +SetLocalPosition(const Vec2 & pos) void
-        +SetLocalPosition(int p_x, int p_y) void
+        +SetLocalPosition(float p_x, float p_y) void
+        +SetWorldPosition(Vec2 & pos) void
+        +SetWorldPosition(float p_x, float p_y) void
+        +SetWorldRotation(float p_rot) void
         +SetZoom(float z) void
         +Start() void
         +Update(float dt) void
+        +UpdateIfDirty() void
+        #cachedCameraWorldMatrix : Gdiplus::Matrix
+        #cachedWorldDepth : float
+        #cachedWorldPosition : Vec2
+        #cachedWorldRotation : float
+        #cachedWorldScale : Vec2
+        #isDirty : bool
         #zoom : float
     }
     class C_0010250684592540512228["GameObject"]
@@ -100,10 +122,28 @@ classDiagram
         #tags : std::unordered_set&lt;std::string&gt;
         +transform : Transform *
     }
+    class C_0009743155639492764517["MatrixElements"]
+    class C_0009743155639492764517 {
+        <<enumeration>>
+        m11
+        m12
+        m21
+        m22
+        dx
+        dy
+        Size
+    }
+    class C_0011529733206085767575["TransformSpace"]
+    class C_0011529733206085767575 {
+        <<enumeration>>
+        Local
+        World
+    }
     class C_0013979161094353040123["Transform"]
     class C_0013979161094353040123 {
         #Transform() [default] void
         +GetDepth() [const] float
+        +GetPivotPos() Vec2 &
         +GetWorldDepth() float
         +GetWorldMatrix() Gdiplus::Matrix &
         +GetWorldPosition() Vec2 &
@@ -115,20 +155,25 @@ classDiagram
         +SetLocalScale(Vec2 scale) void
         +SetLocalScale(float p_scalex, float p_scaley) void
         +SetParent(Transform * newParent) void
+        +SetPivotPos(const Vec2 & pivot) void
+        +SetPivotPos(float x, float y) void
         +SetWorldPosition(Vec2 & p_wpos) void
         +SetWorldPosition(float p_x, float p_y) void
         +SetWorldRotation(float worldAngle) void
+        +SetWorldScale(float p_xscale, float p_yscale) void
         +SetWorldScale(Vec2 & worldScale) void
         +UpdateAllPositions() void
         #UpdateIfDirty() void
         +getHeight() [const] float
         +getLocalPosition() [const] Vec2
-        +getRotation() [const] float
+        +getRotation() float
         +getWidth() [const] float
         +setHeight(float h) void
         +setLocalPosition(const Vec2 & pos) void
         +setLocalPosition(float p_x, float p_y) void
         +setWidth(float w) void
+        +PivotPos : Vec2
+        +cachedPivotPos : Vec2
         -cachedWorldDepth : float
         -cachedWorldMatrix : Gdiplus::Matrix
         -cachedWorldPosition : Vec2
@@ -138,36 +183,13 @@ classDiagram
         +height : float
         -isDirty : bool
         +localScale : Vec2
+        +local_rotation : float
         +localposition : Vec2
+        -m_TempCalcMatrix : Gdiplus::Matrix
         -m_tempcachedmatrix : float[6]
         -parent : Transform *
-        +rotation : float
         +width : float
         +zdepth : float
-    }
-    class C_0014710440344490690589["Collider"]
-    class C_0014710440344490690589 {
-        +GetWorldRect() Rect
-        +Intersects(Collider * other) bool
-    }
-    class C_0007426470158294810457["ImageComponent"]
-    class C_0007426470158294810457 {
-        +ImageComponent() void
-        +ImageComponent(Gdiplus::Image * p_img, int p_width, int p_height, bool p_useDrawRect) void
-        +~ImageComponent() void
-        +Draw(HDC hdc) void
-        +ImageLoadImage(const std::wstring & path) bool
-        +Initialize() void
-        +Initialize_AddCompoment() void
-        +Render(HDC hdc) void
-        +SetDrawRect(int left, int top, int right, int bottom) void
-        +SetSize(int width, int height) void
-        -drawHeight : int
-        -drawRect : RECT
-        -drawWidth : int
-        -image : Gdiplus::Image *
-        -transform : Transform *
-        -useDrawRect : bool
     }
     class C_0011044441207668165372["SingletonT&lt;T&gt;"]
     class C_0011044441207668165372 {
@@ -175,9 +197,90 @@ classDiagram
         #SingletonT(const SingletonT&lt;T&gt; &) void
         #~SingletonT() [default] void
         #operator=(const SingletonT&lt;T&gt; &) SingletonT&lt;T&gt; &
+        +DestroyManager() void
         +GetI() T *$
+        +Initialize() void
         +Instance() T &$
         -instance : T *
+    }
+    class C_0013661311382128640226["SingletonT&lt;CameraManager&gt;"]
+    class C_0013661311382128640226 {
+    }
+    class C_0010602408877764505757["CameraManager"]
+    class C_0010602408877764505757 {
+        +CameraManager() void
+        +~CameraManager() void
+        +AddCamera(const std::string & name = "") Camera *
+        +AddMainCamera() Camera *
+        +GetMainCamera() Camera *
+        +GetViewportCenter() Vec2 &
+        +GetWindowSize() Vec2 &
+        +SetWindowSize(HWND hwnd) void
+        #UpdateViewportSize() void
+        #m_AllCameraVec : std::vector&lt;Camera *&gt;
+        #m_MainCamera : Camera *
+        #m_ViewportCenter : Vec2
+        #m_WindowSize : Vec2
+        #m_hWnd : HWND
+    }
+    class C_0012662634402439666456["LineSegment"]
+    class C_0012662634402439666456 {
+        +p1 : Vec2
+        +p2 : Vec2
+    }
+    class C_0014710440344490690589["Collider"]
+    class C_0014710440344490690589 {
+        <<abstract>>
+        +Collider(Vec2 pos, float rot, SizeF s) void
+        +~Collider() void
+        +CollidesWith(Collider * other) bool*
+        +CollidesWith(const Vec2 & point) bool*
+        +CollidesWith(const LineSegment & line) bool*
+        +CollidesWithBox(BoxCollider * box) bool*
+        +GetInverseTransformMatrix(Gdiplus::Matrix * p_matrix) Gdiplus::Status
+        +GetWorldRect() Gdiplus::RectF
+        +Intersects(Collider * other) bool
+        +InverseTransformPoint(const Vec2 & point) Vec2
+        #m_TempCalcMatrix : Gdiplus::Matrix
+        #m_tempcachedmatrix : float[6]
+    }
+    class C_0005411490672434116202["BoxCollider"]
+    class C_0005411490672434116202 {
+        +BoxCollider(Vec2 pos, float rot, SizeF s, float w, float h) void
+        +~BoxCollider() void
+        +CollidesWith(Collider * other) bool
+        +CollidesWith(const Vec2 & point) bool
+        +CollidesWith(const LineSegment & line) bool
+        +CollidesWithBox(BoxCollider * other) bool
+        +GetWorldCorners() [const] std::vector&lt;Vec2&gt;
+        +height : float
+        +width : float
+    }
+    class C_0007426470158294810457["ImageComponent"]
+    class C_0007426470158294810457 {
+        +ImageComponent() void
+        +ImageComponent(Gdiplus::Image * p_img, int p_width, int p_height, bool p_useDrawRect) void
+        +~ImageComponent() void
+        +Draw(HDC hdc) void
+        +GetISDebugBoundBox() [const] bool
+        +ImageLoadImage(const std::wstring & path) bool
+        +Initialize() void
+        +Initialize_AddCompoment() void
+        +Render(HDC hdc) void
+        +SetDrawRect(int left, int top, int right, int bottom) void
+        +SetISDebugBoundBox(bool value) void
+        +SetSize(int width, int height) void
+        +Update(float dt) void
+        -drawHeight : int
+        -drawRect : RECT
+        -drawWidth : int
+        -image : Gdiplus::Image *
+        -m_DebugBoundBox : Gdiplus::RectF
+        -m_ISDebugBoundBox : bool
+        -m_TempTransMatrix : Gdiplus::Matrix
+        -matrixElements : Gdiplus::REAL[6]
+        -transform : Transform *
+        -useDrawRect : bool
     }
     class C_0011492085545754070408["SingletonT&lt;ImageManager&gt;"]
     class C_0011492085545754070408 {
@@ -188,20 +291,225 @@ classDiagram
         +Load(const std::wstring & path) Gdiplus::Image *
         -imageMap : std::unordered_map&lt;std::wstring,Gdiplus::Image *&gt;
     }
+    class C_0013047365441492111311["DebugObject"]
+    class C_0013047365441492111311 {
+        +DebugObject() void
+        +~DebugObject() [default,constexpr] void
+        +IsActive() [const] bool
+        +Render(HDC hdc) void
+        +SetActive(bool a) void
+        +Start() void
+        +Update(float dt) void
+        #active : bool
+    }
+    class C_0017289291423747156513["DebugLineComponent"]
+    class C_0017289291423747156513 {
+        +DebugLineComponent() [default] void
+        +DebugLineComponent(const Vec2 & p_start, const Vec2 & p_end, Gdiplus::Color c = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;, float thick = 1.0f) void
+        +~DebugLineComponent() [default] void
+        +GetColor() [const] Gdiplus::Color
+        +GetIsCameraMatrix() [const] bool
+        +GetIsTransformMatrix() [const] bool
+        +GetLine(Vec2 & p_start, Vec2 & p_end) [const] void
+        +GetThickness() [const] float
+        +Render(HDC hdc) void
+        +SetColor(Gdiplus::Color c) void
+        +SetIsCameraMatrix(bool v) void
+        +SetIsTransformMatrix(bool v) void
+        +SetLine(const Vec2 & p_start, const Vec2 & p_end) void
+        +SetThickness(float t) void
+        +Start() void
+        +Update(float dt) void
+        #color : Gdiplus::Color
+        #enabled : bool
+        #endPoint : Vec2
+        #m_ISCameraMatrix : bool
+        #m_ISTransformMatrix : bool
+        #rect : Gdiplus::RectF
+        #startPoint : Vec2
+        #thickness : float
+    }
+    class C_0013402360081878303675["DebugRectLineComponent"]
+    class C_0013402360081878303675 {
+        +DebugRectLineComponent() [default] void
+        +DebugRectLineComponent(const Gdiplus::RectF & r, Gdiplus::Color c = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;, float thick = 1.0f) void
+        +~DebugRectLineComponent() [default] void
+        +GetColor() [const] Gdiplus::Color
+        +GetIsCameraMatrix() [const] bool
+        +GetIsTransformMatrix() [const] bool
+        +GetRect() [const] const Gdiplus::RectF &
+        +GetThickness() [const] float
+        +Render(HDC hdc) void
+        +SetColor(Gdiplus::Color c) void
+        +SetIsCameraMatrix(bool v) void
+        +SetIsTransformMatrix(bool v) void
+        +SetRect(const Gdiplus::RectF & r) void
+        +SetRect(Vec2 & p_min, Vec2 & p_max) void
+        +SetRect(float p_x, float p_y, float p_width, float p_height) void
+        +SetThickness(float t) void
+        +Start() void
+        +Update(float dt) void
+        #color : Gdiplus::Color
+        #enabled : bool
+        #m_ISCameraMatrix : bool
+        #m_ISTransformMatrix : bool
+        #rect : Gdiplus::RectF
+        #thickness : float
+    }
+    class C_0009292021707070627199["DebugText"]
+    class C_0009292021707070627199 {
+        +DebugText() void
+        +DebugText(const Vec2 & p_pos, Gdiplus::Color c = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;, int p_fontsize = 18) void
+        +~DebugText() [default] void
+        +GetColor() [const] Gdiplus::Color
+        +GetFontSize() [const] int
+        +GetIsCameraMatrix() [const] bool
+        +GetIsTransformMatrix() [const] bool
+        +GetPosition(Vec2 & p_pos, Vec2 & p_end) [const] void
+        +GetText() [const] const std::wstring &
+        +Initlize() void
+        +Render(HDC hdc) void
+        +SetColor(Gdiplus::Color c) void
+        +SetFontSize(int t) void
+        +SetIsCameraMatrix(bool v) void
+        +SetIsTransformMatrix(bool v) void
+        +SetPosition(const Vec2 & p_pos) void
+        +SetText(const std::wstring & text) void
+        +Start() void
+        +Update(float dt) void
+        #FontSize : int
+        #Position : Vec2
+        #color : Gdiplus::Color
+        #enabled : bool
+        #family : Gdiplus::FontFamily *
+        #font : Gdiplus::Font *
+        #m_ISCameraMatrix : bool
+        #m_ISTransformMatrix : bool
+        #m_Text : std::wstring
+    }
+    class C_0011886883320507445221["SingletonT&lt;DebugObjectManager&gt;"]
+    class C_0011886883320507445221 {
+    }
+    class C_0006671170546776371142["DebugObjectManager"]
+    class C_0006671170546776371142 {
+        +DebugObjectManager() [default] void
+        +~DebugObjectManager() void
+        #AddDebugLine_ResizeCount(int p_addsize) void
+        #AddDebugRect_ResizeCount(int p_addsize) void
+        #AddDebugText_ResizeCount(int p_addsize) void
+        +AllDebugRender(HDC p_hdc) void
+        +AllDebugUpdate(float dt) void
+        +DrawDebugText(std::wstring p_str, Vec2 & p_pos, Gdiplus::Color color = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;) DebugText *
+        +DrawLine(Vec2 & p_st, Vec2 & p_end, float p_thickness = 1.f, Gdiplus::Color color = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;) DebugLineComponent *
+        +DrawRectLine(Vec2 & p_min, Vec2 & p_max, float p_thickness = 1.f, Gdiplus::Color color = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;) DebugRectLineComponent *
+        +DrawRectLine(float p_x, float p_y, float p_width, float p_height, float p_thickness = 1.f, Gdiplus::Color color = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;) DebugRectLineComponent *
+        +Initialize() void
+        +IsAllDebug() [const] bool
+        +ResetAllDebugObjects() void
+        +SetAllDebug(bool v) void
+        #m_CacheDebugTextSize : int
+        #m_CacheLineSize : int
+        #m_CacheRectSize : int
+        #m_DebugLineVec : std::vector&lt;std::unique_ptr&lt;DebugLineComponent&gt;&gt;
+        #m_DebugObjects : std::vector&lt;DebugObject *&gt;
+        #m_DebugRectLineVec : std::vector&lt;std::unique_ptr&lt;DebugRectLineComponent&gt;&gt;
+        #m_DebugTextCount : int
+        #m_DebugTextVec : std::vector&lt;std::unique_ptr&lt;DebugText&gt;&gt;
+        #m_ISAllDebug : bool
+        #m_LineCount : int
+        #m_RectLineCount : int
+    }
+    class C_0015695959574086753925["MyMath"]
+    class C_0015695959574086753925 {
+        +MyMath() [default] void
+        +~MyMath() [default,constexpr] void
+        #DegToRad(float deg) float$
+        +GetBoundBox(const Gdiplus::Matrix * p_transform_mat, const Gdiplus::Matrix * p_camera_mat, const float & width, const float & height, Gdiplus::RectF * p_rect) Gdiplus::Status$
+        +GetBoundBox(const Gdiplus::Matrix * p_srcmat, const Gdiplus::Matrix * p_camera_mat, const SizeF & size, Gdiplus::RectF * p_rect) Gdiplus::Status$
+        +GetMatrix(Gdiplus::Matrix * p_srcmat, const Vec2 & pos, const Gdiplus::SizeF & scale, float rotation) Gdiplus::Status$
+        #RadToDeg(float rad) float$
+        +SetRect(Gdiplus::RectF * p_rect, const Vec2 & pos, const Gdiplus::SizeF & size) Gdiplus::Status$
+        +SetRect(Gdiplus::RectF * p_rect, const Vec2 & p_min, const Vec2 & p_max) Gdiplus::Status$
+    }
+    class C_0009691662641127124450["LineComponent"]
+    class C_0009691662641127124450 {
+        +LineComponent(const Gdiplus::PointF & s, const Gdiplus::PointF & e, Gdiplus::Color c = Gdiplus::Color&lpar;255, 0, 255, 0&rpar;, float thick = 1.0f) void
+        +~LineComponent() [default] void
+        +GetColor() [const] Gdiplus::Color
+        +GetIsCameraMatrix() [const] bool
+        +GetIsTransformMatrix() [const] bool
+        +GetThickness() [const] float
+        +Render(HDC hdc) void
+        +SetColor(Gdiplus::Color c) void
+        +SetIsCameraMatrix(bool v) void
+        +SetIsTransformMatrix(bool v) void
+        +SetPoints(const Gdiplus::PointF & s, const Gdiplus::PointF & e) void
+        +SetThickness(float t) void
+        +Start() void
+        +Update(float dt) void
+        #color : Gdiplus::Color
+        #end : Gdiplus::PointF
+        #m_ISCameraMatrix : bool
+        #m_ISTransformMatrix : bool
+        #start : Gdiplus::PointF
+        #thickness : float
+    }
+    class C_0011912902467100122064["RectLineComponent"]
+    class C_0011912902467100122064 {
+        +RectLineComponent(const Gdiplus::RectF & r, Gdiplus::Color c = Gdiplus::Color&lpar;255, 255, 0, 0&rpar;, float thick = 1.0f) void
+        +~RectLineComponent() [default] void
+        +GetColor() [const] Gdiplus::Color
+        +GetIsCameraMatrix() [const] bool
+        +GetIsTransformMatrix() [const] bool
+        +GetRect() [const] const Gdiplus::RectF &
+        +GetThickness() [const] float
+        +Render(HDC hdc) void
+        +SetColor(Gdiplus::Color c) void
+        +SetIsCameraMatrix(bool v) void
+        +SetIsTransformMatrix(bool v) void
+        +SetRect(const Gdiplus::RectF & r) void
+        +SetThickness(float t) void
+        +Start() void
+        +Update(float dt) void
+        -color : Gdiplus::Color
+        -m_ISCameraMatrix : bool
+        -m_ISTransformMatrix : bool
+        -rect : Gdiplus::RectF
+        -thickness : float
+    }
+    class C_0002707729954124650755["E_MOUSEETYPE"]
+    class C_0002707729954124650755 {
+        <<enumeration>>
+        LEFT
+        RIGHT
+        MIDDLE
+        MAX
+    }
     class C_0007529291253653007674["InputManager"]
     class C_0007529291253653007674 {
         +GetMousePosition() POINT$
+        +ISKeyDown(int key) bool$
+        +ISKeyUp(int key) bool$
+        +ISMouseDown(E_MOUSEETYPE btn) bool$
+        +ISMouseUp(E_MOUSEETYPE btn) bool$
         +Init() void$
         +IsKeyPressed(int key) bool$
         +IsMouseLeftDown() bool$
         +KeyDown(WPARAM key) void$
         +KeyUp(WPARAM key) void$
-        +MouseDown(WPARAM btn) void$
+        +MouseDown(UINT message, WPARAM btn) void$
         +MouseMove(LPARAM lParam) void$
-        +MouseUp(WPARAM btn) void$
+        +MouseUp(UINT message, WPARAM btn) void$
+        +ResetAllKey() void$
+        +iskeys_down : bool[256]
+        +iskeys_up : bool[256]
+        +ismouse_down : bool[3]
+        +ismouse_up : bool[3]
         +keys : bool[256]
         +mouseLeftDown : bool
+        +mouseMiddleDown : bool
         +mousePosition : POINT
+        +mouseRightDown : bool
     }
     class C_0012798265388312005056["Material"]
     class C_0012798265388312005056 {
@@ -210,8 +518,27 @@ classDiagram
         +image : Gdiplus::Image *
         +uvRect : Gdiplus::Rect
     }
+    class C_0006543205476927866422["MyString"]
+    class C_0006543205476927866422 {
+        +MyString() [default] void
+        +~MyString() [default,constexpr] void
+        +convert_ansi_to_unicode_string(std::wstring & unicode, const char * ansi, const size_t ansi_size) DWORD
+        +convert_unicode_to_ansi_string(std::string & ansi, const wchar_t * unicode, const size_t unicode_size) DWORD
+        +format_string(const std::string fmt) std::string$
+        +format_string<Args...>(const std::string & format, Args... args) std::string$
+    }
     class C_0012543508281110658058["MyTime"]
     class C_0012543508281110658058 {
+    }
+    class C_0018360792939543365666["SingletonT&lt;MyUtil&gt;"]
+    class C_0018360792939543365666 {
+    }
+    class C_0013713340247719435639["MyUtil"]
+    class C_0013713340247719435639 {
+        +MyUtil() [default] void
+        +~MyUtil() [default,constexpr] void
+        +GetRandFloat(float p_min = 0.f, float p_max = 1.f) float$
+        +GetRandInt(int p_min = 0, int p_max = 100) int$
     }
     class C_0012676504793219311971["Viewport"]
     class C_0012676504793219311971 {
@@ -220,12 +547,29 @@ classDiagram
         +SetViewRect(float x, float y, float width, float height) void
         -viewRect : Gdiplus::RectF
     }
-    class C_0013661311382128640226["SingletonT&lt;CameraManager&gt;"]
-    class C_0013661311382128640226 {
+    class C_0009082757426868238184["SingletonT&lt;GameObjectManager&gt;"]
+    class C_0009082757426868238184 {
     }
-    class C_0010602408877764505757["CameraManager"]
-    class C_0010602408877764505757 {
-        +~CameraManager() void
+    class C_0005560623204830570427["GameObjectManager"]
+    class C_0005560623204830570427 {
+        +GameObjectManager() [default] void
+        +~GameObjectManager() void
+        +CreateObject(const std::string & name) GameObject *
+        +CreateObjectS(const std::string & name) GameObject *$
+        +DestroyObject(GameObject * obj) void
+        +DestroyObjectS(GameObject * obj) void$
+        #objects : std::vector&lt;std::unique_ptr&lt;GameObject&gt;&gt;
+    }
+    class C_0014693033089461591607["SingletonT&lt;FacadeManager&gt;"]
+    class C_0014693033089461591607 {
+    }
+    class C_0016140491647462731610["FacadeManager"]
+    class C_0016140491647462731610 {
+        +FacadeManager() void
+        +~FacadeManager() void
+        +DestroyAllManagers() void
+        +Initlize() void
+        +Release() void
     }
     class C_0005375663403181666835["Scene"]
     class C_0005375663403181666835 {
@@ -242,10 +586,16 @@ classDiagram
         +Button() [default] void
         +Button(const std::function&lt;void &lpar;Button *&rpar;&gt; & onClick) void
         +~Button() [default] void
+        -ISClick() bool
         +Render(HDC hdc) void
         +Update(float dt) void
         +isHovered : bool
         +isPressed : bool
+        #m_DefaultColor : Gdiplus::Color
+        #m_HoverColor : Gdiplus::Color
+        #m_PressColor : Gdiplus::Color
+        -m_TempTransMatrix : Gdiplus::Matrix
+        -matrixElements : Gdiplus::REAL[6]
         +onClick : std::function&lt;void &lpar;Button *&rpar;&gt;
     }
     class C_0014246112670391732192["InputFieldComponent"]
@@ -307,6 +657,7 @@ classDiagram
         +TextComponent() void
         +~TextComponent() void
         +EnableBlinking(bool enabled) void
+        +GetIsCameraMatrix() [const] bool
         +Initialize() void
         +Initialize_AddCompoment() void
         +Release() void
@@ -314,6 +665,7 @@ classDiagram
         +SetAlignment(Gdiplus::StringAlignment horizontal, Gdiplus::StringAlignment vertical) void
         +SetFont(const std::wstring & family, float size) void
         +SetFontColor(BYTE a, BYTE r, BYTE g, BYTE b) void
+        +SetIsCameraMatrix(bool value) void
         +SetOutlineColor(BYTE a, BYTE r, BYTE g, BYTE b) void
         +SetSize(int w, int h) void
         +SetText(const std::wstring & str) void
@@ -327,6 +679,7 @@ classDiagram
         -fontSize : float
         -hAlign : Gdiplus::StringAlignment
         -height : int
+        -m_ISCameraMatrix : bool
         -outlineColor : Gdiplus::Color
         -text : std::wstring
         -transform : Transform *
@@ -339,21 +692,27 @@ classDiagram
     class C_0005365101254653150826 {
         +BaseGame() void
         +~BaseGame() void
+        +AllUpdate() void
         +CleanUp() void
-        +Init() void
+        +Init(HWND p_hwnd) void
         #InitGDIPlus() void
         +Release() void
         #ReleaseGDIPlus() void
         +Render(HDC p_hdc, RECT & p_clientRect) void
         +Run() void
+        +SetHwnd(HWND hwnd) void
+        +SetWindowSize(HWND hwnd) void
         +Test_InitScene() void
-        +Update() void
+        #Update() void
+        +UpdateDebugEnd() void
         +UpdateInput(UINT message, WPARAM wParam, LPARAM lParam) void
-        +UpdateTimer() void
+        #UpdateInputReset() void
+        #UpdateTimer() void
         #gdiplusToken : ULONG_PTR
         +isRunning : bool
         #m_BGColor : COLORREF
         +m_CurrentScene : Scene *
+        #m_Hwnd : HWND
         #m_pInputManager : InputManager *
         #m_pTimerManager : TimerManager *
     }
@@ -361,9 +720,11 @@ classDiagram
     class C_0006104864286880803545 {
         +TimerManager() void
         +GetDeltaTime() [const] double
+        +GetFPS() float
         +GetTotalTime() [const] double
         +Update() void
         -deltaTime : double
+        -fps : float
         -frequency : LARGE_INTEGER
         -lastTime : LARGE_INTEGER
         -startTime : LARGE_INTEGER
@@ -372,30 +733,77 @@ classDiagram
     C_0008364433741114752039 o-- C_0016480947060394780245 : +pos
     C_0012021292812520796288 --> C_0010250684592540512228 : +owner
     C_0012021292812520796288 --> C_0013979161094353040123 : +transform
-    C_0006111862596534002478 ..> C_0016480947060394780245 : 
+    C_0006111862596534002478 ..> C_0013979161094353040123 : 
+    C_0006111862596534002478 o-- C_0016480947060394780245 : #cachedWorldPosition
+    C_0006111862596534002478 o-- C_0016480947060394780245 : #cachedWorldScale
     C_0012021292812520796288 <|-- C_0006111862596534002478 : 
     C_0010250684592540512228 o-- C_0012021292812520796288 : #components
     C_0010250684592540512228 --> C_0013979161094353040123 : +transform
     C_0013979161094353040123 o-- C_0016480947060394780245 : +localposition
     C_0013979161094353040123 o-- C_0016480947060394780245 : +localScale
+    C_0013979161094353040123 o-- C_0016480947060394780245 : +PivotPos
+    C_0013979161094353040123 o-- C_0016480947060394780245 : +cachedPivotPos
     C_0013979161094353040123 --> C_0013979161094353040123 : -parent
     C_0013979161094353040123 --> C_0013979161094353040123 : -children
     C_0013979161094353040123 o-- C_0016480947060394780245 : -cachedWorldPosition
     C_0013979161094353040123 o-- C_0016480947060394780245 : -cachedWorldScale
     C_0013979161094353040123 <.. C_0010250684592540512228 : +[friend]
     C_0012021292812520796288 <|-- C_0013979161094353040123 : 
-    C_0014710440344490690589 ..> C_0008364433741114752039 : 
+    C_0013661311382128640226 ..> C_0010602408877764505757 : 
+    C_0013661311382128640226 ..|> C_0011044441207668165372 : 
+    C_0010602408877764505757 --> C_0006111862596534002478 : #m_AllCameraVec
+    C_0010602408877764505757 --> C_0006111862596534002478 : #m_MainCamera
+    C_0010602408877764505757 o-- C_0016480947060394780245 : #m_WindowSize
+    C_0010602408877764505757 o-- C_0016480947060394780245 : #m_ViewportCenter
+    C_0013661311382128640226 <|-- C_0010602408877764505757 : 
+    C_0012662634402439666456 o-- C_0016480947060394780245 : +p1
+    C_0012662634402439666456 o-- C_0016480947060394780245 : +p2
+    C_0014710440344490690589 ..> C_0016480947060394780245 : 
+    C_0014710440344490690589 ..> C_0012662634402439666456 : 
+    C_0014710440344490690589 ..> C_0005411490672434116202 : 
     C_0012021292812520796288 <|-- C_0014710440344490690589 : 
+    C_0005411490672434116202 ..> C_0016480947060394780245 : 
+    C_0005411490672434116202 ..> C_0012662634402439666456 : 
+    C_0014710440344490690589 <|-- C_0005411490672434116202 : 
     C_0007426470158294810457 --> C_0013979161094353040123 : -transform
     C_0012021292812520796288 <|-- C_0007426470158294810457 : 
     C_0011492085545754070408 ..> C_0017393003743977498017 : 
     C_0011492085545754070408 ..|> C_0011044441207668165372 : 
     C_0017393003743977498017 --> C_0000370005033936394450 : -imageMap
     C_0011492085545754070408 <|-- C_0017393003743977498017 : 
+    C_0017289291423747156513 o-- C_0016480947060394780245 : #startPoint
+    C_0017289291423747156513 o-- C_0016480947060394780245 : #endPoint
+    C_0013047365441492111311 <|-- C_0017289291423747156513 : 
+    C_0013979161094353040123 <|-- C_0017289291423747156513 : 
+    C_0013402360081878303675 ..> C_0016480947060394780245 : 
+    C_0013047365441492111311 <|-- C_0013402360081878303675 : 
+    C_0013979161094353040123 <|-- C_0013402360081878303675 : 
+    C_0009292021707070627199 o-- C_0016480947060394780245 : #Position
+    C_0013047365441492111311 <|-- C_0009292021707070627199 : 
+    C_0013979161094353040123 <|-- C_0009292021707070627199 : 
+    C_0011886883320507445221 ..> C_0006671170546776371142 : 
+    C_0011886883320507445221 ..|> C_0011044441207668165372 : 
+    C_0006671170546776371142 ..> C_0016480947060394780245 : 
+    C_0006671170546776371142 --> C_0013047365441492111311 : #m_DebugObjects
+    C_0006671170546776371142 o-- C_0013402360081878303675 : #m_DebugRectLineVec
+    C_0006671170546776371142 o-- C_0017289291423747156513 : #m_DebugLineVec
+    C_0006671170546776371142 o-- C_0009292021707070627199 : #m_DebugTextVec
+    C_0011886883320507445221 <|-- C_0006671170546776371142 : 
+    C_0015695959574086753925 ..> C_0016480947060394780245 : 
+    C_0012021292812520796288 <|-- C_0009691662641127124450 : 
+    C_0012021292812520796288 <|-- C_0011912902467100122064 : 
+    C_0007529291253653007674 ..> C_0002707729954124650755 : 
+    C_0018360792939543365666 ..> C_0013713340247719435639 : 
+    C_0018360792939543365666 ..|> C_0011044441207668165372 : 
+    C_0018360792939543365666 <|-- C_0013713340247719435639 : 
     C_0012676504793219311971 ..> C_0016480947060394780245 : 
-    C_0013661311382128640226 ..> C_0010602408877764505757 : 
-    C_0013661311382128640226 ..|> C_0011044441207668165372 : 
-    C_0013661311382128640226 <|-- C_0010602408877764505757 : 
+    C_0009082757426868238184 ..> C_0005560623204830570427 : 
+    C_0009082757426868238184 ..|> C_0011044441207668165372 : 
+    C_0005560623204830570427 o-- C_0010250684592540512228 : #objects
+    C_0009082757426868238184 <|-- C_0005560623204830570427 : 
+    C_0014693033089461591607 ..> C_0016140491647462731610 : 
+    C_0014693033089461591607 ..|> C_0011044441207668165372 : 
+    C_0014693033089461591607 <|-- C_0016140491647462731610 : 
     C_0005375663403181666835 o-- C_0010250684592540512228 : +objects
     C_0000221405838615140689 --> C_0000221405838615140689 : +onClick
     C_0012021292812520796288 <|-- C_0000221405838615140689 : 
