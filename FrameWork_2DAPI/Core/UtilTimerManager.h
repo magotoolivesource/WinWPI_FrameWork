@@ -11,16 +11,21 @@
 
 
 
+
+class GameObject;
+
 // 타이머 만들기
 // https://chatgpt.com/c/68819299-f13c-8013-8a68-ffc552ed6989
 
 class UtilTimer {
 public:
-    using Callback = std::function<void( UtilTimer* )>;
+    using Callback = std::function<void( UtilTimer*, void* )>;
+	//using CallObjectback = std::function<void(UtilTimer*, GameObject*)>;
 
     UtilTimer(float duration
 		, Callback p_updatecallback
 		, Callback callback
+		, void* senderdata = nullptr
 		, int p_repeatcount = 0  // -1이면 무한
 		, bool updateEveryFrame = false)
         : duration(duration)
@@ -31,6 +36,7 @@ public:
         , elapsed(0.0f)
         , active(true)
         , m_RemineSec (duration)
+		, m_SenderData(senderdata)
 	{
         repeatCount = p_repeatcount;
 		if ( p_repeatcount <= -1 )
@@ -53,12 +59,12 @@ public:
 
         // 매 프레임마다 호출되는 업데이트 콜백
         if (updateEveryFrame && updatecallback) {
-            updatecallback(this);
+            updatecallback(this, m_SenderData);
         }
 
         // 특정 시간이 지난 후 콜백
         if ( elapsed >= duration) {
-            if (completcallback) completcallback(this);
+            if (completcallback) completcallback(this, m_SenderData);
 
 			if (repeatCount <= -1) {
                 elapsed = 0.0f; // 무한 반복
@@ -99,6 +105,7 @@ private:
     bool active;
     Callback completcallback;
     Callback updatecallback;
+	void* m_SenderData = nullptr;
 
 };
 
@@ -109,17 +116,43 @@ public:
     UtilTimerManager() = default;
     virtual ~UtilTimerManager() = default;
 
-	int AddTimer(float duration, UtilTimer::Callback p_updatecallback, UtilTimer::Callback callback, int repeatcount = 0) {
+
+
+	//template <typename T, typename ...Args>
+	//int AddTimer(float duration
+	//	, T p_updatecallback
+	//	, T callback
+	//	, int repeatcount = 0) {
+
+	//	int id = ++lastId;
+	//	auto timer = std::make_shared<UtilTimer>(duration, p_updatecallback, callback, repeatcount, true);
+	//	timers.emplace_back(id, timer);
+	//	return id;
+	//}
+
+	/// <summary>
+	/// 타이머 적용 repeatcount -1 면 무한 반복형태
+	/// </summary>
+	/// <param name="duration">경과 시간</param>
+	/// <param name="p_updatecallback">업데이트 콜백함수호출 nullptr 사용가능</param>
+	/// <param name="callback">종료 콜백함수호출 nullptr 사용가능</param>
+	/// <param name="repeatcount">-1이하면 무한 </param>
+	/// <returns></returns>
+	int AddTimer(float duration
+		, UtilTimer::Callback p_updatecallback
+		, UtilTimer::Callback callback
+		, void* senderdata = nullptr
+		, int repeatcount = 0 ) {
 
         int id = ++lastId;
-        auto timer = std::make_shared<UtilTimer>(duration, p_updatecallback, callback, repeatcount, true);
+        auto timer = std::make_shared<UtilTimer>(duration, p_updatecallback, callback, senderdata, repeatcount, true);
         timers.emplace_back(id, timer);
         return id;
     }
 
-    int AddUpdateTimer(UtilTimer::Callback callback) {
+    int AddUpdateTimer(UtilTimer::Callback callback, void* senderdata = nullptr) {
         int id = ++lastId;
-        auto timer = std::make_shared<UtilTimer>(0.0f, nullptr, callback, -1, true);
+        auto timer = std::make_shared<UtilTimer>(0.0f, nullptr, callback, senderdata, -1, true);
         timers.emplace_back(id, timer);
         return id;
     }

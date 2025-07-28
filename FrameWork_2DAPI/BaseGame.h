@@ -4,6 +4,8 @@
 
 class TimerManager; // 전방 선언
 class InputManager;
+class UtilTimer;
+
 
 class BaseGame
 {
@@ -51,9 +53,18 @@ protected:
     void ReleaseGDIPlus(); // GDI+ 해제 함수
 
 	HWND m_Hwnd = nullptr;
+
+
 public:
     void Test_InitScene();
+    void Test_Image();
+    void Test_Button();
+    void Test_TextLabel();
+
+	void Test_Collider();
 
 
+	void Test_AniCallBackFN1(UtilTimer* utiltimer);
+	void Test_AniCallBackFN(UtilTimer* utiltimer);
 };
 

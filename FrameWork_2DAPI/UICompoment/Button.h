@@ -36,4 +36,15 @@ public:
     virtual void Update(float dt) override;
 
     virtual void Render(HDC hdc) override;
+
+
+protected:
+	float width = 50.0f;
+	float height = 50.0f;
+public:
+	float getWidth( ) const { return width; }
+	float getHeight( ) const { return height; }
+	void setWidth(float w) { width = w; }
+	void setHeight(float h) { height = h; }
+
 };

@@ -43,8 +43,8 @@ public:
     Vec2 localposition;
 	//Vec2 world_position;
 	float zdepth = 0; // Z-order for rendering
-    float width = 50.0f;
-    float height = 50.0f;
+    //float width = 50.0f;
+    //float height = 50.0f;
     float local_rotation = 0.0f; // in degrees
 
 	Vec2 localScale = { 1, 1 };
@@ -182,10 +182,10 @@ public:
     void setLocalPosition(const Vec2& pos);
     void setLocalPosition(float p_x, float p_y);
 
-	float getWidth( ) const { return width; }
-	float getHeight( ) const { return height; }
-    void setWidth(float w) { width = w; }
-    void setHeight(float h) { height = h; }
+	//float getWidth( ) const { return width; }
+	//float getHeight( ) const { return height; }
+ //   void setWidth(float w) { width = w; }
+ //   void setHeight(float h) { height = h; }
 
 
 	//void SetDepth(float d) {

@@ -2,8 +2,15 @@
 WinAPI 프레임워크
 
 
+> ## 작업리스트
+충돌처리
+공간분할충돌처리
+
+로그
 
 
+
+> ## UML제작 방식
 clang-uml 사용법 </br>
 -// .clang-uml2 파일의 특정 다이어그램을 class_overview 이걸로 사용 </br>
 clang-uml --config .clang-uml class_overview </br>

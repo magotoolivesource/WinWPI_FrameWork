@@ -21,7 +21,10 @@ bool Button::ISClick()
         Vec2 wpos = t->GetWorldPosition();
 
         POINT mouse = InputManager::mousePosition;
-        bool inside = mouse.x >= wpos.x && mouse.x <= wpos.x + t->width && mouse.y >= wpos.y && mouse.y <= wpos.y + t->height;
+		bool inside = mouse.x >= wpos.x
+				&& mouse.x <= wpos.x + width  // t->width 
+				&& mouse.y >= wpos.y
+				&& mouse.y <= wpos.y + height; // t->height;
 
         return inside;
 	}
@@ -34,8 +37,11 @@ bool Button::ISClick()
     float wrot = t->GetWorldRotation();
 	POINT mouse = InputManager::mousePosition;
 
-	Gdiplus::REAL centerX = wpos.x + t->width * 0.5f;
-    Gdiplus::REAL centerY = wpos.x + t->width * 0.5f;
+	//Gdiplus::REAL centerX = wpos.x + t->width * 0.5f;
+ //   Gdiplus::REAL centerY = wpos.x + t->width * 0.5f;
+
+	Gdiplus::REAL centerX = wpos.x + ( width * 0.5f );
+	Gdiplus::REAL centerY = wpos.x + ( width * 0.5f );
 
 
 	Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
@@ -67,11 +73,14 @@ bool Button::ISClick()
     // 4. 마우스 포인터에 역변환 행렬을 적용하여 로컬 좌표를 얻습니다.
     wmat.TransformPoints(&ptMouseF2, 1);
 
-	return (ptMouseF2.X >= 0
-		&& ptMouseF2.X <= (0 + t->width) 
-		&& ptMouseF2.Y >= 0 
-		&& ptMouseF2.Y <= (0 + t->height));
-
+	//return (ptMouseF2.X >= 0
+	//	&& ptMouseF2.X <= (0 + t->width) 
+	//	&& ptMouseF2.Y >= 0 
+	//	&& ptMouseF2.Y <= (0 + t->height));
+	return ( ptMouseF2.X >= 0
+		&& ptMouseF2.X <= ( 0 + width )
+		&& ptMouseF2.Y >= 0
+		&& ptMouseF2.Y <= ( 0 + height ) );
 
 
 
@@ -111,8 +120,12 @@ bool Button::ISClick()
     //REAL scaledCenterX = wpos.x + (t->width * wscale.x) / 2.0f;
     //REAL scaledCenterY = wpos.y + (t->height * wscale.y) / 2.0f;
 
-	REAL scaledCenterX = wpos.x + (t->width * wscale.x);
-    REAL scaledCenterY = wpos.y + (t->height * wscale.y);
+	//REAL scaledCenterX = wpos.x + (t->width * wscale.x);
+ //   REAL scaledCenterY = wpos.y + (t->height * wscale.y);
+
+
+	REAL scaledCenterX = wpos.x + ( width * wscale.x );
+	REAL scaledCenterY = wpos.y + ( height * wscale.y );
 
     // 중심점으로 이동, 회전, 다시 되돌리기
     fullTransform.Translate(scaledCenterX, scaledCenterY);
@@ -134,15 +147,20 @@ bool Button::ISClick()
     // 4. 마우스 포인터에 역변환 행렬을 적용하여 로컬 좌표를 얻습니다.
     fullTransform.TransformPoints(&ptMouseF, 1);
 
-	// 5. 역변환된 마우스 좌표가 원래 사각형 범위 내에 있는지 확인합니다.
-    // 사각형은 (x,y)에서 시작하여 width, height를 가집니다.
-    // 주의: 위의 `DrawTransformedRectangleGDIPlus`에서 `graphics->FillRectangle(&solidBrush, x, y, width, height);`를 사용했으므로,
-    // 이 사각형의 논리적 위치는 (x,y)입니다.
-    // 따라서 역변환된 마우스 좌표가 이 (x,y)를 기준으로 한 사각형 내에 있는지 확인합니다.
-    return (ptMouseF.X >= wpos.x 
-		&& ptMouseF.X <= (wpos.x + t->width) 
-		&& ptMouseF.Y >= wpos.y 
-		&& ptMouseF.Y <= (wpos.y + t->height));
+	//// 5. 역변환된 마우스 좌표가 원래 사각형 범위 내에 있는지 확인합니다.
+ //   // 사각형은 (x,y)에서 시작하여 width, height를 가집니다.
+ //   // 주의: 위의 `DrawTransformedRectangleGDIPlus`에서 `graphics->FillRectangle(&solidBrush, x, y, width, height);`를 사용했으므로,
+ //   // 이 사각형의 논리적 위치는 (x,y)입니다.
+ //   // 따라서 역변환된 마우스 좌표가 이 (x,y)를 기준으로 한 사각형 내에 있는지 확인합니다.
+ //   return (ptMouseF.X >= wpos.x 
+	//	&& ptMouseF.X <= (wpos.x + t->width) 
+	//	&& ptMouseF.Y >= wpos.y 
+	//	&& ptMouseF.Y <= (wpos.y + t->height));
+
+	return ( ptMouseF.X >= wpos.x
+		&& ptMouseF.X <= ( wpos.x + width )
+		&& ptMouseF.Y >= wpos.y
+		&& ptMouseF.Y <= ( wpos.y + height ) );
 }
 
 void Button::Update(float dt) {
@@ -152,8 +170,11 @@ void Button::Update(float dt) {
 	Vec2 wpos = t->GetWorldPosition( );
 
     POINT mouse = InputManager::mousePosition;
-    bool inside = mouse.x >= wpos.x && mouse.x <= wpos.x + t->width &&
-        mouse.y >= wpos.y && mouse.y <= wpos.y + t->height;
+    //bool inside = mouse.x >= wpos.x && mouse.x <= wpos.x + t->width &&
+    //    mouse.y >= wpos.y && mouse.y <= wpos.y + t->height;
+	bool inside = mouse.x >= wpos.x && mouse.x <= wpos.x + width &&
+		mouse.y >= wpos.y && mouse.y <= wpos.y + height;
+
 
     if ( ISClick() ) {
         isHovered = true;
@@ -200,7 +221,8 @@ void Button::Render(HDC hdc)
             brush = CreateSolidBrush(RGB(240, 240, 240));
 
         HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
-        Rectangle(hdc, (int)wpos.x, (int)wpos.y, (int)(wpos.x + t->width), (int)(wpos.y + t->height));
+        //Rectangle(hdc, (int)wpos.x, (int)wpos.y, (int)(wpos.x + t->width), (int)(wpos.y + t->height));
+		Rectangle(hdc, ( int ) wpos.x, ( int ) wpos.y, ( int ) ( wpos.x + width ), ( int ) ( wpos.y + height ));
         SelectObject(hdc, oldBrush);
         DeleteObject(brush);
 
@@ -237,7 +259,9 @@ void Button::Render(HDC hdc)
 	
 	Vec2 wpos = t->GetWorldPosition();
 	graphics.FillRectangle(&gdibrush, 
-		(float)0, (float)0, (float)t->width, (float)t->height
+		(float)0, (float)0
+		, width  // (float)t->width
+		, height // (float)t->height
 	);
 
 

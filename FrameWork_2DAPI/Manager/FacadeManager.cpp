@@ -3,6 +3,8 @@
 #include "CameraManager.h"
 #include "GameObjectManager.h"
 #include "ImageManager.h"
+#include "CollisionManager.h"
+
 
 FacadeManager::FacadeManager() 
 { 
@@ -18,8 +20,8 @@ void FacadeManager::Initlize()
 {
     ImageManager::GetI(); // Initialize ImageManager
     GameObjectManager::GetI(); // Initialize GameObjectManager
-
     CameraManager::GetI(); // Initialize CameraManager
+	CollisionManager::GetI();
 }
 
 void FacadeManager::Release( )
@@ -27,6 +29,7 @@ void FacadeManager::Release( )
     CameraManager::Instance().DestroyManager();
     GameObjectManager::Instance().DestroyManager();
     ImageManager::Instance().DestroyManager();
+
 }
 
 void FacadeManager::DestroyAllManagers() 

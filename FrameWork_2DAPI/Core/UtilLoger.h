@@ -13,9 +13,30 @@ enum class E_LogLevel
 
 // 타이머 만들기
 // https://chatgpt.com/c/6881e857-e234-8013-80d7-589d2cc13485
-
 class UtilLoger {
 public:
+
+	static void ClearAll()
+	{
+		//system("cls");
+
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		if ( hConsole == INVALID_HANDLE_VALUE ) return;
+
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+		GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+		DWORD cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+		DWORD count;
+		COORD homeCoords = { 0, 0 };
+
+		// 문자 지우기
+		FillConsoleOutputCharacter(hConsole, ' ', cellCount, homeCoords, &count);
+		// 색상 속성 초기화
+		FillConsoleOutputAttribute(hConsole, csbi.wAttributes, cellCount, homeCoords, &count);
+		// 커서 위치 초기화
+		SetConsoleCursorPosition(hConsole, homeCoords);
+	}
     static void Log(const std::wstring& msg, E_LogLevel level = E_LogLevel::E_INFO) {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         switch (level) {

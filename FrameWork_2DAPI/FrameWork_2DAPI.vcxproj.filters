@@ -156,6 +156,15 @@
     <ClInclude Include="Core\UtilLoger.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Manager\CollisionManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\PhysicsManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Compoment\RigidbodyComponent.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -256,6 +265,15 @@
     </ClCompile>
     <ClCompile Include="Core\UtilLoger.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\CollisionManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\PhysicsManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Compoment\RigidbodyComponent.cpp">
+      <Filter>Compoment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

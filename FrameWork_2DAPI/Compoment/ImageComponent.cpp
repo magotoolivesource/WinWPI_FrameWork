@@ -28,6 +28,8 @@ ImageComponent::~ImageComponent()
 
 void ImageComponent::Initialize_AddCompoment()
 {
+    __super::Initialize_AddCompoment();
+
     transform = owner->GetComponent<Transform>();
     //drawRect = { 0, 0, 32, 32 };
 }

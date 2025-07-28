@@ -136,6 +136,7 @@
     <ClInclude Include="Compoment\ImageComponent.h" />
     <ClInclude Include="Compoment\LineComponent.h" />
     <ClInclude Include="Compoment\RectLineComponent.h" />
+    <ClInclude Include="Compoment\RigidbodyComponent.h" />
     <ClInclude Include="Compoment\Transform.h" />
     <ClInclude Include="Core\DebugLineComponent.h" />
     <ClInclude Include="Core\DebugObject.h" />
@@ -159,10 +160,12 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="FrameWork_2DAPI.h" />
     <ClInclude Include="Manager\CameraManager.h" />
+    <ClInclude Include="Manager\CollisionManager.h" />
     <ClInclude Include="Manager\DebugObjectManager.h" />
     <ClInclude Include="Manager\FacadeManager.h" />
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\ImageManager.h" />
+    <ClInclude Include="Manager\PhysicsManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="targetver.h" />
@@ -179,6 +182,7 @@
     <ClCompile Include="Compoment\ImageComponent.cpp" />
     <ClCompile Include="Compoment\LineComponent.cpp" />
     <ClCompile Include="Compoment\RectLineComponent.cpp" />
+    <ClCompile Include="Compoment\RigidbodyComponent.cpp" />
     <ClCompile Include="Compoment\Transform.cpp" />
     <ClCompile Include="Core\DebugLineComponent.cpp" />
     <ClCompile Include="Core\DebugObject.cpp" />
@@ -196,10 +200,12 @@
     <ClCompile Include="Core\Viewport.cpp" />
     <ClCompile Include="FrameWork_2DAPI.cpp" />
     <ClCompile Include="Manager\CameraManager.cpp" />
+    <ClCompile Include="Manager\CollisionManager.cpp" />
     <ClCompile Include="Manager\DebugObjectManager.cpp" />
     <ClCompile Include="Manager\FacadeManager.cpp" />
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\ImageManager.cpp" />
+    <ClCompile Include="Manager\PhysicsManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="UICompoment\Button.cpp" />
     <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp" />

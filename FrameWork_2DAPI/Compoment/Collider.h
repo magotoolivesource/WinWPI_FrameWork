@@ -1,14 +1,21 @@
 ﻿#pragma once
+#define _USE_MATH_DEFINES // For M_PI
+#include <windows.h>
+#include <gdiplus.h>
+#include <vector>
+#include <set>
+#include <cmath>
+#include <algorithm> // For std::max, std::min
+#include <limits> // For FLT_MAX
+#include <string>
+#include <format>
+
 #include "../Core/Rect.h"
 #include "Component.h"
 #include "Transform.h"
 
-#include <windows.h>
-#include <gdiplus.h>
-#include <vector>
-#include <cmath>
-#include <limits> // For FLT_MAX
 #include "../Core/Vector.h"
+
 
 
 
@@ -35,21 +42,66 @@ bool CheckBoxBoxCollision(BoxCollider* box1, BoxCollider* box2);
 bool LineLineIntersection(const LineSegment& line1, const LineSegment& line2);
 
 
-class Collider : public Component 
+
+// =====================================================================
+// 전방 선언
+class Collider; // Collider가 ICollisionEventListener를 상속받으므로 먼저 선언
+
+// 충돌 이벤트 리스너 인터페이스
+class ICollisionEventListener {
+public:
+    virtual void OnCollisionEnter(Collider* other) = 0;
+    virtual void OnCollisionStay(Collider* other) = 0;
+    virtual void OnCollisionExit(Collider* other) = 0;
+};
+
+class Collider : public Component, ICollisionEventListener
 {
 public:
-    Collider(Vec2 pos, float rot, SizeF s)
+    static long nextId; // 고유 ID 생성을 위함
+    long id; // 충돌 감지를 위한 고유 ID
+
+	Vec2 pos;
+    PointF position; // 월드 위치
+    float rotation; // 회전 (라디안)
+    SizeF scale; // 스케일 요소
+
+    // 충돌 상태 추적 (현재 충돌 중인 다른 충돌체의 ID를 저장)
+    std::set<long> currentCollisions;
+
+public:
+    Collider(Vec2 pos, float rot, Gdiplus::SizeF s)
 	{ 
-		transform->SetWorldPosition(pos.x, pos.y);
-        transform->SetWorldRotation(rot);
-        transform->SetWorldScale(s.Width, s.Height);
+		this->pos = pos;
+        position.X = pos.x;
+        position.Y = pos.y;
+        rotation = rot;
+		scale = s;
+
+		//transform->SetWorldPosition(pos.x, pos.y);
+  //      transform->SetWorldRotation(rot);
+  //      transform->SetWorldScale(s.Width, s.Height);
+
+		id = ++nextId; // 고유 ID 할당
 	}
-    virtual ~Collider() { }
+    virtual ~Collider();
 
 protected:
     Gdiplus::Matrix m_TempCalcMatrix;
     float m_tempcachedmatrix[(int)MatrixElements::Size] = { 0, 0, 0, 0, 0, 0 };
 
+
+protected:
+	float width = 50.0f;
+	float height = 50.0f;
+public:
+	float getWidth( ) const { return width; }
+	float getHeight( ) const { return height; }
+	void setWidth(float w) { width = w; }
+	void setHeight(float h) { height = h; }
+
+public:
+    virtual void Initialize_AddCompoment() override;
 
 public:
     // Pure virtual functions for type-specific collision
@@ -100,6 +152,17 @@ public:
 
         //return matrix;
     }
+
+public:
+    // 모든 충돌체가 구현해야 하는 가상 함수: AABB (Axis-Aligned Bounding Box) 가져오기
+    // 쿼드트리에서 객체를 삽입하고 검색하는 데 사용됩니다.
+    virtual RectF GetAABB() const = 0;
+
+    // ICollisionEventListener 인터페이스 구현 (기본 구현)
+	void OnCollisionEnter(Collider* other) override;
+	void OnCollisionStay(Collider* other) override;
+	void OnCollisionExit(Collider* other) override;
+
 };
 
 
@@ -109,6 +172,11 @@ class BoxCollider : public Collider {
 public:
     float width, height; // Local dimensions (before scale)
 
+	BoxCollider(): Collider({ 0, 0 }, 0, {50, 50})
+		, width(100)
+		, height(100)
+	{
+	}
     BoxCollider(Vec2 pos, float rot, SizeF s, float w, float h)
         : Collider(pos, rot, s)
         , width(w)
@@ -119,8 +187,16 @@ public:
 
 	virtual ~BoxCollider() { }
 
+
+public:
+    void SetBoxCollider(Vec2 pos, float rot, SizeF s, float w, float h);
+
+	virtual void Initialize_AddCompoment() override;
+
+public:
 	// Get the corners of the box in world space using GDI+ Matrix
     std::vector<Vec2> GetWorldCorners() const;
+    std::vector<PointF> GetWorldCornersF() const;
 
 
 	// Collision dispatch
@@ -154,4 +230,22 @@ public:
         return false;
     }
 
+
+	// AABB 구현: 회전된 사각형의 AABB를 계산
+    RectF GetAABB() const override {
+        std::vector<Vec2> corners = GetWorldCorners();
+
+        float minX = FLT_MAX; // std::numeric_limits<float>::max();
+        float minY = FLT_MAX; // std::numeric_limits<float>::max();
+        float maxX = std::numeric_limits<float>::lowest();
+        float maxY = std::numeric_limits<float>::lowest();
+
+        for (const auto& p : corners) {
+            if (p.x < minX) minX = p.x;
+            if (p.y < minY) minY = p.y;
+            if (p.x > maxX) maxX = p.x;
+            if (p.y > maxY) maxY = p.y;
+        }
+        return RectF(minX, minY, maxX - minX, maxY - minY);
+    }
 };

@@ -4,9 +4,14 @@
 #include "Component.h"
 #include "Transform.h"
 
+#include "../Manager/CollisionManager.h"
+#include "../Core/UtilLoger.h"
 
 using namespace Gdiplus;
 
+
+
+long Collider::nextId = 0; // static 멤버 초기화
 
 
 // --- 충돌 감지 구현 ---
@@ -76,27 +81,86 @@ bool LineLineIntersection(const LineSegment& line1, const LineSegment& line2) {
 
 
 
+Collider::~Collider() 
+{ 
+	CollisionManager::GetI()->RemoveCollider(this); 
+}
+
+void Collider::Initialize_AddCompoment() { 
+
+	__super::Initialize_AddCompoment( );
+
+	transform->SetWorldPosition(pos.x, pos.y);
+    transform->SetWorldRotation(rotation);
+    //transform->SetWorldScale(scale.Width, scale.Height);
+
+	CollisionManager::GetI()->AddCollider(this); 
+}
+
 bool Collider::Intersects(Collider* other) {
     Gdiplus::RectF a = GetWorldRect();
     Gdiplus::RectF b = other->GetWorldRect();
 
     return a.Intersect(b); //    a.Intersects(b);
 
-
 }
+
+void Collider::OnCollisionEnter(Collider* other) {
+	// 실제 게임 로직에서 충돌 시작 시 필요한 동작을 여기에 추가
+	// 예를 들어, DebugPrint("충돌 시작: " + other->id);
+	std::wstring msg = std::format(L"{}, {} 충돌엔터", this->id, other->id);
+	UtilLoger::Log(msg, E_LogLevel::E_INFO);
+}
+void Collider::OnCollisionStay(Collider* other) {
+	// 실제 게임 로직에서 충돌 유지 시 필요한 동작을 여기에 추가
+	// 예를 들어, DebugPrint("충돌 중: " + other->id);
+}
+void Collider::OnCollisionExit(Collider* other) {
+	// 실제 게임 로직에서 충돌 종료 시 필요한 동작을 여기에 추가
+	// 예를 들어, DebugPrint("충돌 나감: " + other->id);
+	std::wstring msg = std::format(L"{}, {} 충돌빠지기", this->id, other->id);
+	UtilLoger::Log(msg, E_LogLevel::E_INFO);
+}
+
 
 Gdiplus::RectF Collider::GetWorldRect() {
     //Transform* t = owner->GetComponent<Transform>();
 
 	Transform* t = this->transform;
     return Gdiplus::RectF { t->GetWorldPosition().x, t->GetWorldPosition().y
-		, t->width, t->height };
+		, width //t->width
+		, height //t->height 
+	};
 
 
 }
 
-std::vector<Vec2> BoxCollider::GetWorldCorners( ) const
-{
+void BoxCollider::SetBoxCollider(Vec2 pos, float rot, SizeF s, float w, float h) 
+{ 
+	this->pos = pos;
+    position.X = pos.x;
+    position.Y = pos.y;
+    rotation = rot;
+    scale = s;
+
+	width = w;
+    height = h;
+
+
+	transform->SetWorldPosition(pos.x, pos.y);
+    transform->SetWorldRotation(rot);
+    //transform->SetWorldScale(s.Width, s.Height);
+
+}
+
+void BoxCollider::Initialize_AddCompoment() 
+{ 
+	__super::Initialize_AddCompoment(); 
+
+
+}
+
+std::vector<Vec2> BoxCollider::GetWorldCorners() const {
     std::vector<Vec2> corners;
     // Local corners relative to its own origin (0,0)
     Vec2 halfSize = Vec2(width * 0.5f, height * 0.5f);
@@ -111,6 +175,22 @@ std::vector<Vec2> BoxCollider::GetWorldCorners( ) const
 
     for (int i = 0; i < 4; ++i) {
         corners.push_back({ localCorners[i].X, localCorners[i].Y });
+    }
+    return corners;
+}
+
+std::vector<PointF> BoxCollider::GetWorldCornersF() const 
+{ 
+	std::vector<PointF> corners;
+    PointF halfSize = PointF(width / 2.0f, height / 2.0f);
+    PointF localCorners[4] = { PointF(-halfSize.X, -halfSize.Y), PointF(halfSize.X, -halfSize.Y), PointF(halfSize.X, halfSize.Y),
+        PointF(-halfSize.X, halfSize.Y) };
+
+    Matrix& transformMatrix = transform->GetWorldMatrix();
+    transformMatrix.TransformPoints(localCorners, 4);
+
+    for (int i = 0; i < 4; ++i) {
+        corners.push_back(localCorners[i]);
     }
     return corners;
 }
