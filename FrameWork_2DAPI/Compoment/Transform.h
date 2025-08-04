@@ -133,6 +133,7 @@ public:
 	void SetWorldPosition(Vec2& p_wpos);
     void SetWorldPosition(float p_x, float p_y);
 
+	void SetTranslate(float p_x, float p_y);
 
 	Vec2& GetWorldPosition( ) {
 		//if ( !parent ) return localposition;

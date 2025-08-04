@@ -21,6 +21,7 @@ public:
     virtual void Render(HDC hdc) {}
     virtual ~Component() {}
     virtual void Initialize_AddCompoment();
+	virtual void RemoveCompoment( );
     virtual void Initialize(){}
 	virtual void Release() {}
     virtual void Destroy() {}

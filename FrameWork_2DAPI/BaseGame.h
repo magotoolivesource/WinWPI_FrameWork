@@ -1,10 +1,14 @@
 ﻿#pragma once
 #include "Scene/Scene.h"
-
+#include <string>
 
 class TimerManager; // 전방 선언
 class InputManager;
 class UtilTimer;
+
+class GameObject;
+class RigidbodyComponent;
+class Test_PlayerMoveCom;
 
 
 class BaseGame
@@ -63,8 +67,18 @@ public:
 
 	void Test_Collider();
 
+	void Test_TimerLoger( );
 
-	void Test_AniCallBackFN1(UtilTimer* utiltimer);
-	void Test_AniCallBackFN(UtilTimer* utiltimer);
+
+	void Test_AniCallBackFN1(UtilTimer* utiltimer, void* p_data);
+	void Test_AniCallBackFN(UtilTimer* utiltimer, void* p_data);
+
+
+	void Test_RigidBody( );
+	void Test_RigidBoxCollider( float p_x, float p_y, std::string p_objname );
+
+protected:
+	GameObject* m_playerbody;
+	Test_PlayerMoveCom* m_TestPlayerMoveCom;
 };
 

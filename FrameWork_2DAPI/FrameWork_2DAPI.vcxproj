@@ -173,6 +173,7 @@
     <ClInclude Include="UICompoment\RichTextAndInputFieldComponent.h" />
     <ClInclude Include="UICompoment\RichTextComponent.h" />
     <ClInclude Include="UICompoment\TextComponent.h" />
+    <ClInclude Include="z_SampleSource\Test_PlayerMoveCom.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseGame.cpp" />
@@ -211,6 +212,7 @@
     <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp" />
     <ClCompile Include="UICompoment\RichTextComponent.cpp" />
     <ClCompile Include="UICompoment\TextComponent.cpp" />
+    <ClCompile Include="z_SampleSource\Test_PlayerMoveCom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork_2DAPI.rc" />

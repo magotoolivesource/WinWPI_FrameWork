@@ -7,3 +7,8 @@ void Component::Initialize_AddCompoment()
 	transform = owner->GetComponent<Transform>();
 
 }
+
+void Component::RemoveCompoment( )
+{
+
+}

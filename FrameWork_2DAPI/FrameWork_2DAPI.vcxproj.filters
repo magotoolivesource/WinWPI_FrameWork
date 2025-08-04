@@ -31,6 +31,9 @@
     <Filter Include="UICompoment">
       <UniqueIdentifier>{f26800c4-59cc-4030-a5ca-1156aaaf84a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="z_SampleSource">
+      <UniqueIdentifier>{6c952850-3172-42e2-adb6-127e7b950767}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="Compoment\RigidbodyComponent.h">
       <Filter>Compoment</Filter>
     </ClInclude>
+    <ClInclude Include="z_SampleSource\Test_PlayerMoveCom.h">
+      <Filter>z_SampleSource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -274,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="Compoment\RigidbodyComponent.cpp">
       <Filter>Compoment</Filter>
+    </ClCompile>
+    <ClCompile Include="z_SampleSource\Test_PlayerMoveCom.cpp">
+      <Filter>z_SampleSource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

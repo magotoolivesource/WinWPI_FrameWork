@@ -20,9 +20,9 @@ void CollisionManager::Initialize()
 
 void CollisionManager::CreateInitializeManager( )
 {
-	if ( m_ISInit )
-		return;
-	__super::CreateInitializeManager( );
+	//if ( m_ISInit )
+	//	return;
+	//__super::CreateInitializeManager( );
 
 	RectF worldBounds;
 	quadtree = new QuadtreeNode(worldBounds, 0);

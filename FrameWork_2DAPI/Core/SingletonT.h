@@ -38,7 +38,7 @@ public:
 				}
             } deleter;
 
-			instance->CreateInitializeManager( );
+			instance->InnerInitializeManager( );
         }
         return instance;
     }
@@ -62,7 +62,7 @@ public:
                 }
             } deleter;
 
-			instance->CreateInitializeManager( );
+			instance->InnerInitializeManager( );
         }
         return *instance;
     }
@@ -88,17 +88,28 @@ public:
 		// 초기화 작업
     }
 
-	bool m_ISInit = false;
 	virtual void CreateInitializeManager( )
+	{
+		// 초기화 작업
+		//if ( m_ISInit )
+		//	return;
+
+		//m_ISInit = true;
+	}
+	//virtual void CreateInitialize( ) = 0;
+
+protected:
+	virtual void InnerInitializeManager( )
 	{
 		// 초기화 작업
 		if ( m_ISInit )
 			return;
 
+		CreateInitializeManager( );
+
 		m_ISInit = true;
 	}
-	//virtual void CreateInitialize( ) = 0;
-
+	bool m_ISInit = false;
 
 };
 

@@ -15,6 +15,10 @@
 //class Component;
 class Transform;
 
+
+
+// 1번 https://chatgpt.com/c/685d15a6-5204-8013-ae97-2bd6dfe11517
+// 2번 https://chatgpt.com/c/689005d8-abc4-8013-b786-dcc76a8e9d17
 class GameObject
 {
 public:
@@ -82,18 +86,47 @@ public:
     bool RemoveComponent() {
         //T* comp = new T(std::forward<Args>(args)...);
         //comp->owner = this;
-
         //auto it = components.find(std::type_index(typeid(T)));
 
-        if (components[std::type_index(typeid(T))])
-        {
-            delete components[std::type_index(typeid(T))].get();
-            components[std::type_index(typeid(T))].release();// = nullptr;
 
-            components.erase(std::type_index(typeid(T)));
+		
+		auto it = components.find(std::type_index(typeid( T )));
+		if ( it != components.end( ) )
+		{
+			T* com = dynamic_cast< T* >( it->second.get( ) );
+			com->RemoveCompoment( );
+			//delete it->second.get( );
+			it->second.release( );
+			components.erase( it );
 
-            return true;
-        }
+			return true;
+		}
+
+
+		//if ( components[ std::type_index(typeid( T )) ] )
+		//{
+		//	auto com = components[ std::type_index(typeid( T )) ];
+
+		//	com.get()->RemoveCompoment();
+		//	delete com.get( );
+		//	com.release( );
+		//	components.erase(std::type_index(typeid( T )));
+
+		//	return true;
+		//}
+
+
+   //     if (components[std::type_index(typeid(T))])
+   //     {
+			//RemoveCompoment
+
+   //         delete components[std::type_index(typeid(T))].get();
+   //         components[std::type_index(typeid(T))].release();// = nullptr;
+
+   //         components.erase(std::type_index(typeid(T)));
+
+   //         return true;
+   //     }
 
         return false;
     }
@@ -101,10 +134,29 @@ public:
     template <typename T>
     T* GetComponent() {
         auto it = components.find(std::type_index(typeid(T)));
-        return (it != components.end()) ? dynamic_cast<T*>(it->second.get()) : nullptr;
+
+		T* outcom = ( it != components.end( ) ) ? dynamic_cast< T* >( it->second.get( ) ) : nullptr;
+		if ( outcom == nullptr )
+			outcom = GetComponentDynamic<T>( );
+		return outcom;
     }
     
+protected:
+	template <typename T>
+	T* GetComponentDynamic( ) {
+		for ( const auto& comp : components )
+		{
+			if ( T* casted = dynamic_cast< T* >( comp.second.get( ) ) )
+			{
+				return casted;
+			}
+		}
 
+		return nullptr;
+	}
+
+
+public:
     void Start() {
         //for (auto& [_, comp] : components) comp->Start();
         for(auto& comp : components) 

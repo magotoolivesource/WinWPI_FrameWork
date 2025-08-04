@@ -20,6 +20,7 @@
 #include "Compoment/LineComponent.h"
 #include "Compoment/RectLineComponent.h"
 #include "Compoment/Collider.h"
+#include "Compoment/RigidbodyComponent.h"
 
 #include "UICompoment/Button.h"
 #include "UICompoment/TextComponent.h"
@@ -29,11 +30,13 @@
 #include "Manager/DebugObjectManager.h"
 #include "Manager/CameraManager.h"
 #include "Manager/CollisionManager.h"
+#include "Manager/PhysicsManager.h"
 
 #include "Core/MyUtil.h"
 #include "Core/UtilTimerManager.h"
 #include "Core/UtilLoger.h"
 
+#include "z_SampleSource/Test_PlayerMoveCom.h"
 
 
 using namespace Gdiplus;
@@ -141,16 +144,18 @@ void TestUpdateFN(BaseGame* p_game)
 }
 
 
-void BaseGame::Test_AniCallBackFN1(UtilTimer* utiltimer)
+void BaseGame::Test_AniCallBackFN1(UtilTimer* utiltimer, void* p_data)
 {
 	UtilLoger::Log(L"콜백 호출 : ");
 }
 
-void BaseGame::Test_AniCallBackFN(UtilTimer* utiltimer)
+void BaseGame::Test_AniCallBackFN(UtilTimer* utiltimer, void* p_data)
 {
 	//g_colliderbox1
 	UtilLoger::ClearAll( );
 }
+
+
 
 
 BaseGame::BaseGame()
@@ -305,14 +310,21 @@ void BaseGame::UpdateInputReset()
 
 void BaseGame::Update() {
 
-	// 충돌처리업데이트
-    CollisionManager::GetI()->UpdateCollisions();
-
 
 	::TestUpdateFN(this);
 	// 씬업데이트
 	float dt = m_pTimerManager->GetDeltaTime();
+
+	// 위치 이동 처리
+	PhysicsManager::GetI( )->UpdatePhysics(dt);
+	// 충돌처리업데이트
+	CollisionManager::GetI( )->UpdateCollisions( );
+
     m_CurrentScene->Update( dt );
+
+	
+
+
 
 
 	// Timer
@@ -348,6 +360,8 @@ void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 
 	// 콜리젼 그리기
 	CollisionManager::GetI()->DrawColliders(p_hdc);
+
+	PhysicsManager::GetI( )->DrawPhysics(p_hdc);
 
 	// 디버그용 자료 그리기
 	DebugObjectManager::Instance().AllDebugRender(p_hdc);
@@ -386,7 +400,13 @@ void BaseGame::Test_InitScene()
 
 	Test_TextLabel();
 	
-	Test_Collider();
+	//Test_Collider();
+
+	//Test_TimerLoger( );
+
+	Test_RigidBody( );
+
+
 
 	// 라인그리기
     Gdiplus::PointF startPoint(50, 50);
@@ -410,34 +430,7 @@ void BaseGame::Test_InitScene()
 	//mainCamera->SetWorldRotation(-45.f); // 카메라 회전 설정
 
 
-
-	UtilTimerManager::GetI()->AddTimer( 2.0f
-		, [](UtilTimer* utiltimer, void* p_sender) { 
-			//std::wcout << L"[Timer1] 매 프레임 업로드!\n"; 
-			UtilLoger::Log(L"[Timer1] 매 프레임 업로드!", E_LogLevel::E_WARN);
-		}
-		, [](UtilTimer* utiltimer, void* p_sender) {
-			//std::wcout << L"[Timer1] 2초 후 실행됨!\n"; 
-			UtilLoger::Log(L"[Timer1] 2초 후 실행됨!", E_LogLevel::E_ERROR);
-		}
-		, 0
-	);
-
-
-    //bunobj->AddComponent< Transform>();
-
-    //bunobj->AddComponent< Transform>();
-    
- //   bunobj->AddComponent< Button>([](Button* pButton) 
- //   {
- //   // 버튼 클릭시 동작
- //   MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
-	//});
-
-
-
-	//assert(false && "이 메시지는 NDEBUG가 정의되지 않았을 때만 보입니다.");
-	//exit(0); // 프로그램 종료
+	
 
 
 }
@@ -613,11 +606,10 @@ void BaseGame::Test_Collider()
 	// 바인딩 방식 호출
 	UtilTimerManager::GetI( )->AddTimer(3.f
 		, nullptr //std::bind(&BaseGame::Test_AniCallBackFN, this, std::placeholders::_1)
-		, std::bind(&BaseGame::Test_AniCallBackFN1, this, std::placeholders::_1)
+		, std::bind(&BaseGame::Test_AniCallBackFN1, this, std::placeholders::_1, nullptr )
 		, nullptr
 		, 0
 	);
-
 
 	// 람다 바인딩으로 보내는 방식
 	UtilTimerManager::GetI( )->AddTimer(4.f
@@ -632,7 +624,7 @@ void BaseGame::Test_Collider()
 
 			boxcol2->transform->SetWorldPosition(wpos);
 		}
-		, std::bind(&BaseGame::Test_AniCallBackFN, this, std::placeholders::_1)
+		, std::bind(&BaseGame::Test_AniCallBackFN, this, std::placeholders::_1, nullptr)
 		, nullptr
 		, -1
 	);
@@ -640,4 +632,104 @@ void BaseGame::Test_Collider()
 
 }
 
+
+void BaseGame::Test_TimerLoger( )
+{
+	UtilTimerManager::GetI( )->AddTimer(2.0f
+		, [ ] (UtilTimer* utiltimer, void* p_sender) {
+			//std::wcout << L"[Timer1] 매 프레임 업로드!\n"; 
+			UtilLoger::Log(L"[Timer1] 매 프레임 업로드!", E_LogLevel::E_WARN);
+		}
+		, [ ] (UtilTimer* utiltimer, void* p_sender) {
+			//std::wcout << L"[Timer1] 2초 후 실행됨!\n"; 
+			UtilLoger::Log(L"[Timer1] 2초 후 실행됨!", E_LogLevel::E_ERROR);
+		}
+		, 0
+	);
+
+
+	//bunobj->AddComponent< Transform>();
+
+	//bunobj->AddComponent< Transform>();
+
+ //   bunobj->AddComponent< Button>([](Button* pButton) 
+ //   {
+ //   // 버튼 클릭시 동작
+ //   MessageBox(nullptr, L"Button Clicked!", L"Info", MB_OK);
+	//});
+
+
+
+	//assert(false && "이 메시지는 NDEBUG가 정의되지 않았을 때만 보입니다.");
+	//exit(0); // 프로그램 종료
+}
+
+void BaseGame::Test_RigidBody( )
+{
+
+	CollisionManager::GetI( )->SetIsDebugDraw(true);
+
+
+	// 충돌처리 오브젝트1
+	GameObject* rd_gameobject = m_CurrentScene->CreateObject("RDBox01");
+	auto* pngcom1 = rd_gameobject->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	pngcom1->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	rd_gameobject->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+	rd_gameobject->transform->SetWorldRotation(0.f); // 월드 회전 설정
+	rd_gameobject->transform->SetWorldPosition(400, 200);
+	rd_gameobject->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정
+	//pngcom1->SetISDebugBoundBox(true);
+
+	Vec2 pos1(451, 200);
+	SizeF size1(100, 100);
+	BoxCollider* boxcol1 = rd_gameobject->AddComponent<BoxCollider>(pos1, 0, size1, 100, 100);
+	boxcol1->SetBoxCollider(pos1, 0, size1, size1.Width, size1.Height);
+	RigidbodyComponent* rigidcom = rd_gameobject->AddComponent<RigidbodyComponent>();
+
+	// 플레이어 연결
+	//m_playerbody = rd_gameobject;
+	m_TestPlayerMoveCom = rd_gameobject->AddComponent< Test_PlayerMoveCom>( );
+
+
+
+
+
+	GameObject* colliderbox2 = m_CurrentScene->CreateObject("RDBox02");
+	auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	colliderbox2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+	colliderbox2->transform->SetWorldRotation(0.f); // 월드 회전 설정
+	colliderbox2->transform->SetWorldPosition(400, 200);
+	colliderbox2->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정
+	//pngcom1->SetISDebugBoundBox(true);
+
+	Vec2 pos2(400, 300);
+	SizeF size2(100, 100);
+	BoxCollider* boxcol2 = colliderbox2->AddComponent<BoxCollider>(pos2, 0, size2, 100, 100);
+	boxcol2->SetBoxCollider(pos2, 0, size2, size2.Width, size2.Height);
+
+
+
+	Test_RigidBoxCollider(500, 350, "RDBox03");
+
+	Test_RigidBoxCollider(600, 400, "RDBox04");
+}
+
+void BaseGame::Test_RigidBoxCollider(float p_x, float p_y, std::string p_objname)
+{
+
+	GameObject* colliderbox2 = m_CurrentScene->CreateObject(p_objname);
+	auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	colliderbox2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
+	colliderbox2->transform->SetWorldRotation(0.f); // 월드 회전 설정
+	colliderbox2->transform->SetWorldPosition(400, 200);
+	colliderbox2->transform->SetWorldScale(0.5f, 0.5f); // 월드 스케일 설정
+
+	Vec2 pos2(p_x, p_y);
+	SizeF size2(100, 100);
+	BoxCollider* boxcol2 = colliderbox2->AddComponent<BoxCollider>(pos2, 0, size2, 100, 100);
+	boxcol2->SetBoxCollider(pos2, 0, size2, size2.Width, size2.Height);
+
+}
 

@@ -23,6 +23,8 @@ public:
         };
     }
 
+	void Reset( ) { x = 0; y = 0; }
+	void Set(float p_x, float p_y) { x = p_x; y = p_y; }
 
 #pragma region 코파일럿 자동 생성자들
 

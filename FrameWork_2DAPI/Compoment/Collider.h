@@ -6,6 +6,9 @@
 #include <set>
 #include <cmath>
 #include <algorithm> // For std::max, std::min
+#include <functional>
+#include <memory>
+#include <algorithm>
 #include <limits> // For FLT_MAX
 #include <string>
 #include <format>
@@ -31,6 +34,7 @@ struct LineSegment {
 
 
 class BoxCollider;
+class RigidbodyComponent;
 
 
 // --- 충돌 감지 구현 ---
@@ -57,6 +61,32 @@ public:
 
 class Collider : public Component, ICollisionEventListener
 {
+public:
+	using Callback = std::function<void(Collider*, Collider*, void*)>;
+
+
+protected:
+	Callback m_EnterCallBack = nullptr;
+	Callback m_StayCallBack = nullptr;
+	Callback m_ExitCallBack = nullptr;
+
+
+protected:
+	Callback m_Rigidbody_EnterCallBack = nullptr;
+	Callback m_Rigidbody_StayCallBack = nullptr;
+	Callback m_Rigidbody_ExitCallBack = nullptr;
+
+	void SetRigidBodyCallFN(Callback p_enter, Callback p_stay, Callback p_exit);
+	friend class RigidbodyComponent;
+
+public:
+	void SetCallFN(Callback p_enter, Callback p_stay, Callback p_exit);
+	
+
+
+protected:
+	RigidbodyComponent* m_Bodycom;
+
 public:
     static long nextId; // 고유 ID 생성을 위함
     long id; // 충돌 감지를 위한 고유 ID
@@ -102,6 +132,7 @@ public:
 
 public:
     virtual void Initialize_AddCompoment() override;
+	virtual void RemoveCompoment( ) override;
 
 public:
     // Pure virtual functions for type-specific collision
@@ -163,6 +194,9 @@ public:
 	void OnCollisionStay(Collider* other) override;
 	void OnCollisionExit(Collider* other) override;
 
+
+public:
+	void ResetRigidBody( );
 };
 
 
@@ -190,8 +224,8 @@ public:
 
 public:
     void SetBoxCollider(Vec2 pos, float rot, SizeF s, float w, float h);
-
 	virtual void Initialize_AddCompoment() override;
+	virtual void RemoveCompoment( ) override;
 
 public:
 	// Get the corners of the box in world space using GDI+ Matrix

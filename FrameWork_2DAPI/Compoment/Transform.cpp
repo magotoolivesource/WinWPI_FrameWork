@@ -119,6 +119,13 @@ void Transform::SetWorldPosition(float p_x, float p_y)
     }
 }
 
+void Transform::SetTranslate(float p_x, float p_y)
+{
+	localposition.x += p_x;
+	localposition.y += p_y;
+	MarkDirty( );
+}
+
 void Transform::setLocalPosition(const Vec2& pos)
 {
     localposition = pos;

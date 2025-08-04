@@ -6,6 +6,7 @@
 
 #include "../Manager/CollisionManager.h"
 #include "../Core/UtilLoger.h"
+#include "RigidbodyComponent.h"
 
 using namespace Gdiplus;
 
@@ -80,8 +81,21 @@ bool LineLineIntersection(const LineSegment& line1, const LineSegment& line2) {
 }
 
 
+void Collider::SetCallFN(Callback p_enter, Callback p_stay, Callback p_exit)
+{
+	m_EnterCallBack = p_enter;
+	m_StayCallBack = p_stay;
+	m_ExitCallBack = p_exit;
+}
 
-Collider::~Collider() 
+void Collider::SetRigidBodyCallFN(Callback p_enter, Callback p_stay, Callback p_exit)
+{
+	m_Rigidbody_EnterCallBack = p_enter;
+	m_Rigidbody_StayCallBack = p_stay;
+	m_Rigidbody_ExitCallBack = p_exit;
+}
+
+Collider::~Collider()
 { 
 	CollisionManager::GetI()->RemoveCollider(this); 
 }
@@ -95,6 +109,23 @@ void Collider::Initialize_AddCompoment() {
     //transform->SetWorldScale(scale.Width, scale.Height);
 
 	CollisionManager::GetI()->AddCollider(this); 
+
+
+	m_Bodycom = this->owner->GetComponent<RigidbodyComponent>( );
+	//RigidbodyComponent* bodycom = 
+	if ( m_Bodycom )
+	{
+		m_Bodycom->SetLinkCollider(this);
+	}
+}
+
+void Collider::RemoveCompoment( )
+{
+	RigidbodyComponent* bodycom = this->owner->GetComponent<RigidbodyComponent>( );
+	if ( bodycom )
+	{
+		bodycom->SetLinkCollider(nullptr);
+	}
 }
 
 bool Collider::Intersects(Collider* other) {
@@ -110,16 +141,42 @@ void Collider::OnCollisionEnter(Collider* other) {
 	// 예를 들어, DebugPrint("충돌 시작: " + other->id);
 	std::wstring msg = std::format(L"{}, {} 충돌엔터", this->id, other->id);
 	UtilLoger::Log(msg, E_LogLevel::E_INFO);
+
+	if ( m_EnterCallBack )
+		m_EnterCallBack(this, other, nullptr);
+
+	if ( m_Rigidbody_EnterCallBack )
+		m_Rigidbody_EnterCallBack(this, other, nullptr);
+
 }
+
 void Collider::OnCollisionStay(Collider* other) {
 	// 실제 게임 로직에서 충돌 유지 시 필요한 동작을 여기에 추가
 	// 예를 들어, DebugPrint("충돌 중: " + other->id);
+
+	if ( m_StayCallBack )
+		m_StayCallBack(this, other, nullptr);
+
+	if ( m_Rigidbody_StayCallBack )
+		m_Rigidbody_StayCallBack(this, other, nullptr);
 }
+
 void Collider::OnCollisionExit(Collider* other) {
 	// 실제 게임 로직에서 충돌 종료 시 필요한 동작을 여기에 추가
 	// 예를 들어, DebugPrint("충돌 나감: " + other->id);
 	std::wstring msg = std::format(L"{}, {} 충돌빠지기", this->id, other->id);
 	UtilLoger::Log(msg, E_LogLevel::E_INFO);
+
+	if ( m_ExitCallBack )
+		m_ExitCallBack(this, other, nullptr);
+
+	if ( m_Rigidbody_ExitCallBack )
+		m_Rigidbody_ExitCallBack(this, other, nullptr);
+}
+
+void Collider::ResetRigidBody( )
+{
+	m_Bodycom = nullptr;
 }
 
 
@@ -158,6 +215,13 @@ void BoxCollider::Initialize_AddCompoment()
 	__super::Initialize_AddCompoment(); 
 
 
+}
+
+void BoxCollider::RemoveCompoment( )
+{
+
+
+	__super::RemoveCompoment( );
 }
 
 std::vector<Vec2> BoxCollider::GetWorldCorners() const {
