@@ -33,8 +33,20 @@ struct LineSegment {
 };
 
 
+// =====================================================================
+// 전방 선언
+class Collider; // Collider가 ICollisionEventListener를 상속받으므로 먼저 선언
 class BoxCollider;
 class RigidbodyComponent;
+
+
+// https://chatgpt.com/c/6890731a-0500-8013-8bd7-89b0ebf2e618
+enum class ColliderType {
+	Box,
+	Circle
+};
+
+
 
 
 // --- 충돌 감지 구현 ---
@@ -47,10 +59,6 @@ bool LineLineIntersection(const LineSegment& line1, const LineSegment& line2);
 
 
 
-// =====================================================================
-// 전방 선언
-class Collider; // Collider가 ICollisionEventListener를 상속받으므로 먼저 선언
-
 // 충돌 이벤트 리스너 인터페이스
 class ICollisionEventListener {
 public:
@@ -59,11 +67,13 @@ public:
     virtual void OnCollisionExit(Collider* other) = 0;
 };
 
+
 class Collider : public Component, ICollisionEventListener
 {
 public:
 	using Callback = std::function<void(Collider*, Collider*, void*)>;
 
+	virtual ColliderType GetColliderType( ) = 0;
 
 protected:
 	Callback m_EnterCallBack = nullptr;
@@ -204,6 +214,11 @@ public:
 // --- Box Collider ---
 class BoxCollider : public Collider {
 public:
+	virtual ColliderType GetColliderType( ) {
+		return ColliderType::Box;
+	}
+
+public:
     float width, height; // Local dimensions (before scale)
 
 	BoxCollider(): Collider({ 0, 0 }, 0, {50, 50})
@@ -231,6 +246,8 @@ public:
 	// Get the corners of the box in world space using GDI+ Matrix
     std::vector<Vec2> GetWorldCorners() const;
     std::vector<PointF> GetWorldCornersF() const;
+
+	void GetWorldCornersF( OUT std::vector<PointF>* p_outconner ) const;
 
 
 	// Collision dispatch
@@ -283,3 +300,34 @@ public:
         return RectF(minX, minY, maxX - minX, maxY - minY);
     }
 };
+
+
+class CircleCollider : public Collider 
+{
+public:
+	virtual ColliderType GetColliderType( ) {
+		return ColliderType::Box;
+	}
+
+
+public:
+	float m_Radius; // Local dimensions (before scale)
+
+	CircleCollider( ) : Collider({ 0, 0 }, 0, { 50, 50 })
+		, m_Radius(1.f)
+	{
+	}
+	CircleCollider(Vec2 pos, float p_size)
+		: Collider(pos, 0.f, {p_size, p_size})
+		, m_Radius(p_size)
+	{
+
+	}
+
+	virtual ~CircleCollider( ) {}
+
+public:
+
+
+};
+

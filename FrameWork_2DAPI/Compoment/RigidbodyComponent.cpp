@@ -172,27 +172,121 @@ void RigidbodyComponent::PhysicsUpdate(float dt)
 	}
 }
 
-void RigidbodyComponent::OnCollisionEnter(Collider* p_src, Collider* p_dest, void* p_data)
+void RigidbodyComponent::OnCollisionEnter(Collider* p_src, Collider* p_other, void* p_data)
 {
 	UtilLoger::Log(L"강체진입 콜백 호출 : ");
 
-	grounded = true;
+	//grounded = true;
+
+
+	//UpdateReLocation(p_src, p_other);
+
+
+	UpdateResoveCollision(p_other);
+	
+
 }
 
-void RigidbodyComponent::OnCollisionStay(Collider* p_src, Collider* p_dest, void* p_data)
+void RigidbodyComponent::OnCollisionStay(Collider* p_src, Collider* p_other, void* p_data)
 {
 	//UtilLoger::Log(L"강체업데이트 콜백 호출 : ");
 
-	// 이부분에서 속도를 강제로 줄일지는 생각해야지됨
-	// enter 에서 처리할지 생각하기
-	velocity.Set(0.f, 0.f);
-	grounded = true;
+
+	//// 이부분에서 속도를 강제로 줄일지는 생각해야지됨
+	//// enter 에서 처리할지 생각하기
+	//velocity.Set(0.f, 0.f);
+	//grounded = true;
+
+	UpdateResoveCollision(p_other);
 }
 
-void RigidbodyComponent::OnCollisionExit(Collider* p_src, Collider* p_dest, void* p_data)
+void RigidbodyComponent::OnCollisionExit(Collider* p_src, Collider* p_other, void* p_data)
 {
 	UtilLoger::Log(L"강체빠짐 콜백 호출 : ");
 	
 	grounded = false;
+}
+
+void RigidbodyComponent::UpdateReLocation(Collider* p_src, Collider* p_other)
+{
+	auto thisrect = p_src->GetWorldRect( );
+
+	// 위치 다시 지정
+	auto otherrect = p_other->GetWorldRect( );// GetAABB( );
+
+	float yy = 0.f;
+	// -쪽이 위에 있음
+	if ( thisrect.Y < otherrect.Y )
+	{
+		//float top = rect.Y - rect.Height * 0.5f;
+		float top = otherrect.GetTop( );
+		yy = top - ( thisrect.Height );
+	}
+	else
+	{
+		float bottom = otherrect.GetBottom( );
+		yy = bottom + ( thisrect.Height );
+	}
+
+	transform->SetWorldPosition(thisrect.X, yy);
+
+
+	//Gdiplus::LinearGradientBrush
+	//LineIntersect()
+}
+
+void RigidbodyComponent::UpdateResoveCollision( Collider* p_other )
+{
+	if ( !this->m_LinkCollider )
+	{
+		return;
+	}
+
+	Vec2 wpos = transform->GetWorldPosition( );
+	Vec2 otherwpos = p_other->transform->GetWorldPosition( );
+
+
+	SizeF this_size(this->m_LinkCollider->width, this->m_LinkCollider->height);
+	SizeF other_size(p_other->width, p_other->height);
+
+	// 일반 충돌 처리
+	float bottomDist = fabs(( wpos.y + this_size.Height ) - otherwpos.y);
+	float topDist = fabs(wpos.y - ( otherwpos.y + other_size.Height ));
+	float leftDist = fabs(( wpos.x + this_size.Width ) - otherwpos.x);
+	float rightDist = fabs(wpos.x - ( otherwpos.x + other_size.Width ));
+
+	Vec2 temppos(wpos);
+	bool ishit = false;
+	// 상단
+	if ( bottomDist < topDist && bottomDist < leftDist && bottomDist < rightDist ) {
+		temppos.y = otherwpos.y - this_size.Height;
+		velocity.y = 0;
+		grounded = true;
+		ishit = true;
+	}
+	// 하단
+	else if ( topDist < bottomDist && topDist < leftDist && topDist < rightDist ) {
+		temppos.y = otherwpos.y + this_size.Height;
+		velocity.y *= -0.4f;
+		ishit = true;
+	}
+	// 왼쪽
+	else if ( leftDist < rightDist ) {
+		temppos.x = otherwpos.x - this_size.Width;
+		velocity.x *= -0.5f;
+		ishit = true;
+	}
+	// 오른쪽
+	else {
+		temppos.x = otherwpos.x + other_size.Width;
+		velocity.x *= -0.5f;
+		ishit = true;
+	}
+
+
+	if ( ishit)
+	{
+		transform->SetWorldPosition(temppos.x, temppos.y);
+	}
 }
 

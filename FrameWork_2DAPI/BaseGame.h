@@ -69,6 +69,8 @@ public:
 
 	void Test_TimerLoger( );
 
+	void Test_UpdateRaycast( );
+
 
 	void Test_AniCallBackFN1(UtilTimer* utiltimer, void* p_data);
 	void Test_AniCallBackFN(UtilTimer* utiltimer, void* p_data);

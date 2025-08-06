@@ -324,6 +324,7 @@ void BaseGame::Update() {
 
 	
 
+	Test_UpdateRaycast( );
 
 
 
@@ -333,7 +334,7 @@ void BaseGame::Update() {
     //sprintf_s(nullptr, 0, "");
     //swprintf_s(msg, 256, "%.2f FPS", fps);
 
-	std::wstring msg = std::format(L"{:.2f} FPS", fps);
+	std::wstring msg = std::format(L"{:.0f} FPS", fps);
 
     Vec2 pos(50, 20);
     DebugObjectManager::Instance().DrawDebugText(msg, pos);
@@ -393,16 +394,16 @@ void BaseGame::ReleaseGDIPlus()
 
 void BaseGame::Test_InitScene()
 {
-	
-	Test_Button();
-	
-    Test_Image();
 
-	Test_TextLabel();
-	
-	//Test_Collider();
+	//Test_Button();
 
-	//Test_TimerLoger( );
+	//Test_Image();
+
+	//Test_TextLabel();
+
+	////Test_Collider();
+
+	////Test_TimerLoger( );
 
 	Test_RigidBody( );
 
@@ -664,6 +665,27 @@ void BaseGame::Test_TimerLoger( )
 	//exit(0); // 프로그램 종료
 }
 
+void BaseGame::Test_UpdateRaycast( )
+{
+	PointF stpos(10, 190);
+	PointF endpos(600, 190);
+	PointF hitpos;
+	auto* collider = CollisionManager::GetI( )->Raycast(stpos, endpos, hitpos);
+
+
+	Gdiplus::Color col(255, 255, 0, 0);
+	if ( collider )
+	{
+		col.SetValue(Color::Blue);
+	}
+
+	Vec2 vstpos(stpos.X, stpos.Y);
+	Vec2 vendpos(endpos.X, endpos.Y);
+	DebugObjectManager::Instance( ).DrawLine(vstpos, vendpos, 1.f, col);
+
+
+}
+
 void BaseGame::Test_RigidBody( )
 {
 
@@ -672,8 +694,8 @@ void BaseGame::Test_RigidBody( )
 
 	// 충돌처리 오브젝트1
 	GameObject* rd_gameobject = m_CurrentScene->CreateObject("RDBox01");
-	auto* pngcom1 = rd_gameobject->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-	pngcom1->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	//auto* pngcom1 = rd_gameobject->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	//pngcom1->ImageLoadImage(L"Assets/Images/UVTexture.png");
 	rd_gameobject->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
 	rd_gameobject->transform->SetWorldRotation(0.f); // 월드 회전 설정
 	rd_gameobject->transform->SetWorldPosition(400, 200);
@@ -695,8 +717,8 @@ void BaseGame::Test_RigidBody( )
 
 
 	GameObject* colliderbox2 = m_CurrentScene->CreateObject("RDBox02");
-	auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-	pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	//auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	//pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
 	colliderbox2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
 	colliderbox2->transform->SetWorldRotation(0.f); // 월드 회전 설정
 	colliderbox2->transform->SetWorldPosition(400, 200);
@@ -719,8 +741,8 @@ void BaseGame::Test_RigidBoxCollider(float p_x, float p_y, std::string p_objname
 {
 
 	GameObject* colliderbox2 = m_CurrentScene->CreateObject(p_objname);
-	auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
-	pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
+	//auto* pngcom2 = colliderbox2->AddComponent<ImageComponent>(nullptr, 0, 0, true);
+	//pngcom2->ImageLoadImage(L"Assets/Images/UVTexture.png");
 	colliderbox2->transform->SetPivotPos(-100, -100); // 피봇 위치 설정
 	colliderbox2->transform->SetWorldRotation(0.f); // 월드 회전 설정
 	colliderbox2->transform->SetWorldPosition(400, 200);

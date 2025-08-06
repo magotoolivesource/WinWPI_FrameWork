@@ -15,6 +15,14 @@ namespace Gdiplus{
     class Image;
 };
 using namespace std;
+using namespace Gdiplus;
+
+
+// https://chatgpt.com/c/6890731a-0500-8013-8bd7-89b0ebf2e618
+struct ColliderEntry {
+	Collider* comp;
+	ColliderType type;
+};
 
 
 // =====================================================================
@@ -294,4 +302,21 @@ public:
 
     // 모든 충돌체를 그림 (디버깅용)
 	void DrawColliders(Graphics* g);
+
+
+public:
+	Component* Raycast(const PointF& rayStart, const PointF& rayEnd, PointF& outHitPoint);
+	std::tuple<Component*, Gdiplus::PointF, bool> RaycastTuple(const PointF& rayStart, const PointF& rayEnd);
+
+private:
+	// 회전된 박스 Raycast
+	bool RaycastBox(const BoxCollider& box, const PointF& rayStart, const PointF& rayEnd, PointF& outHitPoint);
+
+	std::vector<PointF> GetRotatedCorners(const BoxCollider& box);
+
+	// 원 Raycast
+	bool RaycastCircle(const CircleCollider& circle, const PointF& rayStart, const PointF& rayEnd, PointF& outHitPoint);
+
+	// 선분-선분 교차
+	bool LineIntersect(const PointF& a1, const PointF& a2, const PointF& b1, const PointF& b2, PointF& intersection);
 };

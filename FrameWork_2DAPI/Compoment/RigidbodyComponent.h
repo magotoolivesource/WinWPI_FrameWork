@@ -92,8 +92,13 @@ public:
 	virtual void PhysicsUpdate(float dt);
 public:
 	// ICollisionEventListener 인터페이스 구현 (기본 구현)
-	void OnCollisionEnter(Collider* p_src, Collider* p_dest, void* p_data);
-	void OnCollisionStay(Collider* p_src, Collider* p_dest, void* p_data);
-	void OnCollisionExit(Collider* p_src, Collider* p_dest, void* p_data);
+	void OnCollisionEnter(Collider* p_src, Collider* p_other, void* p_data);
+	void OnCollisionStay(Collider* p_src, Collider* p_other, void* p_data);
+	void OnCollisionExit(Collider* p_src, Collider* p_other, void* p_data);
+
+protected:
+	void UpdateReLocation(Collider* p_src, Collider* p_other);
+	void UpdateResoveCollision(Collider* p_other);
+
 };
 

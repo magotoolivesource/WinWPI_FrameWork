@@ -246,8 +246,11 @@ std::vector<Vec2> BoxCollider::GetWorldCorners() const {
 std::vector<PointF> BoxCollider::GetWorldCornersF() const 
 { 
 	std::vector<PointF> corners;
-    PointF halfSize = PointF(width / 2.0f, height / 2.0f);
-    PointF localCorners[4] = { PointF(-halfSize.X, -halfSize.Y), PointF(halfSize.X, -halfSize.Y), PointF(halfSize.X, halfSize.Y),
+    //PointF halfSize = PointF(width / 2.0f, height / 2.0f);
+	PointF halfSize = PointF(width * 0.5f, height * 0.5f);
+    PointF localCorners[4] = { PointF(-halfSize.X, -halfSize.Y), 
+		PointF(halfSize.X, -halfSize.Y), 
+		PointF(halfSize.X, halfSize.Y),
         PointF(-halfSize.X, halfSize.Y) };
 
     Matrix& transformMatrix = transform->GetWorldMatrix();
@@ -257,4 +260,24 @@ std::vector<PointF> BoxCollider::GetWorldCornersF() const
         corners.push_back(localCorners[i]);
     }
     return corners;
+}
+
+void BoxCollider::GetWorldCornersF(OUT std::vector<PointF>* p_outconner) const
+{
+	//std::vector<PointF> corners;
+	//PointF halfSize = PointF(width / 2.0f, height / 2.0f);
+	PointF halfSize = PointF(width * 0.5f, height * 0.5f);
+	PointF localCorners[ 4 ] = { PointF(-halfSize.X, -halfSize.Y),
+		PointF(halfSize.X, -halfSize.Y),
+		PointF(halfSize.X, halfSize.Y),
+		PointF(-halfSize.X, halfSize.Y) };
+
+	Matrix& transformMatrix = transform->GetWorldMatrix( );
+	transformMatrix.TransformPoints(localCorners, 4);
+
+	p_outconner->clear( );
+	for ( int i = 0; i < 4; ++i ) {
+		p_outconner->push_back(localCorners[ i ]);
+	}
+	return;
 }

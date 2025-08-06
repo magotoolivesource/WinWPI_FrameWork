@@ -10,6 +10,9 @@
 #include "../Core/SingletonT.h"
 #include "../Core/Vector.h"
 #include "../Compoment/RigidbodyComponent.h"
+//#include "../Compoment/Collider.h"
+
+//class Component;
 
 
 //class RigidbodyComponent;
@@ -28,6 +31,8 @@ enum class E_PHYSICSMATRIX
 
 	MAX
 };
+
+
 
 class PhysicsManager : public SingletonT<PhysicsManager> {
 protected:
@@ -55,4 +60,6 @@ public:
 
 	void UpdatePhysics( float p_dt );
 	void DrawPhysics(HDC p_hdc);
+
+
 };

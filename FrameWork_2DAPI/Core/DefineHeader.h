@@ -7,7 +7,8 @@
 
 
 #define PI 3.14159265f
-
+#define DEG2RAD 0.0174532925f //0.0174533f
+#define RAD2DEG 57.2957795785523f
 
 //#define GETTER(varType, varName) \
 //    varType get##funcName() const { \

@@ -38,8 +38,11 @@ void DebugLineComponent::Render(HDC hdc) {
     
 
     Gdiplus::Pen pen(color, thickness);
-	graphics.DrawRectangle(&pen, rect);
+	//graphics.DrawRectangle(&pen, rect);
 
+	PointF stpos(startPoint.x, startPoint.y);
+	PointF endpos(endPoint.x, endPoint.y);
+	graphics.DrawLine(&pen, stpos, endpos);
 
 	if (mainCamera)
 	{
