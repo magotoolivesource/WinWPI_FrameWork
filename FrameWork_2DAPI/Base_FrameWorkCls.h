@@ -19,15 +19,17 @@ public:
 
 
 public:
-	virtual int InGameMessageLoopWile( );
+	virtual void InitSettings( ) {};
 
+public:
+	virtual int InGameMessageLoopWile( );
 	virtual LRESULT InGameWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 public:
     Scene* m_CurrentScene = nullptr;
     bool isRunning = true;
 
-    virtual void Init(HWND p_hwnd, HACCEL p_haccel);
+    virtual void Init(HWND p_hwnd, HACCEL p_haccel, HINSTANCE p_hinstance);
 	virtual void Release();
 	virtual void Run();
 	virtual void CleanUp();
@@ -64,6 +66,7 @@ protected:
 
 	HWND m_Hwnd = nullptr;
 	HACCEL m_hAccelTable = nullptr;
+	HINSTANCE m_hInstance = nullptr;
 
 	bool m_isRunning = true; // 게임 루프를 제어하는 변수
 public:

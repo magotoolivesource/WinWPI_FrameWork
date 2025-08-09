@@ -134,15 +134,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BGImageCom.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="InGame_PVSZ.h" />
+    <ClInclude Include="PlantSelectCom.h" />
     <ClInclude Include="PVSZ.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Stage01.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BGImageCom.cpp" />
     <ClCompile Include="InGame_PVSZ.cpp" />
+    <ClCompile Include="PlantSelectCom.cpp" />
     <ClCompile Include="PVSZ.cpp" />
+    <ClCompile Include="Stage01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PVSZ.rc" />

@@ -39,7 +39,7 @@ protected:
     //float height = 50.0f;
     //float rotation = 0.0f; // in degrees
 
-public:
+protected:
     Vec2 localposition;
 	//Vec2 world_position;
 	float zdepth = 0; // Z-order for rendering
@@ -55,6 +55,8 @@ public:
 	Vec2 PivotPos = { 0.f, 0.f };// { 0.5f, 0.5f };
 
 	Vec2 cachedPivotPos = { 0, 0 };
+
+
 public:
     Vec2& GetPivotPos() { return PivotPos; }
     void SetPivotPos(const Vec2& pivot) { 
@@ -68,7 +70,7 @@ public:
     }
 
 
-private:
+protected:
 	Transform* parent = nullptr;
 	std::vector<Transform*> children;
 
@@ -83,7 +85,7 @@ private:
 
 	Gdiplus::Matrix m_TempCalcMatrix;
     float m_tempcachedmatrix[(int)MatrixElements::Size] = { 0, 0, 0, 0, 0, 0 };
-    protected:
+protected:
 	void MarkDirty( ) {
 		isDirty = true;
 		for ( auto child : children ) {
@@ -94,12 +96,9 @@ private:
 	void UpdateIfDirty( );
 
 public:
-	void SetDepth(float d) {
-		zdepth = d;
-		MarkDirty( );
-	}
+	void SetDepth(float d);
 
-	float GetDepth( ) const {
+	float GetDepth( ) {
 		//UpdateIfDirty( );
 		return zdepth;
 	}

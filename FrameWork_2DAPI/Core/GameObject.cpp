@@ -1,5 +1,17 @@
-#include "GameObject.h"
+ï»¿#include "GameObject.h"
+#include "../Scene/Scene.h"
 #include "../Compoment/Transform.h"
+
+void GameObject::InitCreateScene(Scene* p_linkscene)
+{
+	m_LinkScene = p_linkscene;
+}
+
+void GameObject::SetSceneMakeDirty()
+{
+	if (m_LinkScene)
+		m_LinkScene->MarkDirty();
+}
 
 GameObject::GameObject()
 {
@@ -22,7 +34,7 @@ void GameObject::InitCreateTransform()
 {
     Transform* comp = new Transform();
     comp->owner = this;
-    comp->Initialize_AddCompoment(); // ÄÄÆ÷³ÍÆ® ÃÊ±âÈ­ È£Ãâ Ãß°¡
+    comp->Initialize_AddCompoment(); // ì»´í¬ë„ŒíŠ¸ ì´ˆê¸°í™” í˜¸ì¶œ ì¶”ê°€
     components[std::type_index(typeid(Transform))].reset(comp);
 
     transform = comp;

@@ -118,9 +118,10 @@ void TextComponent::Render(HDC hdc) {
     format.SetAlignment(hAlign);
     format.SetLineAlignment(vAlign);
 
+	Vec2 localpos = transform->getLocalPosition( );
     Gdiplus::RectF layoutRect(
-        transform->localposition.x,
-        transform->localposition.y,
+		localpos.x,
+		localpos.y,
         static_cast<Gdiplus::REAL>(width),
         static_cast<Gdiplus::REAL>(height)
     );

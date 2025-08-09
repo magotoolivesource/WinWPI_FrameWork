@@ -19,6 +19,8 @@ void InputFieldComponent::Draw(HDC hdc) {
 	Gdiplus::Font font(&fontFamily, 20, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
 	Gdiplus::SolidBrush brush(Gdiplus::Color(255, 0, 0, 0));
 	std::wstring drawText = text.empty( ) ? placeholder : text;
-	Gdiplus::PointF point(transform->localposition.x, transform->localposition.y);
+
+	Vec2 localpos = transform->getLocalPosition( );
+	Gdiplus::PointF point(localpos.x, localpos.y);
 	graphics.DrawString(drawText.c_str( ), -1, &font, point, &brush);
 }

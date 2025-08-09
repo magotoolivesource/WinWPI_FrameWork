@@ -16,6 +16,18 @@
     <Filter Include="Source">
       <UniqueIdentifier>{e50ac185-e519-4161-bcb1-453df90042fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plants">
+      <UniqueIdentifier>{adf04950-9c85-404c-900b-2b8cea93b03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zombies">
+      <UniqueIdentifier>{384d3ce7-c477-449b-abb4-3c93553235c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageInfoData">
+      <UniqueIdentifier>{5a2a82b8-6a56-4e50-b28a-4007bae25c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CoreInGame">
+      <UniqueIdentifier>{9acde605-c5c5-41c8-9eaf-3939e4b17776}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -33,6 +45,15 @@
     <ClInclude Include="InGame_PVSZ.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="BGImageCom.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage01.h">
+      <Filter>StageInfoData</Filter>
+    </ClInclude>
+    <ClInclude Include="PlantSelectCom.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -40,6 +61,15 @@
     </ClCompile>
     <ClCompile Include="InGame_PVSZ.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BGImageCom.cpp">
+      <Filter>CoreInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage01.cpp">
+      <Filter>StageInfoData</Filter>
+    </ClCompile>
+    <ClCompile Include="PlantSelectCom.cpp">
+      <Filter>CoreInGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

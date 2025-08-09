@@ -184,7 +184,7 @@ LRESULT Base_FrameWorkCls::InGameWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	return 0;
 }
 
-void Base_FrameWorkCls::Init(HWND p_hwnd, HACCEL p_haccel)
+void Base_FrameWorkCls::Init(HWND p_hwnd, HACCEL p_haccel, HINSTANCE p_hinstance)
 {
 	InitConsoleWindow( );
 
@@ -192,11 +192,15 @@ void Base_FrameWorkCls::Init(HWND p_hwnd, HACCEL p_haccel)
 
 	m_Hwnd = p_hwnd;
 	m_hAccelTable = p_haccel;
+	m_hInstance = p_hinstance;
+
 	FacadeManager::GetI( )->Initlize( ); // Initialize FacadeManager
 	CameraManager::GetI( )->SetWindowSize(p_hwnd); // Set the window handle for CameraManager
 
 	m_pTimerManager = new TimerManager( );
 	m_pInputManager = new InputManager( );
+
+	InitSettings( );
 }
 
 void Base_FrameWorkCls::Release( )

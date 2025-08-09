@@ -1,5 +1,7 @@
 ﻿#include "Transform.h"
+#include "../Core/GameObject.h"
 #include "Camera.h"
+
 
 void Transform::UpdateIfDirty( ) {
 	if ( !isDirty ) return;
@@ -88,6 +90,14 @@ void Transform::UpdateIfDirty( ) {
 	}
 
 	isDirty = false;
+}
+
+void Transform::SetDepth(float d)
+{
+	zdepth = d;
+	MarkDirty( );
+
+	owner->SetSceneMakeDirty( );
 }
 
 void Transform::SetWorldPosition(Vec2& p_wpos) 

@@ -54,7 +54,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-	g_BaseGame.Init(g_hWnd, hAccelTable);
+	g_BaseGame.Init(g_hWnd, hAccelTable, hInstance);
 	int wparam = g_BaseGame.InGameMessageLoopWile( );
 
 	return wparam;

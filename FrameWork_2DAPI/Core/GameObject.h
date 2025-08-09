@@ -14,7 +14,7 @@
 
 //class Component;
 class Transform;
-
+class Scene;
 
 
 // 1번 https://chatgpt.com/c/685d15a6-5204-8013-ae97-2bd6dfe11517
@@ -65,6 +65,17 @@ protected:
     std::unordered_set<std::string> tags;
     bool active = true;
     std::string name;
+
+
+
+private:
+	Scene* m_LinkScene = nullptr;
+	void InitCreateScene(Scene* p_linkscene);
+
+public:
+	void SetSceneMakeDirty( );
+	friend Scene;
+
 
 public:
     GameObject();
