@@ -97,8 +97,14 @@ public:
 	void OnCollisionExit(Collider* p_src, Collider* p_other, void* p_data);
 
 protected:
-	void UpdateReLocation(Collider* p_src, Collider* p_other);
+	//void UpdateReLocation(Collider* p_src, Collider* p_other);
 	void UpdateResoveCollision(Collider* p_other);
 
+
+protected:
+	//bool m_ISOneWay = false;
+	//GETSETER(bool, ISOneWay, false);
 };
+
+
 

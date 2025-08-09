@@ -14,11 +14,11 @@
 #include <format>
 
 #include "../Core/Rect.h"
+#include "../Core/Vector.h"
+#include "../Core/DefineHeader.h"
+
 #include "Component.h"
 #include "Transform.h"
-
-#include "../Core/Vector.h"
-
 
 
 
@@ -204,9 +204,11 @@ public:
 	void OnCollisionStay(Collider* other) override;
 	void OnCollisionExit(Collider* other) override;
 
-
 public:
 	void ResetRigidBody( );
+
+	GETSETER(bool, ISOneWay, false);
+
 };
 
 
