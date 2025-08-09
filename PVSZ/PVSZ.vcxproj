@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e8e1106a-71cc-480a-a633-f7d1af0d901a}</ProjectGuid>
-    <RootNamespace>FrameWork2DAPI</RootNamespace>
+    <ProjectGuid>{d67dcdb0-716f-4ea5-8b48-47572ad4d7f3}</ProjectGuid>
+    <RootNamespace>PVSZ</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(MSBuildStartupDirectory)/$(SolutionName);$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -93,6 +96,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -102,17 +107,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalOptions>-DCMAKE_EXPORT_COMPILE_COMMANDS=ON %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(MSBuildStartupDirectory)/$(SolutionName)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -125,106 +128,33 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseGame.h" />
-    <ClInclude Include="Base_FrameWorkCls.h" />
-    <ClInclude Include="Compoment\Camera.h" />
-    <ClInclude Include="Compoment\Collider.h" />
-    <ClInclude Include="Compoment\Component.h" />
-    <ClInclude Include="Compoment\ImageComponent.h" />
-    <ClInclude Include="Compoment\LineComponent.h" />
-    <ClInclude Include="Compoment\RectLineComponent.h" />
-    <ClInclude Include="Compoment\RigidbodyComponent.h" />
-    <ClInclude Include="Compoment\Transform.h" />
-    <ClInclude Include="Core\DebugLineComponent.h" />
-    <ClInclude Include="Core\DebugObject.h" />
-    <ClInclude Include="Core\DebugRectLineComponent.h" />
-    <ClInclude Include="Core\DebugText.h" />
-    <ClInclude Include="Core\DefineHeader.h" />
-    <ClInclude Include="Core\GameObject.h" />
-    <ClInclude Include="Core\InputManager.h" />
-    <ClInclude Include="Core\Material.h" />
-    <ClInclude Include="Core\MyMath.h" />
-    <ClInclude Include="Core\MyString.h" />
-    <ClInclude Include="Core\MyTime.h" />
-    <ClInclude Include="Core\MyUtil.h" />
-    <ClInclude Include="Core\Rect.h" />
-    <ClInclude Include="Core\SingletonT.h" />
-    <ClInclude Include="Core\TimerManager.h" />
-    <ClInclude Include="Core\UtilLoger.h" />
-    <ClInclude Include="Core\UtilTimerManager.h" />
-    <ClInclude Include="Core\Vector.h" />
-    <ClInclude Include="Core\Viewport.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="FrameWork_2DAPI.h" />
-    <ClInclude Include="Manager\CameraManager.h" />
-    <ClInclude Include="Manager\CollisionManager.h" />
-    <ClInclude Include="Manager\DebugObjectManager.h" />
-    <ClInclude Include="Manager\FacadeManager.h" />
-    <ClInclude Include="Manager\GameObjectManager.h" />
-    <ClInclude Include="Manager\ImageManager.h" />
-    <ClInclude Include="Manager\PhysicsManager.h" />
+    <ClInclude Include="InGame_PVSZ.h" />
+    <ClInclude Include="PVSZ.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UICompoment\Button.h" />
-    <ClInclude Include="UICompoment\RichTextAndInputFieldComponent.h" />
-    <ClInclude Include="UICompoment\RichTextComponent.h" />
-    <ClInclude Include="UICompoment\TextComponent.h" />
-    <ClInclude Include="z_SampleSource\Test_PlayerMoveCom.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseGame.cpp" />
-    <ClCompile Include="Base_FrameWorkCls.cpp" />
-    <ClCompile Include="Compoment\Camera.cpp" />
-    <ClCompile Include="Compoment\Collider.cpp" />
-    <ClCompile Include="Compoment\Component.cpp" />
-    <ClCompile Include="Compoment\ImageComponent.cpp" />
-    <ClCompile Include="Compoment\LineComponent.cpp" />
-    <ClCompile Include="Compoment\RectLineComponent.cpp" />
-    <ClCompile Include="Compoment\RigidbodyComponent.cpp" />
-    <ClCompile Include="Compoment\Transform.cpp" />
-    <ClCompile Include="Core\DebugLineComponent.cpp" />
-    <ClCompile Include="Core\DebugObject.cpp" />
-    <ClCompile Include="Core\DebugRectLineComponent.cpp" />
-    <ClCompile Include="Core\DebugText.cpp" />
-    <ClCompile Include="Core\GameObject.cpp" />
-    <ClCompile Include="Core\InputManager.cpp" />
-    <ClCompile Include="Core\Material.cpp" />
-    <ClCompile Include="Core\MyMath.cpp" />
-    <ClCompile Include="Core\MyString.cpp" />
-    <ClCompile Include="Core\MyTime.cpp" />
-    <ClCompile Include="Core\MyUtil.cpp" />
-    <ClCompile Include="Core\UtilLoger.cpp" />
-    <ClCompile Include="Core\UtilTimerManager.cpp" />
-    <ClCompile Include="Core\Viewport.cpp" />
-    <ClCompile Include="FrameWork_2DAPI.cpp" />
-    <ClCompile Include="Manager\CameraManager.cpp" />
-    <ClCompile Include="Manager\CollisionManager.cpp" />
-    <ClCompile Include="Manager\DebugObjectManager.cpp" />
-    <ClCompile Include="Manager\FacadeManager.cpp" />
-    <ClCompile Include="Manager\GameObjectManager.cpp" />
-    <ClCompile Include="Manager\ImageManager.cpp" />
-    <ClCompile Include="Manager\PhysicsManager.cpp" />
-    <ClCompile Include="Scene\Scene.cpp" />
-    <ClCompile Include="UICompoment\Button.cpp" />
-    <ClCompile Include="UICompoment\RichTextAndInputFieldComponent.cpp" />
-    <ClCompile Include="UICompoment\RichTextComponent.cpp" />
-    <ClCompile Include="UICompoment\TextComponent.cpp" />
-    <ClCompile Include="z_SampleSource\Test_PlayerMoveCom.cpp" />
+    <ClCompile Include="InGame_PVSZ.cpp" />
+    <ClCompile Include="PVSZ.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FrameWork_2DAPI.rc" />
+    <ResourceCompile Include="PVSZ.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="FrameWork_2DAPI.ico" />
+    <Image Include="PVSZ.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ProjectReference Include="..\FrameWork_2DAPI\FrameWork_2DAPI.vcxproj">
+      <Project>{e8e1106a-71cc-480a-a633-f7d1af0d901a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

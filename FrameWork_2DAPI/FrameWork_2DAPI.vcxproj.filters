@@ -171,6 +171,9 @@
     <ClInclude Include="z_SampleSource\Test_PlayerMoveCom.h">
       <Filter>z_SampleSource</Filter>
     </ClInclude>
+    <ClInclude Include="Base_FrameWorkCls.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="z_SampleSource\Test_PlayerMoveCom.cpp">
       <Filter>z_SampleSource</Filter>
+    </ClCompile>
+    <ClCompile Include="Base_FrameWorkCls.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
