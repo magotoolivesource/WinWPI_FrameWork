@@ -15,12 +15,16 @@ public:
 class Stage01 : public Scene, IStageInfo
 {
 public:
+	virtual ~Stage01( );
+
+public:
 	virtual void PrevInitSettings( ) override;
 	virtual void InitSettings( ) override;
 
 public:
-	void InitSelectCom( );
-	void InitBGCom( );
-	void InitHeaderUICard( );
+	void InitSelectCom( ) override;
+	void InitBGCom( ) override;
+	void InitHeaderCard( ) override;
+
 };
 

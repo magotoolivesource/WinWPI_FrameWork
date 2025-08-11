@@ -34,7 +34,7 @@ protected:
     bool enabled = true;
 
 public:
-    Transform* transform;
+    Transform* transform = nullptr;
 
 };
 

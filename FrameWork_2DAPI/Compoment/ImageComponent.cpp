@@ -20,9 +20,9 @@ ImageComponent::~ImageComponent()
 {
     //GdiplusShutdown(gdiplusToken);
     // 에서 image들이 메모리 해제가됨
-	if (image) {
+	if (m_Image) {
 		//delete image;
-		image = nullptr;
+		m_Image = nullptr;
 	}
 }
 
@@ -47,11 +47,11 @@ bool ImageComponent::ImageLoadImage(const std::wstring& path)
     //image = new Gdiplus::Image(path.c_str());
 
 
-	image = nullptr;
-    image = ImageManager::GetI()->Load(path);
+	m_Image = nullptr;
+    m_Image = ImageManager::GetI()->Load(path);
 
 
-    bool isimage = image&& image->GetLastStatus() == Gdiplus::Ok;
+    bool isimage = m_Image&& m_Image->GetLastStatus() == Gdiplus::Ok;
 
  //   if (isimage) {
  //       drawWidth = image->GetWidth();
@@ -63,6 +63,17 @@ bool ImageComponent::ImageLoadImage(const std::wstring& path)
 	//}
 
     return isimage;
+}
+
+bool ImageComponent::SetImage(Gdiplus::Image* p_img)
+{
+	m_Image = p_img;
+	return m_Image && m_Image->GetLastStatus( ) == Gdiplus::Ok;
+}
+
+Gdiplus::Image* ImageComponent::GetImage( )
+{
+	return m_Image;
 }
 
 //void ImageComponent::Render(HDC hdc)
@@ -157,8 +168,8 @@ void ImageComponent::Update(float dt)
   //      float width = drawRect.right - drawRect.left;
   //      float height = drawRect.bottom - drawRect.top;
 
-		float width = drawWidth > 0 ? drawWidth : image->GetWidth();
-        float height = drawHeight > 0 ? drawHeight : image->GetHeight();
+		float width = drawWidth > 0 ? drawWidth : m_Image->GetWidth();
+        float height = drawHeight > 0 ? drawHeight : m_Image->GetHeight();
 
 		Camera* mainCamera = CameraManager::GetI()->GetMainCamera();
         //RectF boundbox;
@@ -180,7 +191,7 @@ void ImageComponent::Render(HDC hdc) {
 
     Transform* temptransform = transform;
 
-    if (!image || !temptransform) return;
+    if (!m_Image || !temptransform) return;
 
 
     Gdiplus::Graphics graphics(hdc);
@@ -190,23 +201,51 @@ void ImageComponent::Render(HDC hdc) {
 
     //int x = static_cast<int>(temppos.x);
     //int y = static_cast<int>(temppos.y);
-    int w = drawWidth > 0 ? drawWidth : image->GetWidth();
-    int h = drawHeight > 0 ? drawHeight : image->GetHeight();
+    int w = drawWidth > 0 ? drawWidth : m_Image->GetWidth();
+    int h = drawHeight > 0 ? drawHeight : m_Image->GetHeight();
 
     if (useDrawRect) {
         Gdiplus::Rect destRect(0, 0, w, h);
         Gdiplus::Rect srcRect(drawRect.left, drawRect.top, drawRect.right - drawRect.left, drawRect.bottom - drawRect.top);
-        graphics.DrawImage(image, destRect, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, Gdiplus::UnitPixel);
+        graphics.DrawImage(m_Image, destRect, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, Gdiplus::UnitPixel);
     } else {
-        graphics.DrawImage(image, 0, 0, w, h);
+        graphics.DrawImage(m_Image, 0, 0, w, h);
     }
 
 	mainCamera->End_Update_GraphicsMatrix(graphics, temptransform);
 
 	//Gdiplus::RectF* rectf;
+}
 
+void ImageComponent::GetDrawSRCNDESTRect(Gdiplus::Rect* p_src
+	, Gdiplus::Rect* p_dest
+	, bool* p_isdrawrect)
+{
+	*p_isdrawrect = useDrawRect;
 
+	int w = drawWidth > 0 ? drawWidth : m_Image->GetWidth( );
+	int h = drawHeight > 0 ? drawHeight : m_Image->GetHeight( );
 
+	p_src->X = 0;
+	p_src->Y = 0;
+	p_src->Width = w;
+	p_src->Height = h;
+
+	if ( *p_isdrawrect )
+	{
+		p_dest->X = drawRect.left;
+		p_dest->Y = drawRect.top;
+		p_dest->Width = drawRect.right - drawRect.left;
+		p_dest->Height = drawRect.bottom - drawRect.top;
+	}
+	else
+	{
+		p_dest->X = 0;
+		p_dest->Y = 0;
+		p_dest->Width = 0;
+		p_dest->Height = 0;
+	}
+	
 
 }
 

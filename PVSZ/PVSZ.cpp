@@ -11,7 +11,7 @@
 
 // 전역 변수
 HWND g_hWnd = nullptr; // 전역 윈도우 핸들
-InGame_PVSZ g_BaseGame;
+InGame_PVSZ& g_BaseGame = InGame_PVSZ::Instance( );
 bool g_isRunning = true; // 게임 루프를 제어하는 변수
 
 

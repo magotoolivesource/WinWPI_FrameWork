@@ -112,6 +112,7 @@ int Base_FrameWorkCls::InGameMessageLoopWile( )
 
 LRESULT Base_FrameWorkCls::InGameWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	this->UpdateInput(message, wParam, lParam);
 
 	switch ( message )
 	{

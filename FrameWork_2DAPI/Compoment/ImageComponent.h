@@ -9,12 +9,12 @@ class Transform;
 
 class ImageComponent : public Component 
 {
-private:
-    Gdiplus::Image* image;
-    Transform* transform;
+protected:
+    Gdiplus::Image* m_Image;
+    //Transform* transform;
     int drawWidth, drawHeight;
     RECT drawRect = { 0, 0, 128, 128 };
-    bool useDrawRect;
+    bool useDrawRect = false;
 
 
 	Gdiplus::Matrix m_TempTransMatrix;
@@ -32,7 +32,7 @@ public:
 
 public:
     ImageComponent()
-        : image(nullptr), transform(nullptr), drawWidth(0), drawHeight(0), useDrawRect(false)
+        : m_Image(nullptr), drawWidth(0), drawHeight(0), useDrawRect(false)
     {
         drawRect = {0, 0, 128, 128};
         //Initialize();
@@ -41,9 +41,9 @@ public:
     ImageComponent(Gdiplus::Image* p_img,
         int p_width, int p_height
         , bool p_useDrawRect
-    ) : transform(nullptr), drawWidth(p_width), drawHeight(p_height), useDrawRect(p_useDrawRect)
+    ) : drawWidth(p_width), drawHeight(p_height), useDrawRect(p_useDrawRect)
     {
-        image = p_img;;
+        m_Image = p_img;;
         //Initialize();
     }
 
@@ -59,19 +59,38 @@ public:
     virtual void Initialize() override;
 
     bool ImageLoadImage(const std::wstring& path);
+	bool SetImage(Gdiplus::Image* p_img);
+	Gdiplus::Image* GetImage( );
 
+	void SetDrawRect(int p_drawwidth, int p_drawheight
+		, int p_imgleft, int p_imgtop, int p_imgright, int p_imgbottom)
+	{
+		drawWidth = p_drawwidth;
+		drawHeight = p_drawheight;
+
+		drawRect = { p_imgleft, p_imgtop, p_imgright, p_imgbottom };
+		useDrawRect = true;
+	}
+	void SetDrawRect(int left, int top, int right, int bottom) {
+		drawRect = { left, top, right, bottom };
+		useDrawRect = true;
+	}
     void SetSize(int width, int height) {
         drawWidth = width;
         drawHeight = height;
     }
 
-    void SetDrawRect(int left, int top, int right, int bottom) {
-        drawRect = { left, top, right, bottom };
-        useDrawRect = true;
-    }
+	void ResetUseDrawRect( )
+	{
+		useDrawRect = false;
+	}
 
 	virtual void Update(float dt) override;
     virtual void Render(HDC hdc)  override;
+
+	virtual void GetDrawSRCNDESTRect(Gdiplus::Rect* p_src
+		, Gdiplus::Rect* p_dest
+		, bool* p_isdrawrect);
 
     void Draw(HDC hdc);
 };

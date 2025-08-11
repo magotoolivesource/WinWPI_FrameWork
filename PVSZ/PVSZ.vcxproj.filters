@@ -54,6 +54,15 @@
     <ClInclude Include="PlantSelectCom.h">
       <Filter>CoreInGame</Filter>
     </ClInclude>
+    <ClInclude Include="UI_TopSelectPanelCom.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_SelectBTNCom.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PVSZ_AllContentDatas.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -69,6 +78,12 @@
       <Filter>StageInfoData</Filter>
     </ClCompile>
     <ClCompile Include="PlantSelectCom.cpp">
+      <Filter>CoreInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TopSelectPanelCom.cpp">
+      <Filter>CoreInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_SelectBTNCom.cpp">
       <Filter>CoreInGame</Filter>
     </ClCompile>
   </ItemGroup>

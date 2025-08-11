@@ -267,3 +267,8 @@ void Button::Render(HDC hdc)
 
 	graphics.ResetTransform();
 }
+
+void Button::OnClickCallBack(const std::function<void(Button*)>& p_onClick)
+{
+	onClick = p_onClick;
+}

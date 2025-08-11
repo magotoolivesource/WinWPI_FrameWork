@@ -22,12 +22,17 @@ void Scene::Update(float dt)
 {
 	UpdateIfDirty( );
 
-	for ( auto& obj : m_AllOjects )
+	//for ( auto& obj : m_AllOjects )
+	//	obj->Update(dt);
+	for ( auto& obj : m_sortedObjects )
 		obj->Update(dt);
 }
 
 void Scene::Render(HDC p_hdc)
 {
-	for ( auto& obj : m_AllOjects )
+	//for ( auto& obj : m_AllOjects )
+	//	obj->Render(p_hdc);
+
+	for ( auto& obj : m_sortedObjects )
 		obj->Render(p_hdc);
 }

@@ -7,12 +7,35 @@
 //#pragma comment(lib, "A_Framework.lib")
 
 #include "Base_FrameWorkCls.h"
+#include <Core/SingletonT.h>
 
 using namespace std;
 
 
-class InGame_PVSZ : public Base_FrameWorkCls
+enum class E_STAGETYPE
 {
+	INGAME_LOBY,
+	SELECT_PLANTS,
+	STAGE01,
+	STAGE02,
+
+	MAX
+};
+
+
+
+class InGame_PVSZ : public Base_FrameWorkCls, public SingletonT< InGame_PVSZ>
+{
+
+public:
+	Scene* GetCurrentScene( );
+
+	//Component* AddCompoment( );
+	GameObject* AddCurrentSceneGameObject(const std::string& name);
+
+	static GameObject* AddGameObject(const std::string& name);
+
+
 public:
 	InGame_PVSZ( );
 	virtual ~InGame_PVSZ( );
@@ -23,4 +46,17 @@ public:
 
 protected:
 	vector<Scene*> m_AllSceneVec;
+
+
+protected:
+	void InitStage01( );
+
+
+public:
+	void SetStageChangeType(E_STAGETYPE p_stagetype);
+protected:
+	E_STAGETYPE m_SelectStageType = E_STAGETYPE::MAX;
+
+
+
 };

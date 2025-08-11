@@ -15,7 +15,7 @@ class Transform;
 
 class RectLineComponent : public Component {
 
-private:
+protected:
     Gdiplus::RectF rect = Gdiplus::RectF(0, 0, 100, 100);
     Gdiplus::Color color = Gdiplus::Color(255, 255, 0, 0);
     float thickness = 1.f;

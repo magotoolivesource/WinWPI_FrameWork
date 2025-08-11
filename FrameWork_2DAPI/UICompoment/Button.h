@@ -37,6 +37,8 @@ public:
 
     virtual void Render(HDC hdc) override;
 
+public:
+	void OnClickCallBack(const std::function<void(Button*)>& p_onClick);
 
 protected:
 	float width = 50.0f;
@@ -46,5 +48,7 @@ public:
 	float getHeight( ) const { return height; }
 	void setWidth(float w) { width = w; }
 	void setHeight(float h) { height = h; }
+
+	void SetBTNSize(float p_w, float p_h) { width = p_w; height = p_h; }
 
 };

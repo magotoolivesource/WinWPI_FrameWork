@@ -79,5 +79,7 @@ public:
 		m_AllOjects.clear( );
 		m_sortedObjects.clear( );
 	}
+
+
 };
 
