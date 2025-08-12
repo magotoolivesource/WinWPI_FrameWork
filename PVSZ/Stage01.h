@@ -2,6 +2,8 @@
 #include "Scene/Scene.h"
 
 
+class PlantSelectCom;
+
 class IStageInfo
 {
 public:
@@ -26,5 +28,9 @@ public:
 	void InitBGCom( ) override;
 	void InitHeaderCard( ) override;
 
+
+
+protected:
+	PlantSelectCom* m_PlantSelectCom;
 };
 

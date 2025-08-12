@@ -5,7 +5,19 @@
 #include "../Core/DefineHeader.h"
 
 
-CollisionManager::~CollisionManager() 
+bool CollisionManager::ISBoxCollider(BoxCollider* p_box, POINT p_mousepos)
+{
+	RectF rectf = p_box->GetAABB( );
+
+	POINT mouse = p_mousepos;
+	bool inside = mouse.x >= rectf.X && mouse.x <= rectf.X + rectf.Width &&
+		mouse.y >= rectf.Y && mouse.y <= rectf.Y + rectf.Height;
+
+
+	return inside;
+}
+
+CollisionManager::~CollisionManager()
 { 
 	delete quadtree;
     for (Collider* c : colliders) {

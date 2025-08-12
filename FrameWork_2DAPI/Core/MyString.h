@@ -53,6 +53,39 @@ public:
 
 
 
+	// https://chatgpt.com/c/6899b329-804c-8325-8c8a-02a65d63e9b4
+	// wstring → string (UTF-8 기준)
+	static std::string WStringToString(const std::wstring& wstr) {
+		if ( wstr.empty( ) ) return {};
+
+		int sizeNeeded = WideCharToMultiByte(CP_UTF8, 0,
+			wstr.c_str( ), ( int ) wstr.size( ),
+			nullptr, 0, nullptr, nullptr);
+
+		std::string str(sizeNeeded, 0);
+		WideCharToMultiByte(CP_UTF8, 0,
+			wstr.c_str( ), ( int ) wstr.size( ),
+			&str[ 0 ], sizeNeeded, nullptr, nullptr);
+
+		return str;
+	}
+
+	// string → wstring (UTF-8 기준)
+	static std::wstring StringToWString(const std::string& str) {
+		if ( str.empty( ) ) return {};
+
+		int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0,
+			str.c_str( ), ( int ) str.size( ),
+			nullptr, 0);
+
+		std::wstring wstr(sizeNeeded, 0);
+		MultiByteToWideChar(CP_UTF8, 0,
+			str.c_str( ), ( int ) str.size( ),
+			&wstr[ 0 ], sizeNeeded);
+
+		return wstr;
+	}
+
 
 	// ansi => UTF
 	DWORD convert_ansi_to_unicode_string(__out std::wstring& unicode, __in const char* ansi, __in const size_t ansi_size) {

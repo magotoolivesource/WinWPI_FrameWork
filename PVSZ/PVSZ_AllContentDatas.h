@@ -1,10 +1,12 @@
-﻿
+﻿#pragma once
 
 enum class E_PlantType
 {
+	None,
+	//Shovel,
 	SUNFLOWER,
-	PEA,
-	SNOWPEA,
+	PEASHOOTER,
+	SNOWPEASHOOTER,
 	POTATO,
 
 

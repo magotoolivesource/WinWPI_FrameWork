@@ -17,6 +17,17 @@ class Transform;
 class Scene;
 
 
+enum class E_GameObjectDirtyType
+{
+	None = 0,
+	InitCreateObject = 1 << 0,
+	AddComponent = 1 << 1,
+	RemoveComponent = 1 << 2,
+
+	AllType = InitCreateObject | AddComponent | RemoveComponent,
+};
+
+
 // 1번 https://chatgpt.com/c/685d15a6-5204-8013-ae97-2bd6dfe11517
 // 2번 https://chatgpt.com/c/689005d8-abc4-8013-b786-dcc76a8e9d17
 class GameObject
@@ -61,12 +72,16 @@ public:
 
 protected:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
+
+	//std::unordered_map<std::type_index, std::unique_ptr<Component>> loopcomponents;
+	std::vector<Component*> m_loopcomponents;
+	std::vector<Component*> m_initcomponents;
+
     // 새로 추가
     std::unordered_set<std::string> tags;
     bool active = true;
     std::string name;
-
-
+	std::wstring wname;
 
 private:
 	Scene* m_LinkScene = nullptr;
@@ -81,11 +96,10 @@ public:
     GameObject();
     virtual ~GameObject();
 
-    
 
-    void SetName(const std::string& n) { name = n; }
+	void SetName(const std::string& n);
     const std::string& GetName() const { return name; }
-    
+    const std::wstring& GetNameW() const { return wname; }
 
     void SetActive(bool a) { active = a; }
     bool IsActive() const { return active; }
@@ -152,6 +166,10 @@ public:
 		return outcom;
     }
     
+
+	void Release( );
+	void DestroyGameObject( );
+
 protected:
 	template <typename T>
 	T* GetComponentDynamic( ) {
@@ -169,6 +187,12 @@ protected:
 
 public:
     void Start() {
+		//if ( m_ISSceneAddInit ) return;
+
+		//if ( !active ) return;
+
+		//m_ISSceneAddInit = true;
+
         //for (auto& [_, comp] : components) comp->Start();
         for(auto& comp : components) 
         {
@@ -176,6 +200,10 @@ public:
 		}
     }
     void Update(float dt) {
+		//if ( !m_ISSceneAddInit ) return;
+
+		if ( !active ) return;
+
         //for (auto& [_, comp] : components) comp->Update(dt);
         for (auto& comp : components)
         {
@@ -183,6 +211,10 @@ public:
         }
     }
     void Render(HDC hdc) {
+		//if ( !m_ISSceneAddInit ) return;
+
+		if ( !active ) return;
+
         //for (auto& [_, comp] : components) comp->Render(hdc);
         for (auto& comp : components)
         {
@@ -204,6 +236,27 @@ protected:
 
 public:
     Transform* transform;// = nullptr;
+
+
+protected:
+	//bool m_ISSceneAddInit = false;
+
+	//bool isDirty = true;
+	E_GameObjectDirtyType m_ISObjectDirty = E_GameObjectDirtyType::None;
+
+protected:
+	void InitAdjustCompnent( );
+
+public:
+	void SetISObjectDirty(E_GameObjectDirtyType p_type);
+	E_GameObjectDirtyType GetISDirty( ) { return m_ISObjectDirty; }
+	bool GetISCreateObject( );
+	bool GetISAddComponent( );
+
+private:
+	template <typename T>
+	void RegistComponent( T* p_com );
+
 };
 
 template<typename T, typename ...Args>
@@ -221,8 +274,19 @@ inline T* GameObject::AddComponent(Args && ...args)
     }
 
     T* comp = new T(std::forward<Args>(args)...);
-    comp->owner = this;
-    comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
-    components[std::type_index(typeid(T))].reset(comp);
+    //comp->owner = this;
+    //comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
+ //   components[std::type_index(typeid(T))].reset(comp);
+	//m_initcomponents.push_back(comp);
+	RegistComponent(comp);
     return comp;
+}
+
+template<typename T>
+inline void GameObject::RegistComponent(T* p_com)
+{
+	p_com->owner = this;
+	p_com->Initialize_AddCompoment( ); // 컴포넌트 초기화 호출 추가
+	components[ std::type_index(typeid( T )) ].reset(p_com);
+	m_initcomponents.push_back(p_com);
 }

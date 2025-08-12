@@ -36,7 +36,7 @@ void UI_SelectBTNCom::Render(HDC hdc)
 
 
 
-	//ButtonRender(hdc);
+	ButtonRender(hdc);
 
 	
 
@@ -120,12 +120,20 @@ void UI_SelectBTNCom::Initialize( )
 {
 	__super::Initialize( );
 
+	//m_DefaultColor.SetValue(Gdiplus::Color::MakeARGB(255, 255, 255, 255));
+	m_DefaultColor = Gdiplus::Color::MakeARGB(255, 255, 255, 255);
 
 	m_IconImg = this->owner->AddComponent<ImageComponent>( );
-
-
+	m_IconImg->transform->SetEnabled(false);
 	
 	
+}
+
+void UI_SelectBTNCom::Initialize_AddCompoment( )
+{
+	__super::Initialize_AddCompoment( );
+
+	Initialize( );
 }
 
 Gdiplus::Image* UI_SelectBTNCom::GetImage( )
@@ -137,11 +145,12 @@ Gdiplus::Image* UI_SelectBTNCom::GetImage( )
 
 void UI_SelectBTNCom::ImageLoadImage(std::wstring p_loadimg)
 {
-
+	m_IconImg->ImageLoadImage(p_loadimg);
 }
 
 void UI_SelectBTNCom::SetDrawRect(int p_drawwidth, int p_drawheight
 	, int p_imgleft, int p_imgtop, int p_imgright, int p_imgbottom)
 {
-
+	m_IconImg->SetDrawRect(p_drawwidth, p_drawheight
+		, p_imgleft, p_imgtop, p_imgright, p_imgbottom);
 }

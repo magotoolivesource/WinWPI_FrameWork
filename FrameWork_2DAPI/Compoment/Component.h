@@ -14,12 +14,16 @@ public:
     //virtual void Update() {}
     //GameObject* gameObject = nullptr;
     //virtual ~Component() = default;
+	virtual ~Component( ) {}
+
 
     GameObject* owner = nullptr;
-    virtual void Start() {}
+    virtual void Start() {
+		m_ISGameObjectAddInit = true;
+
+	}
     virtual void Update(float dt) {}
     virtual void Render(HDC hdc) {}
-    virtual ~Component() {}
     virtual void Initialize_AddCompoment();
 	virtual void RemoveCompoment( );
     virtual void Initialize(){}
@@ -36,5 +40,10 @@ protected:
 public:
     Transform* transform = nullptr;
 
+
+protected:
+	bool m_ISGameObjectAddInit = false;
+public:
+	bool ISGameObjectAddInit( ) { return m_ISGameObjectAddInit; }
 };
 

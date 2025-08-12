@@ -135,24 +135,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor_State_Com.h" />
     <ClInclude Include="BGImageCom.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="InGameDefineDatas.h" />
     <ClInclude Include="InGame_PVSZ.h" />
+    <ClInclude Include="ObjectPoolManager.h" />
+    <ClInclude Include="Pea_Com.h" />
     <ClInclude Include="PlantSelectCom.h" />
+    <ClInclude Include="Plant_PeaShooter.h" />
     <ClInclude Include="PVSZ.h" />
     <ClInclude Include="PVSZ_AllContentDatas.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Stage01.h" />
+    <ClInclude Include="Sunflower_Com.h" />
+    <ClInclude Include="Sun_Com.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UI_SelectBTNCom.h" />
     <ClInclude Include="UI_TopSelectPanelCom.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor_State_Com.cpp" />
     <ClCompile Include="BGImageCom.cpp" />
     <ClCompile Include="InGame_PVSZ.cpp" />
+    <ClCompile Include="ObjectPoolManager.cpp" />
+    <ClCompile Include="Pea_Com.cpp" />
     <ClCompile Include="PlantSelectCom.cpp" />
+    <ClCompile Include="Plant_PeaShooter.cpp" />
     <ClCompile Include="PVSZ.cpp" />
     <ClCompile Include="Stage01.cpp" />
+    <ClCompile Include="Sunflower_Com.cpp" />
+    <ClCompile Include="Sun_Com.cpp" />
     <ClCompile Include="UI_SelectBTNCom.cpp" />
     <ClCompile Include="UI_TopSelectPanelCom.cpp" />
   </ItemGroup>

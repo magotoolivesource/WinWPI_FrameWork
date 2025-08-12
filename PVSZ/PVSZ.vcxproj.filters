@@ -16,17 +16,23 @@
     <Filter Include="Source">
       <UniqueIdentifier>{e50ac185-e519-4161-bcb1-453df90042fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Plants">
-      <UniqueIdentifier>{adf04950-9c85-404c-900b-2b8cea93b03a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Zombies">
-      <UniqueIdentifier>{384d3ce7-c477-449b-abb4-3c93553235c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="StageInfoData">
       <UniqueIdentifier>{5a2a82b8-6a56-4e50-b28a-4007bae25c5a}</UniqueIdentifier>
     </Filter>
     <Filter Include="CoreInGame">
       <UniqueIdentifier>{9acde605-c5c5-41c8-9eaf-3939e4b17776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors">
+      <UniqueIdentifier>{218535ad-c8f6-4bd2-a223-1d1b049e5327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\Zombies">
+      <UniqueIdentifier>{384d3ce7-c477-449b-abb4-3c93553235c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actors\Plants">
+      <UniqueIdentifier>{adf04950-9c85-404c-900b-2b8cea93b03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{e068481b-4b2e-4f9a-8afb-4f3b6d582e8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +69,27 @@
     <ClInclude Include="PVSZ_AllContentDatas.h">
       <Filter>CoreInGame</Filter>
     </ClInclude>
+    <ClInclude Include="Plant_PeaShooter.h">
+      <Filter>Actors\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Pea_Com.h">
+      <Filter>Actors\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Sunflower_Com.h">
+      <Filter>Actors\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Sun_Com.h">
+      <Filter>Actors\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor_State_Com.h">
+      <Filter>Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameDefineDatas.h">
+      <Filter>Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPoolManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -85,6 +112,24 @@
     </ClCompile>
     <ClCompile Include="UI_SelectBTNCom.cpp">
       <Filter>CoreInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Plant_PeaShooter.cpp">
+      <Filter>Actors\Plants</Filter>
+    </ClCompile>
+    <ClCompile Include="Pea_Com.cpp">
+      <Filter>Actors\Plants</Filter>
+    </ClCompile>
+    <ClCompile Include="Sunflower_Com.cpp">
+      <Filter>Actors\Plants</Filter>
+    </ClCompile>
+    <ClCompile Include="Sun_Com.cpp">
+      <Filter>Actors\Plants</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor_State_Com.cpp">
+      <Filter>Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPoolManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

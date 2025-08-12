@@ -5,6 +5,7 @@
 #include "Compoment/RectLineComponent.h"
 #include "PlantSelectCom.h"
 #include "UI_TopSelectPanelCom.h"
+#include "PlantSelectCom.h"
 
 
 Stage01::~Stage01( )
@@ -33,6 +34,8 @@ void Stage01::InitSelectCom()
 	rectlinecom->SetIsTransformMatrix(true);
 	
 
+	m_PlantSelectCom = rectlinecom;
+
 }
 
 void Stage01::InitBGCom()
@@ -56,4 +59,6 @@ void Stage01::InitHeaderCard()
 	topuipanelcom->InitSettings( );
 	
 
+	// 기본 등록 하기용
+	m_PlantSelectCom->m_TopSelectPanelCom = topuipanelcom;
 }

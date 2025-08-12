@@ -26,15 +26,16 @@ enum class E_STAGETYPE
 
 class InGame_PVSZ : public Base_FrameWorkCls, public SingletonT< InGame_PVSZ>
 {
+public:
+	static GameObject* AddGameObject(const std::string& name);
+	static void DestroyGameObject(GameObject* p_obj);
 
 public:
 	Scene* GetCurrentScene( );
 
 	//Component* AddCompoment( );
 	GameObject* AddCurrentSceneGameObject(const std::string& name);
-
-	static GameObject* AddGameObject(const std::string& name);
-
+	void DestroySceneGameObject(GameObject* p_obj);
 
 public:
 	InGame_PVSZ( );

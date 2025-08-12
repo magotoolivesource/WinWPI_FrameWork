@@ -1,10 +1,14 @@
-﻿#include "InGame_PVSZ.h"
-// Windows 헤더 파일
+﻿// Windows 헤더 파일
 #include <windows.h>
+#include <objidl.h>
+#include <gdiplus.h>  // gdiplus  앞에 objidl.h 있어야지됨
+
+#include "InGame_PVSZ.h"
 
 #include "PVSZ.h"
 
 #include "Stage01.h"
+#include <Manager/CollisionManager.h>
 
 
 
@@ -49,9 +53,27 @@ GameObject* InGame_PVSZ::AddCurrentSceneGameObject(const std::string& name)
 	return m_CurrentScene->CreateObject(name);
 }
 
+void InGame_PVSZ::DestroySceneGameObject(GameObject* p_obj)
+{
+	if ( !m_CurrentScene )
+	{
+		std::string msg = "오브젝트 생성 에러 루트 씬이 없음 확인하기 : ";
+		throw std::runtime_error(msg);
+		//return nullptr;
+	}
+
+	m_CurrentScene->DestroyObject(p_obj);
+}
+
 GameObject* InGame_PVSZ::AddGameObject(const std::string& name)
 {
 	return InGame_PVSZ::GetI( )->AddCurrentSceneGameObject(name);
+}
+
+void InGame_PVSZ::DestroyGameObject(GameObject* p_obj)
+{
+	InGame_PVSZ::GetI( )->DestroySceneGameObject(p_obj);
+
 }
 
 InGame_PVSZ::InGame_PVSZ( )
@@ -101,6 +123,8 @@ void InGame_PVSZ::InitSettings( )
 		item = nullptr;
 	}
 
+
+	CollisionManager::GetI( )->SetIsDebugDraw(true);
 
 	InitStage01( );
 

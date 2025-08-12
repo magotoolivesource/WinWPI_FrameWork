@@ -24,8 +24,14 @@ void Scene::Update(float dt)
 
 	//for ( auto& obj : m_AllOjects )
 	//	obj->Update(dt);
-	for ( auto& obj : m_sortedObjects )
-		obj->Update(dt);
+	// 
+	//for ( auto& obj : m_sortedObjects )
+	//	obj->Update(dt);
+
+	for ( size_t i = 0; i < m_sortedObjects.size(); i++ )
+	{
+		m_sortedObjects[ i ]->Update(dt);
+	}
 }
 
 void Scene::Render(HDC p_hdc)

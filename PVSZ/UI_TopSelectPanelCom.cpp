@@ -56,7 +56,30 @@ void UI_TopSelectPanelCom::Click_CallBackFN(Button* p_clickbtn, int p_selectid)
 		, p_selectid );
 	UtilLoger::Log(msg);
 
-	m_BGIconCom->SetImage(btn->GetImage( ));
+	if ( btn->GetISSelect( ) )
+	{
+		btn->SetISSelect(false);
+		m_BGIconCom->SetImage(nullptr);
+
+		m_PlantType = E_PlantType::None;
+
+	}
+	else
+	{
+		btn->SetISSelect(true);
+		m_BGIconCom->SetImage(btn->GetImage( ));
+
+		m_PlantType = ( E_PlantType )p_selectid;
+
+	}
+	
+
+	
+}
+
+UI_SelectBTNCom* UI_TopSelectPanelCom::GetCurrentSelectBTNCom( )
+{
+	return m_CurrentSelectBTN;
 }
 
 void UI_TopSelectPanelCom::InitSettings( )
@@ -94,17 +117,20 @@ void UI_TopSelectPanelCom::InitSettings( )
 
 
 
-
-	vector<wstring> cardimage = { L"Assets/Images/Cards/DayCards/SunFlower.png"
+	E_PlantType::None;
+	vector<wstring> cardimage = { L"Assets/Images/UI/shovel.png"
+		, L"Assets/Images/Cards/DayCards/SunFlower.png"
 		, L"Assets/Images/Cards/DayCards/Peashooter.png"
 		, L"Assets/Images/Cards/DayCards/SnowPea.png"
 		, L"Assets/Images/Cards/DayCards/TallNut.png"};
+
+	//shovel
 
 	// 버턴들 
 	Vec2 offsetpos = { 132 + 10, 10 };
 	Vec2 cardsize = { 50, 60 };
 	Vec2 offsetsolve = { 5, 0 };
-	for ( size_t i = 0; i < 3; i++ )
+	for ( size_t i = 0; i < cardimage.size(); i++ )
 	{
 		std::string name = std::format("{}_버턴", i);
 		GameObject* uiselectbtnobj = InGame_PVSZ::AddGameObject(name);

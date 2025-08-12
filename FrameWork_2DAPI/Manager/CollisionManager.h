@@ -169,6 +169,8 @@ public:
 };
 
 class CollisionManager : public SingletonT<CollisionManager> {
+public:
+	static bool ISBoxCollider(BoxCollider* p_box, POINT p_mousepos);
 
 public:
     virtual ~CollisionManager();

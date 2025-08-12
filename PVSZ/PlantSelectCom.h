@@ -4,6 +4,10 @@
 #include "Compoment/RectLineComponent.h"
 #include "Core/Vector.h"
 
+
+
+class UI_TopSelectPanelCom;
+
 class PlantSelectCom : public RectLineComponent
 {
 public:
@@ -24,5 +28,9 @@ protected:
 
 	Vec2 m_GridIndex;
 	Vec2 m_GridWPos;
+	bool m_ISVisible = false;
+public:
+	UI_TopSelectPanelCom* m_TopSelectPanelCom = nullptr;
+
 };
 

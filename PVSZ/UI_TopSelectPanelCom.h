@@ -1,9 +1,12 @@
 ﻿#pragma once
+#include <vector>
 #include "Compoment/Component.h"
 #include "Compoment/ImageComponent.h"
 #include "Compoment/RectLineComponent.h"
 #include "Core/Vector.h"
-#include <vector>
+#include "PVSZ_AllContentDatas.h"
+
+#include <Core/DefineHeader.h>
 
 
 class UI_SelectBTNCom;
@@ -42,5 +45,16 @@ protected:
 
 	Vec2 m_GridIndex;
 	Vec2 m_GridWPos;
+
+
+protected:
+	UI_SelectBTNCom* m_CurrentSelectBTN = nullptr;
+	//E_PlantType m_PlantType = E_PlantType::MAX;
+	GETSETER(E_PlantType, PlantType, E_PlantType::MAX);
+
+public:
+	UI_SelectBTNCom* GetCurrentSelectBTNCom( );
+
+
 };
 

@@ -33,14 +33,18 @@ protected:
 protected:
 	GETSETER(E_PlantType, CurrentPlantType, E_PlantType::MAX);
 
+	GETSETER(bool, ISSelect, false);
 
 public:
 	virtual void Initialize( ) override;
+	virtual void Initialize_AddCompoment( ) override;
 
 	Gdiplus::Image* GetImage( );
 
 	void ImageLoadImage(std::wstring p_loadimg);
 	void SetDrawRect(int p_drawwidth, int p_drawheight
 		, int p_imgleft, int p_imgtop, int p_imgright, int p_imgbottom);
+
+
 };
 
