@@ -17,6 +17,9 @@ enum class E_MARKDIRTYTYPE
 
 
 // 
+// //1번 https://gemini.google.com/app/36a5f1ab8451eba4
+// // https://chatgpt.com/c/689c15b8-1768-8329-9950-f6f603b91a95
+// 1번 https://chatgpt.com/c/689c1c49-4af0-832d-a0c3-f1afc0ea8551
 class Scene
 {
 public:
@@ -24,40 +27,16 @@ public:
 	virtual void InitSettings( ) {};
 
 
-	virtual void MarkDirty( ) { isDirty = true;	}
-	virtual void UpdateIfDirty( );
+
 protected:
     std::vector<std::unique_ptr<GameObject>> m_AllOjects;
 	std::vector<GameObject*> m_sortedObjects;
 
-	bool isDirty = true;
+	
 public:
-    GameObject* CreateObject(const std::string& name) {
-        auto obj = std::make_unique<GameObject>();
-        //obj->name = name;
-        obj->SetName(name);
-		obj->InitCreateScene(this);
+	GameObject* CreateObject(const std::string& name);
 
-        GameObject* ptr = obj.get();
-        m_AllOjects.emplace_back(std::move(obj));
-		m_sortedObjects.emplace_back(ptr);
-        return ptr;
-    }
-
-	void DestroyObject(GameObject* obj) {
-
-		// for(auto item : objects )
-		for(size_t i = 0; i < m_AllOjects.size(); i++) {
-			if (m_AllOjects[i].get() == obj) {
-
-				m_sortedObjects.erase(m_sortedObjects.begin( ) + i);
-				m_AllOjects[i].release(); // Release the unique_ptr
-				m_AllOjects.erase(m_AllOjects.begin() + i);
-				return;
-			}
-		}
-
-	}
+	void DestroyObject(GameObject* obj);
 
     void Start() 
     {
@@ -75,11 +54,30 @@ public:
         {
 			m_AllOjects[i].release();
         }
-
 		m_AllOjects.clear( );
 		m_sortedObjects.clear( );
+
+		m_pendingObjects.clear( );
+		m_pendingStartObjects.clear( );
+		m_destroyQueue.clear( );
 	}
 
 
+
+
+protected:
+	// 추가
+	std::vector<std::unique_ptr<GameObject>> m_pendingObjects;      // 다음 프레임에 추가될 객체
+	std::vector<GameObject*> m_pendingStartObjects;                 // Start 호출 대기
+	std::vector<GameObject*> m_destroyQueue;                        // 삭제 예약
+
+	bool isDirty = true;
+
+public:
+	virtual void ProcessNewObjects( );
+	virtual void ProcessDestroyQueue( );
+
+	virtual void MarkDirty( ) { isDirty = true; }
+	virtual void UpdateIfDirty( );
 };
 

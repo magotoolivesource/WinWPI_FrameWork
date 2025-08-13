@@ -79,7 +79,7 @@ void GameObject::InitCreateTransform()
     //comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
     //components[std::type_index(typeid(Transform))].reset(comp);
 
-	RegistComponent(comp);
+	RegistComponent(comp, true);
 
     transform = comp;
 
@@ -94,13 +94,15 @@ void GameObject::InitAdjustCompnent( )
 
 	if ( m_ISObjectDirty != E_GameObjectDirtyType::None )
 	{
-		m_loopcomponents.clear( );
-		std::transform(components.begin( ), components.end( ),
-			std::back_inserter(m_loopcomponents),
-			[ ] (const auto& pair) {
-				return pair.second.get( );
-			}
-		);
+
+		//m_loopcomponents.clear( );
+		//std::transform(components.begin( ), components.end( ),
+		//	std::back_inserter(m_loopcomponents),
+		//	[ ] (const auto& pair) {
+		//		return pair.second.get( );
+		//	}
+		//);
+
 	}
 
 	m_ISObjectDirty = E_GameObjectDirtyType::None;
@@ -126,4 +128,121 @@ bool GameObject::GetISCreateObject( )
 bool GameObject::GetISAddComponent( )
 {
 	return ( bool ) ( ( int ) m_ISObjectDirty | ( int ) E_GameObjectDirtyType::AddComponent );
+}
+
+void GameObject::ProcessNewComponents( )
+{
+	if ( m_pendingStartComponents.empty( ) )
+		return;
+
+	// Start 호출
+	for ( auto* comp : m_pendingStartComponents ) {
+		comp->Start( );
+		m_activeComponents.push_back(comp);
+		components[ std::type_index(typeid( *comp )) ] = std::move(FindPendingUniquePtr(comp));
+	}
+	m_pendingStartComponents.clear( );
+	m_pendingComponents.clear( );
+
+}
+
+void GameObject::ProcessDestroyComponents( )
+{
+	for ( auto* comp : m_destroyQueue ) {
+		components.erase(std::type_index(typeid( *comp )));
+	}
+	m_destroyQueue.clear( );
+
+}
+
+std::unique_ptr<Component> GameObject::FindPendingUniquePtr(Component* comp) {
+
+	auto it = std::find_if(m_pendingComponents.begin( ), m_pendingComponents.end( ),
+		[comp] (const std::unique_ptr<Component>& p) { return p.get( ) == comp; });
+	if ( it != m_pendingComponents.end( ) ) {
+		auto ptr = std::move(*it);
+		m_pendingComponents.erase(it);
+		return ptr;
+	}
+	return nullptr;
+}
+
+//void GameObject::InitializeComponents( )
+//{
+//	for ( auto& comp : m_newlyAddedComponents ) {
+//		//comp->Initialize_AddCompoment( );
+//		comp->Start( ); // Now we call Start here
+//	}
+//	m_newlyAddedComponents.clear( );
+//}
+
+void GameObject::Start( )
+{
+	////if ( m_ISSceneAddInit ) return;
+
+	////if ( !active ) return;
+
+	////m_ISSceneAddInit = true;
+
+	////for (auto& [_, comp] : components) comp->Start();
+	//for ( auto& comp : components )
+	//{
+	//	comp.second->Start( );
+	//}
+
+
+
+
+	//if ( !GetISCreateObject() ) return;
+
+	//// Call Start on all components added at creation
+	//for ( auto& [_, comp] : components ) {
+	//	comp->Start( );
+	//}
+	////m_isInitialized = true;
+	//m_ISObjectDirty = E_GameObjectDirtyType::None;
+
+
+
+	ProcessNewComponents( );
+	m_ISObjectDirty = E_GameObjectDirtyType::None;
+}
+
+void GameObject::Update(float dt) {
+	//if ( !m_ISSceneAddInit ) return;
+
+	if ( !active ) return;
+
+
+
+	////for (auto& [_, comp] : components) comp->Update(dt);
+	//for ( auto& comp : components )
+	//{
+	//	if ( comp.second->IsEnabled( ) ) 
+	//	{
+	//		comp.second->Update(dt);
+	//	}
+	//}
+
+
+	for ( auto* comp : m_activeComponents ) {
+		comp->Update(dt);
+	}
+}
+
+void GameObject::Render(HDC hdc) {
+	//if ( !m_ISSceneAddInit ) return;
+
+	if ( !active ) return;
+
+	////for (auto& [_, comp] : components) comp->Render(hdc);
+	//for ( auto& comp : components )
+	//{
+	//	comp.second->Render(hdc);
+	//}
+
+	for ( auto* comp : m_activeComponents ) {
+		comp->Render(hdc);
+	}
+	ProcessDestroyComponents( ); // Render 이후 컴포넌트 삭제
 }

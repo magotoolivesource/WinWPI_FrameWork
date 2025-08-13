@@ -103,6 +103,10 @@ public:
 		return zdepth;
 	}
 
+	Transform* GetParent( ) {
+		return parent;
+	}
+
 	void SetParent(Transform* newParent) {
 		if ( parent ) {
 			auto& siblings = parent->children;
@@ -117,6 +121,9 @@ public:
 		MarkDirty( );
 	}
 
+	std::vector<Transform*>& GetChildren( ) {
+		return children;
+	}
 
 	float GetWorldDepth( ) {
 		UpdateIfDirty( );

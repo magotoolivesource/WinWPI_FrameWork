@@ -30,6 +30,10 @@ enum class E_GameObjectDirtyType
 
 // 1번 https://chatgpt.com/c/685d15a6-5204-8013-ae97-2bd6dfe11517
 // 2번 https://chatgpt.com/c/689005d8-abc4-8013-b786-dcc76a8e9d17
+// // 3번 https://gemini.google.com/app/36a5f1ab8451eba4
+// 3번 https://chatgpt.com/c/689c15b8-1768-8329-9950-f6f603b91a95
+// 3번 https://chatgpt.com/c/689c1c49-4af0-832d-a0c3-f1afc0ea8551
+
 class GameObject
 {
 public:
@@ -73,9 +77,9 @@ public:
 protected:
     std::unordered_map<std::type_index, std::unique_ptr<Component>> components;
 
-	//std::unordered_map<std::type_index, std::unique_ptr<Component>> loopcomponents;
-	std::vector<Component*> m_loopcomponents;
-	std::vector<Component*> m_initcomponents;
+	////std::unordered_map<std::type_index, std::unique_ptr<Component>> loopcomponents;
+	//std::vector<Component*> m_loopcomponents;
+	//std::vector<Component*> m_initcomponents;
 
     // 새로 추가
     std::unordered_set<std::string> tags;
@@ -108,54 +112,14 @@ public:
     T* AddComponent(Args&&... args);
 
     template <typename T, typename... Args>
-    bool RemoveComponent() {
-        //T* comp = new T(std::forward<Args>(args)...);
-        //comp->owner = this;
-        //auto it = components.find(std::type_index(typeid(T)));
+	bool RemoveComponent( );
+
+private:
+	template <typename T>
+	void RegistComponent(T* p_com, bool p_isdirect = false);
 
 
-		
-		auto it = components.find(std::type_index(typeid( T )));
-		if ( it != components.end( ) )
-		{
-			T* com = dynamic_cast< T* >( it->second.get( ) );
-			com->RemoveCompoment( );
-			//delete it->second.get( );
-			it->second.release( );
-			components.erase( it );
-
-			return true;
-		}
-
-
-		//if ( components[ std::type_index(typeid( T )) ] )
-		//{
-		//	auto com = components[ std::type_index(typeid( T )) ];
-
-		//	com.get()->RemoveCompoment();
-		//	delete com.get( );
-		//	com.release( );
-		//	components.erase(std::type_index(typeid( T )));
-
-		//	return true;
-		//}
-
-
-   //     if (components[std::type_index(typeid(T))])
-   //     {
-			//RemoveCompoment
-
-   //         delete components[std::type_index(typeid(T))].get();
-   //         components[std::type_index(typeid(T))].release();// = nullptr;
-
-   //         components.erase(std::type_index(typeid(T)));
-
-   //         return true;
-   //     }
-
-        return false;
-    }
-
+public:
     template <typename T>
     T* GetComponent() {
         auto it = components.find(std::type_index(typeid(T)));
@@ -186,41 +150,10 @@ protected:
 
 
 public:
-    void Start() {
-		//if ( m_ISSceneAddInit ) return;
+	void Start( );
+	void Update(float dt);
+	void Render(HDC hdc);
 
-		//if ( !active ) return;
-
-		//m_ISSceneAddInit = true;
-
-        //for (auto& [_, comp] : components) comp->Start();
-        for(auto& comp : components) 
-        {
-            comp.second->Start();
-		}
-    }
-    void Update(float dt) {
-		//if ( !m_ISSceneAddInit ) return;
-
-		if ( !active ) return;
-
-        //for (auto& [_, comp] : components) comp->Update(dt);
-        for (auto& comp : components)
-        {
-            comp.second->Update(dt);
-        }
-    }
-    void Render(HDC hdc) {
-		//if ( !m_ISSceneAddInit ) return;
-
-		if ( !active ) return;
-
-        //for (auto& [_, comp] : components) comp->Render(hdc);
-        for (auto& comp : components)
-        {
-            comp.second->Render(hdc);
-        }
-    }
 
     void AddTag(const std::string& tag) {
         tags.insert(tag);
@@ -253,9 +186,33 @@ public:
 	bool GetISCreateObject( );
 	bool GetISAddComponent( );
 
+
 private:
-	template <typename T>
-	void RegistComponent( T* p_com );
+
+
+//
+//protected:
+//	std::vector<Component*> m_newlyAddedComponents;
+//
+//public:
+//	void InitializeComponents( ); // New method to handle deferred initialization
+
+protected:
+	std::vector<Component*> m_activeComponents;
+	// 추가 대기
+	std::vector<std::unique_ptr<Component>> m_pendingComponents;
+	std::vector<Component*> m_pendingStartComponents;
+
+	// 삭제 예약
+	std::vector<Component*> m_destroyQueue;
+
+protected:
+	void ProcessNewComponents( );
+	void ProcessDestroyComponents( );
+
+private:
+	// pendingComponents에서 해당 포인터의 unique_ptr을 찾아 반환
+	std::unique_ptr<Component> FindPendingUniquePtr(Component* comp);
 
 };
 
@@ -273,20 +230,126 @@ inline T* GameObject::AddComponent(Args && ...args)
         return GetComponent<T>();
     }
 
-    T* comp = new T(std::forward<Args>(args)...);
-    //comp->owner = this;
-    //comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
- //   components[std::type_index(typeid(T))].reset(comp);
-	//m_initcomponents.push_back(comp);
+ //   T* comp = new T(std::forward<Args>(args)...);
+
+
+ //   //comp->owner = this;
+ //   //comp->Initialize_AddCompoment(); // 컴포넌트 초기화 호출 추가
+ ////   components[std::type_index(typeid(T))].reset(comp);
+	////m_initcomponents.push_back(comp);
+
+
+
+	//RegistComponent(comp);
+ //   return comp;
+
+
+
+	T* comp = new T(std::forward<Args>(args)...);
+
 	RegistComponent(comp);
-    return comp;
+
+	return comp;
+
+}
+
+template<typename T, typename ...Args>
+inline bool GameObject::RemoveComponent( ) {
+//	//T* comp = new T(std::forward<Args>(args)...);
+//	//comp->owner = this;
+//	//auto it = components.find(std::type_index(typeid(T)));
+//
+//
+//
+//	auto it = components.find(std::type_index(typeid( T )));
+//	if ( it != components.end( ) )
+//	{
+//		T* com = dynamic_cast< T* >( it->second.get( ) );
+//		com->RemoveCompoment( );
+//		//delete it->second.get( );
+//		it->second.release( );
+//		components.erase(it);
+//
+//		return true;
+//	}
+//
+//
+//	//if ( components[ std::type_index(typeid( T )) ] )
+//	//{
+//	//	auto com = components[ std::type_index(typeid( T )) ];
+//
+//	//	com.get()->RemoveCompoment();
+//	//	delete com.get( );
+//	//	com.release( );
+//	//	components.erase(std::type_index(typeid( T )));
+//
+//	//	return true;
+//	//}
+//
+//
+////     if (components[std::type_index(typeid(T))])
+////     {
+//		 //RemoveCompoment
+//
+////         delete components[std::type_index(typeid(T))].get();
+////         components[std::type_index(typeid(T))].release();// = nullptr;
+//
+////         components.erase(std::type_index(typeid(T)));
+//
+////         return true;
+////     }
+//
+//	return false;
+
+
+	auto it = components.find(std::type_index(typeid( T )));
+	if ( it != components.end( ) ) {
+		Component* comp = it->second.get( );
+		comp->RemoveCompoment( );
+
+		// 삭제 예약
+		m_destroyQueue.push_back(comp);
+
+		// 활성 리스트에서 제외
+		m_activeComponents.erase(
+			std::remove(m_activeComponents.begin( ), m_activeComponents.end( ), comp),
+			m_activeComponents.end( )
+		);
+
+		SetISObjectDirty(E_GameObjectDirtyType::RemoveComponent);
+		return true;
+	}
+	return false;
 }
 
 template<typename T>
-inline void GameObject::RegistComponent(T* p_com)
+inline void GameObject::RegistComponent(T* p_com, bool p_isdirect)
 {
+	//p_com->owner = this;
+	//p_com->Initialize_AddCompoment( ); // 컴포넌트 초기화 호출 추가
+	////components[ std::type_index(typeid( T )) ].reset(p_com); // 기존 중복 지우기
+
+	//T* ptr = p_com.get( );
+	//m_pendingStartComponents.push_back(ptr);
+	//m_pendingComponents.emplace_back(std::move(p_com));
+
+
+
 	p_com->owner = this;
-	p_com->Initialize_AddCompoment( ); // 컴포넌트 초기화 호출 추가
-	components[ std::type_index(typeid( T )) ].reset(p_com);
-	m_initcomponents.push_back(p_com);
+	p_com->Initialize_AddCompoment( );
+
+	if ( p_isdirect )
+	{
+		components[std::type_index(typeid(T))].reset(p_com);
+	}
+	else
+	{
+		//T* ptr = comp->get( );
+		m_pendingStartComponents.push_back(p_com);
+		m_pendingComponents.emplace_back(std::move(p_com));
+
+		SetISObjectDirty(E_GameObjectDirtyType::AddComponent);
+	}
+	
+
 }
