@@ -6,10 +6,17 @@
 
 
 
-void Scene::Update(float dt)
+void Scene::UpdateLoop(float dt)
 {
+	
+#pragma region 런타임 추가된 오브젝트및 컴포넌트 처리용
 
 	ProcessNewObjects( );  // 새로운 오브젝트를 프레임 시작 시 반영
+	ProcessRunTimeAddComponentObject( );  // 런타임시 오브젝트에 addcomponent 된것들 호출 적용
+
+#pragma endregion
+
+
 	UpdateIfDirty( );
 
 	//for ( auto& obj : m_AllOjects )
@@ -33,7 +40,14 @@ void Scene::Render(HDC p_hdc)
 		obj->Render(p_hdc);
 
 
-	ProcessDestroyQueue( ); // Render 이후 삭제 처리
+	//ProcessDestroyQueue( ); // Render 이후 삭제 처리
+}
+
+void Scene::AddRuntimeDirtyAddComponent(GameObject* obj)
+{
+	m_RuntimeAddComponentObjects.push_back(obj);
+
+	//MarkRuntimeAddComponentDirty( );
 }
 
 void Scene::ProcessNewObjects( )
@@ -58,13 +72,37 @@ void Scene::ProcessNewObjects( )
 	}
 	m_pendingObjects.clear( );
 
+}
 
-	
+void Scene::ProcessRunTimeAddComponentObject( )
+{
+	if ( m_RuntimeAddComponentObjects.empty( ) )
+		return;
+
+	for ( auto* obj : m_RuntimeAddComponentObjects ) {
+		obj->Start( );
+	}
+
+	m_RuntimeAddComponentObjects.clear( );
+}
+
+void Scene::Prev_DestroyQueueObjects_AllRemoveComponent( )
+{
+	// 전체적으로 오브젝트안에 컴포넌트들 지우도록 처리 
+	for ( auto* obj : m_destroyQueue )
+	{
+		obj->DestroyGameObject( );
+	}
 }
 
 void Scene::ProcessDestroyQueue( )
 {
+
+
 	for ( auto* obj : m_destroyQueue ) {
+
+		//obj->AllDirectDestroyComponent( );
+
 		// m_sortedObjects에서 제거
 		m_sortedObjects.erase(
 			std::remove(m_sortedObjects.begin( ), m_sortedObjects.end( ), obj),
@@ -84,7 +122,7 @@ void Scene::ProcessDestroyQueue( )
 
 GameObject* Scene::CreateObject(const std::string& name)
 {
-	auto obj = std::make_unique<GameObject>( );
+	auto obj = std::make_unique<GameObject>( this );
 	obj->SetName(name);
 	obj->InitCreateScene(this);
 
@@ -129,6 +167,8 @@ void Scene::DestroyObject(GameObject* obj) {
 	// 중복 삭제 방지
 	if ( std::find(m_destroyQueue.begin( ), m_destroyQueue.end( ), obj) == m_destroyQueue.end( ) ) {
 		m_destroyQueue.push_back(obj);
+
+		//obj->DestroyGameObject( );
 	}
 
 
@@ -147,12 +187,23 @@ void Scene::UpdateIfDirty( )
 	//isDirty = false;
 
 
-	if ( !isDirty ) return;
 
-	std::sort(m_sortedObjects.begin( ), m_sortedObjects.end( ), [ ] (GameObject* a, GameObject* b) {
-		return a->transform->GetWorldDepth( ) < b->transform->GetWorldDepth( );
-		});
-	isDirty = false;
+	if ( isDirty )
+	{
+		std::sort(m_sortedObjects.begin( ), m_sortedObjects.end( ), [ ] (GameObject* a, GameObject* b) {
+			return a->transform->GetWorldDepth( ) < b->transform->GetWorldDepth( );
+			});
+		isDirty = false;
+	}
+
+	
+	
+
 
 }
+
+//void Scene::UpdateIfRuntimeAddComponentDirty( )
+//{
+//
+//}
 

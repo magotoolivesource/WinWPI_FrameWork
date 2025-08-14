@@ -98,6 +98,7 @@ public:
 
 public:
     GameObject();
+	GameObject(Scene* p_linkscene);
     virtual ~GameObject();
 
 
@@ -134,6 +135,9 @@ public:
 	void Release( );
 	void DestroyGameObject( );
 
+private:
+	//void AllDirectDestroyComponent( );
+
 protected:
 	template <typename T>
 	T* GetComponentDynamic( ) {
@@ -151,6 +155,8 @@ protected:
 
 public:
 	void Start( );
+	void InitAddComponentStart( );
+
 	void Update(float dt);
 	void Render(HDC hdc);
 
@@ -209,6 +215,9 @@ protected:
 protected:
 	void ProcessNewComponents( );
 	void ProcessDestroyComponents( );
+
+protected:
+	void DirectAllDestroyComponents( );
 
 private:
 	// pendingComponents에서 해당 포인터의 unique_ptr을 찾아 반환
@@ -307,14 +316,18 @@ inline bool GameObject::RemoveComponent( ) {
 		Component* comp = it->second.get( );
 		comp->RemoveCompoment( );
 
-		// 삭제 예약
-		m_destroyQueue.push_back(comp);
+		// 중복 삭제 방지
+		if ( std::find(m_destroyQueue.begin( ), m_destroyQueue.end( ), comp) == m_destroyQueue.end( ) ) {
+			m_destroyQueue.push_back(comp);
+		}
+		//// 삭제 예약
+		//m_destroyQueue.push_back(comp);
 
-		// 활성 리스트에서 제외
-		m_activeComponents.erase(
-			std::remove(m_activeComponents.begin( ), m_activeComponents.end( ), comp),
-			m_activeComponents.end( )
-		);
+		//// 활성 리스트에서 제외
+		//m_activeComponents.erase(
+		//	std::remove(m_activeComponents.begin( ), m_activeComponents.end( ), comp),
+		//	m_activeComponents.end( )
+		//);
 
 		SetISObjectDirty(E_GameObjectDirtyType::RemoveComponent);
 		return true;

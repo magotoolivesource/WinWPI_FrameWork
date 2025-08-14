@@ -198,6 +198,20 @@ protected:
     std::set<std::pair<long, long>> currentFrameCollisions;
 
 
+
+
+public:
+	void ProcessDestroyCollider( );
+	void RemoveCollider(Collider* p_collider);
+
+protected:
+	bool m_ISDirty = false;
+	//std::vector<Collider*> m_PendingCollider;
+	std::vector<Collider*> m_destroyQueue;
+	virtual void MarkDirty( ) { m_ISDirty = true; }
+	virtual void UpdateIfDirty( );
+
+
 public:
 	// 충돌체 추가
     void AddCollider(Collider* collider) 
@@ -205,100 +219,10 @@ public:
 		colliders.push_back(collider); 
 	}
 
-	void RemoveCollider(Collider* p_collider)
-	{
-		//colliders.erase()
-		//colliders.push_back(collider); 
-	}
+
 
     // 모든 충돌체에 대해 충돌 검사 수행
-    void UpdateCollisions() {
-        // 쿼드트리 재구성
-        quadtree->Clear(); // 이전 프레임의 객체 제거 및 트리 초기화
-        quadtree = new QuadtreeNode(worldBounds, 0); // 새 루트 노드 생성
-        for (Collider* c : colliders) {
-            quadtree->Insert(c);
-        }
-
-        currentFrameCollisions.clear(); // 이번 프레임의 충돌 초기화
-
-        // 각 충돌체에 대해 잠재적 충돌 대상 검색 및 실제 충돌 검사
-        for (size_t i = 0; i < colliders.size(); ++i) {
-            Collider* colliderA = colliders[i];
-            std::vector<Collider*> potentialColliders;
-            quadtree->Retrieve(potentialColliders, colliderA); // 쿼드트리에서 잠재적 충돌 대상 검색
-
-            for (Collider* colliderB : potentialColliders) {
-                if (colliderA->id == colliderB->id) continue; // 자기 자신과는 검사하지 않음
-
-                // 이미 검사한 쌍인지 확인 (중복 검사 방지, (A,B)와 (B,A)는 동일)
-                if (colliderA->id > colliderB->id) { // 작은 ID를 먼저 오도록 정렬
-                    std::swap(colliderA, colliderB);
-                }
-                if (currentFrameCollisions.count({ colliderA->id, colliderB->id })) {
-                    continue; // 이미 처리된 충돌 쌍
-                }
-
-                // 실제 충돌 검사
-                if (colliderA->CollidesWith(colliderB)) {
-                    // 충돌 발생!
-                    currentFrameCollisions.insert({ colliderA->id, colliderB->id });
-
-                    // OnCollisionEnter / OnCollisionStay 호출 로직
-                    bool wasCollidingA = colliderA->currentCollisions.count(colliderB->id);
-                    bool wasCollidingB = colliderB->currentCollisions.count(colliderA->id);
-
-                    if (!wasCollidingA) { // A와 B가 처음 충돌한 경우
-                        colliderA->OnCollisionEnter(colliderB);
-                    }
-                    if (!wasCollidingB) { // B와 A가 처음 충돌한 경우
-                        colliderB->OnCollisionEnter(colliderA);
-                    }
-
-                    // 충돌 중인 상태 업데이트
-                    colliderA->OnCollisionStay(colliderB);
-                    colliderB->OnCollisionStay(colliderA);
-                }
-            }
-        }
-
-        // OnCollisionExit 호출 로직 (이전 프레임에는 있었지만 이번 프레임에 없는 충돌)
-        for (const auto& pair : previousCollisions) {
-            if (currentFrameCollisions.find(pair) == currentFrameCollisions.end()) {
-                // 이 충돌 쌍은 더 이상 충돌하지 않습니다.
-                Collider* colliderA = nullptr;
-                Collider* colliderB = nullptr;
-
-                // ID로 collider 객체 찾기 (실제 구현에서는 맵 등을 사용하여 더 효율적으로 찾아야 함)
-                for (Collider* c : colliders) {
-                    if (c->id == pair.first) colliderA = c;
-                    if (c->id == pair.second) colliderB = c;
-                    if (colliderA && colliderB) break;
-                }
-
-                if (colliderA && colliderB) {
-                    colliderA->OnCollisionExit(colliderB);
-                    colliderB->OnCollisionExit(colliderA);
-                }
-            }
-        }
-
-        // currentCollisions 상태 업데이트 (각 콜라이더의 내부 상태)
-        for (Collider* c : colliders) {
-            std::set<long> newCurrentCollisions;
-            for (const auto& pair : currentFrameCollisions) {
-                if (pair.first == c->id) {
-                    newCurrentCollisions.insert(pair.second);
-                } else if (pair.second == c->id) {
-                    newCurrentCollisions.insert(pair.first);
-                }
-            }
-            c->currentCollisions = newCurrentCollisions;
-        }
-
-        // 다음 프레임을 위해 currentFrameCollisions를 previousCollisions로 복사
-        previousCollisions = currentFrameCollisions;
-    }
+	void UpdateCollisions( );
 
 	void DrawColliders(HDC p_hdc);
 

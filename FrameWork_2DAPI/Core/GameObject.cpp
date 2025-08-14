@@ -17,12 +17,14 @@ void GameObject::SetSceneMakeDirty()
 		m_LinkScene->MarkDirty();
 }
 
-GameObject::GameObject()
+GameObject::GameObject() : m_LinkScene(nullptr)
 {
-	m_ISObjectDirty = E_GameObjectDirtyType::InitCreateObject;
-
     Initialize();
+}
 
+GameObject::GameObject(Scene* p_linkscene) : m_LinkScene(p_linkscene)
+{
+	Initialize( );
 }
 
 GameObject::~GameObject()
@@ -58,8 +60,36 @@ void GameObject::Release( )
 
 void GameObject::DestroyGameObject( )
 {
-
+	//AllDirectDestroyComponent( );
+	
+	DirectAllDestroyComponents( );
 }
+//
+//void GameObject::AllDirectDestroyComponent( )
+//{
+//	if ( m_pendingStartComponents.empty( ) )
+//	{
+//		for ( auto item : m_pendingStartComponents )
+//		{
+//			// 중복 삭제 방지
+//			if ( std::find(m_destroyQueue.begin( ), m_destroyQueue.end( ), item) == m_destroyQueue.end( ) ) {
+//				m_destroyQueue.push_back(item);
+//			}
+//		}
+//	}
+//
+//	if ( !m_activeComponents.empty( ) )
+//	{
+//		for ( auto item : m_activeComponents )
+//		{
+//			// 중복 삭제 방지
+//			if ( std::find(m_destroyQueue.begin( ), m_destroyQueue.end( ), item) == m_destroyQueue.end( ) ) {
+//				m_destroyQueue.push_back(item);
+//			}
+//		}
+//	}
+//
+//}
 
 void GameObject::SetName(const std::string& n)
 {
@@ -69,6 +99,8 @@ void GameObject::SetName(const std::string& n)
 
 void GameObject::Initialize()
 {
+	m_ISObjectDirty = E_GameObjectDirtyType::InitCreateObject;
+
     InitCreateTransform();
 }
 
@@ -118,6 +150,14 @@ void GameObject::InitAdjustCompnent( )
 void GameObject::SetISObjectDirty(E_GameObjectDirtyType p_type)
 {
 	m_ISObjectDirty = ( E_GameObjectDirtyType )(( int )m_ISObjectDirty | (int)p_type);
+
+
+	if ( p_type == E_GameObjectDirtyType::AddComponent )
+	{
+		if( m_LinkScene )
+			m_LinkScene->AddRuntimeDirtyAddComponent(this);
+	}
+
 }
 
 bool GameObject::GetISCreateObject( )
@@ -148,11 +188,41 @@ void GameObject::ProcessNewComponents( )
 
 void GameObject::ProcessDestroyComponents( )
 {
+
 	for ( auto* comp : m_destroyQueue ) {
+
+		comp->RemoveCompoment( );
+
+		// 활성 리스트에서 제외
+		m_activeComponents.erase(
+			std::remove(m_activeComponents.begin( ), m_activeComponents.end( ), comp),
+			m_activeComponents.end( )
+		);
+
 		components.erase(std::type_index(typeid( *comp )));
 	}
 	m_destroyQueue.clear( );
 
+}
+
+void GameObject::DirectAllDestroyComponents( )
+{
+	// 강제로 남은 컴포넌트들 다지우기
+	for ( auto item : m_activeComponents )
+	{
+		item->RemoveCompoment( );
+	}
+	for ( auto item : m_pendingStartComponents )
+	{
+		item->RemoveCompoment( );
+	}
+
+	m_activeComponents.clear( );
+	m_pendingStartComponents.clear( );
+	
+	m_pendingComponents.clear( );
+	m_destroyQueue.clear( );
+	components.clear( );
 }
 
 std::unique_ptr<Component> GameObject::FindPendingUniquePtr(Component* comp) {
@@ -178,32 +248,39 @@ std::unique_ptr<Component> GameObject::FindPendingUniquePtr(Component* comp) {
 
 void GameObject::Start( )
 {
-	////if ( m_ISSceneAddInit ) return;
+	//////if ( m_ISSceneAddInit ) return;
 
-	////if ( !active ) return;
+	//////if ( !active ) return;
 
-	////m_ISSceneAddInit = true;
+	//////m_ISSceneAddInit = true;
 
-	////for (auto& [_, comp] : components) comp->Start();
-	//for ( auto& comp : components )
-	//{
-	//	comp.second->Start( );
-	//}
-
-
+	//////for (auto& [_, comp] : components) comp->Start();
+	////for ( auto& comp : components )
+	////{
+	////	comp.second->Start( );
+	////}
 
 
-	//if ( !GetISCreateObject() ) return;
 
-	//// Call Start on all components added at creation
-	//for ( auto& [_, comp] : components ) {
-	//	comp->Start( );
-	//}
-	////m_isInitialized = true;
+
+	////if ( !GetISCreateObject() ) return;
+
+	////// Call Start on all components added at creation
+	////for ( auto& [_, comp] : components ) {
+	////	comp->Start( );
+	////}
+	//////m_isInitialized = true;
+	////m_ISObjectDirty = E_GameObjectDirtyType::None;
+
+
+	//ProcessNewComponents( );
 	//m_ISObjectDirty = E_GameObjectDirtyType::None;
 
+	InitAddComponentStart( );
+}
 
-
+void GameObject::InitAddComponentStart( )
+{
 	ProcessNewComponents( );
 	m_ISObjectDirty = E_GameObjectDirtyType::None;
 }
@@ -244,5 +321,8 @@ void GameObject::Render(HDC hdc) {
 	for ( auto* comp : m_activeComponents ) {
 		comp->Render(hdc);
 	}
-	ProcessDestroyComponents( ); // Render 이후 컴포넌트 삭제
+
+
+	// 매니저 이후에 소멸 처리들 호출 되어야지 되기때문에 바꿈
+	ProcessDestroyComponents( );
 }

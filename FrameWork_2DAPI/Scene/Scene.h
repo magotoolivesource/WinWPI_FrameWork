@@ -44,7 +44,7 @@ public:
             obj->Start();
     }
 
-	void Update(float dt);
+	void UpdateLoop(float dt);
 
 	void Render(HDC p_hdc);
 
@@ -63,7 +63,8 @@ public:
 	}
 
 
-
+public:
+	void AddRuntimeDirtyAddComponent(GameObject* obj);
 
 protected:
 	// 추가
@@ -71,13 +72,23 @@ protected:
 	std::vector<GameObject*> m_pendingStartObjects;                 // Start 호출 대기
 	std::vector<GameObject*> m_destroyQueue;                        // 삭제 예약
 
+	std::vector<GameObject*> m_RuntimeAddComponentObjects;                 // Start 호출 대기
+
 	bool isDirty = true;
+	//bool isRuntimeAddComponentDirty = true;
 
 public:
 	virtual void ProcessNewObjects( );
+	virtual void ProcessRunTimeAddComponentObject( );
+
+	virtual void Prev_DestroyQueueObjects_AllRemoveComponent( );
 	virtual void ProcessDestroyQueue( );
 
 	virtual void MarkDirty( ) { isDirty = true; }
 	virtual void UpdateIfDirty( );
+
+	//virtual void MarkRuntimeAddComponentDirty( ) { isRuntimeAddComponentDirty = true; }
+	//virtual void UpdateIfRuntimeAddComponentDirty( );
+
 };
 

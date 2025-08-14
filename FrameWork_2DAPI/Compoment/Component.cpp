@@ -11,6 +11,8 @@ void Component::Initialize_AddCompoment()
 
 void Component::RemoveCompoment( )
 {
+	m_ISDestroyIng = true;
+	enabled = false;
 	owner->SetISObjectDirty(E_GameObjectDirtyType::RemoveComponent);
 
 }

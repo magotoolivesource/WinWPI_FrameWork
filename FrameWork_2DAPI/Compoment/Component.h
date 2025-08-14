@@ -36,6 +36,10 @@ public:
 
 protected:
     bool enabled = true;
+	bool m_ISDestroyIng = false;
+
+public:
+	bool GetISDestroy( ) { return m_ISDestroyIng; }
 
 public:
     Transform* transform = nullptr;

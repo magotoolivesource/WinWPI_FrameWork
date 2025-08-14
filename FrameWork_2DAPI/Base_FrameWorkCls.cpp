@@ -302,6 +302,9 @@ void Base_FrameWorkCls::Render(HDC p_hdc, RECT& p_clientRect)
 	m_CurrentScene->Render(p_hdc);
 
 
+
+
+#pragma region 매니저들 사용위한 그리기용들
 	// 콜리젼 그리기
 	CollisionManager::GetI( )->DrawColliders(p_hdc);
 
@@ -309,6 +312,21 @@ void Base_FrameWorkCls::Render(HDC p_hdc, RECT& p_clientRect)
 
 	// 디버그용 자료 그리기
 	DebugObjectManager::Instance( ).AllDebugRender(p_hdc);
+#pragma endregion
+
+
+#pragma region 해지부분용 순서 중요
+	// 순서 중요
+	m_CurrentScene->Prev_DestroyQueueObjects_AllRemoveComponent( );
+
+	// 이후 처리할것들
+	// 순서 중요 매니저에서 가져다가 쓰는것들 정리하기 그뒤에 GameObject들에 있는것들 메모리 해지하기
+	CollisionManager::GetI( )->ProcessDestroyCollider( );
+
+	m_CurrentScene->ProcessDestroyQueue( );
+
+#pragma endregion
+
 }
 
 void Base_FrameWorkCls::UpdateDebugEnd( )
@@ -348,7 +366,7 @@ void Base_FrameWorkCls::Update( )
 	// 충돌처리업데이트
 	CollisionManager::GetI( )->UpdateCollisions( );
 
-	m_CurrentScene->Update(dt);
+	m_CurrentScene->UpdateLoop(dt);
 
 
 

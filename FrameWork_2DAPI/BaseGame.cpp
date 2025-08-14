@@ -320,7 +320,7 @@ void BaseGame::Update() {
 	// 충돌처리업데이트
 	CollisionManager::GetI( )->UpdateCollisions( );
 
-    m_CurrentScene->Update( dt );
+    m_CurrentScene->UpdateLoop( dt );
 
 	
 

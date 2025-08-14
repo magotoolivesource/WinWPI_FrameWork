@@ -126,6 +126,9 @@ void Collider::RemoveCompoment( )
 	{
 		bodycom->SetLinkCollider(nullptr);
 	}
+
+	CollisionManager::GetI( )->RemoveCollider(this);
+
 }
 
 bool Collider::Intersects(Collider* other) {
