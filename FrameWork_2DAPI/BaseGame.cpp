@@ -351,21 +351,38 @@ void BaseGame::AllUpdate()
 
 void BaseGame::Render(HDC p_hdc, RECT& p_clientRect)
 {
-    // 2. 배경 지우기 (하얀색)
-    HBRUSH bg = CreateSolidBrush(m_BGColor );
-    FillRect(p_hdc, &p_clientRect, bg);
-    DeleteObject(bg);
+	// 2. 배경 지우기 (하얀색)
+	HBRUSH bg = CreateSolidBrush(m_BGColor);
+	FillRect(p_hdc, &p_clientRect, bg);
+	DeleteObject(bg);
 
 	m_CurrentScene->Render(p_hdc);
 
 
+
+
+#pragma region 매니저들 사용위한 그리기용들
 	// 콜리젼 그리기
-	CollisionManager::GetI()->DrawColliders(p_hdc);
+	CollisionManager::GetI( )->DrawColliders(p_hdc);
 
 	PhysicsManager::GetI( )->DrawPhysics(p_hdc);
 
 	// 디버그용 자료 그리기
-	DebugObjectManager::Instance().AllDebugRender(p_hdc);
+	DebugObjectManager::Instance( ).AllDebugRender(p_hdc);
+#pragma endregion
+
+
+#pragma region 해지부분용 순서 중요
+	// 순서 중요
+	m_CurrentScene->Prev_DestroyQueueObjects_AllRemoveComponent( );
+
+	// 이후 처리할것들
+	// 순서 중요 매니저에서 가져다가 쓰는것들 정리하기 그뒤에 GameObject들에 있는것들 메모리 해지하기
+	CollisionManager::GetI( )->ProcessDestroyCollider( );
+
+	m_CurrentScene->ProcessDestroyQueue( );
+
+#pragma endregion
 }
 
 void BaseGame::UpdateDebugEnd() 
