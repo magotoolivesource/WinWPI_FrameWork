@@ -168,6 +168,13 @@ public:
     bool HasTag(const std::string& tag) const {
         return tags.find(tag) != tags.end();
     }
+	std::string GetTag() {
+		if ( tags.empty( ) || tags.size( ) <= 0 )
+			return "DefaultTag";
+		else
+			return *tags.begin( );
+	}
+
 
 protected:
     void Initialize();

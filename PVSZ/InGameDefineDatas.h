@@ -14,6 +14,23 @@
 #define ONEBLOCKSIZEH 98
 const Vec2 OneBlockSize = { 80, 98 };
 
+#define SUNIMAGESIZEW 50.f
+#define SUNIMAGESIZEH 50.f
+
+#define SHOOTERBLOCKSIZEW 56 * 1.f
+#define SHOOTERBLOCKSIZEH 34 * 1.f
+
+
+#define SCREEN_W 1280
+#define SCREEN_H 720
+
+
+#define TAG_PLANT "Plant"
+#define TAG_ZOMBIE "Zombie"
+#define TAG_SUN "Sun"
+#define TAG_BULLET "Bullet"
+#define TAG_EFFECT "Effect"
+
 
 enum class E_ALLLayerType
 {

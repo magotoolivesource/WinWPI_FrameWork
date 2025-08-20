@@ -8,17 +8,12 @@
 
 class UI_SelectBTNCom;
 class Button;
-class Collider;
 
-class Pea_Com : public Component
+class Move_Com : public Component
 {
 public:
-	static Pea_Com* Create_PeaComObject( );
-
-
-public:
-	Pea_Com();
-	virtual ~Pea_Com( ) override;
+	Move_Com();
+	virtual ~Move_Com( ) override;
 
 public:
 	void InitSettings( );
@@ -30,8 +25,13 @@ public:
 	virtual void Render(HDC hdc) override;
 
 
-
 protected:
-	void Collider_TriggerEnter(Collider* src_other, Collider* dest_other, void* p_data);
+	Vec2 m_MoveSpeed = { 0.f, 0.f }; // 이동 속도 벡터
+
+public:
+	//void SetMoveSpeed(float speed) { m_MoveSpeed = speed; }
+	void SetMoveSpeed(float speed, float speedy);
+	void SetMoveSpeed(Vec2 p_speed);
+
 };
 

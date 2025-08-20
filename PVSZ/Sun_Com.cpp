@@ -24,15 +24,23 @@ using namespace std;
 Sun_Com* Sun_Com::Create_SunObject( )
 {
 	GameObject* sunobj = InGame_PVSZ::AddGameObject("Sun");
+	sunobj->AddTag(TAG_SUN);
+
 	Sun_Com* suncom = sunobj->AddComponent< Sun_Com>( );
+
+	
+	float sizew = SUNIMAGESIZEW;
+	float sizeh = SUNIMAGESIZEH;
 
 	auto* imgcom = sunobj->AddComponent<ImageComponent>( );
 	imgcom->ImageLoadImage( L"Assets/Images/Effect/Sun/Sun_1.png" );
 	//IMAGEPATH("Effect/Sun/Sun_1.png");
-	imgcom->SetDrawRect(50, 50, 0, 0, 78, 78);
+	imgcom->SetDrawRect(sizew, sizew, 0, 0, 78, 78
+		, -sizew * 0.5f
+		, -sizeh * 0.5f
+	);
 
-
-	Vec2 pos1(50, 50);
+	Vec2 pos1(50, 50);  // 이것 사용못함
 	SizeF size1(50, 50);
 	auto* boxcol = sunobj->AddComponent<BoxCollider>( );
 	boxcol->SetBoxCollider(pos1, 0, size1, size1.Width, size1.Height);

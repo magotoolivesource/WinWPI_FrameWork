@@ -25,6 +25,9 @@ using namespace std;
 Sunflower_Com* Sunflower_Com::CreateSunflower_Com( )
 {
 	GameObject* sunflowerobj = InGame_PVSZ::AddGameObject("SunFlower1");
+	sunflowerobj->AddTag(TAG_PLANT);
+
+
 	Sunflower_Com* sunflower_com = sunflowerobj->AddComponent< Sunflower_Com>( );
 
 	auto* imgcom = sunflowerobj->AddComponent<ImageComponent>( );

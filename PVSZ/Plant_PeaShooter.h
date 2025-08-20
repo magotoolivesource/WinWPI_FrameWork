@@ -8,6 +8,8 @@
 
 class UI_SelectBTNCom;
 class Button;
+class UtilTimer;
+
 
 class Plant_PeaShooter : public Component
 {
@@ -34,5 +36,8 @@ protected:
 
 	float m_BuyCoin = 50.f;
 
+
+protected:
+	void Call_CreatePeaFN(UtilTimer* utiltimer, void* p_data);
 };
 

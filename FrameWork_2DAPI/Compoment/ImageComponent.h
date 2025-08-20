@@ -3,7 +3,7 @@
 #include <gdiplus.h>
 #include <string>
 #include "Component.h"
-
+#include "../Core/Vector.h"
 
 class Transform;
 
@@ -24,6 +24,18 @@ protected:
 	bool m_ISDebugBoundBox = false;
     Gdiplus::RectF m_DebugBoundBox;
 
+	Vec2 m_OffsetPos = { 0.f, 0.f }; // 이미지 오프셋 위치
+public:
+	void SetOffsetPos(Vec2&& p_offsetpos) {
+		m_OffsetPos = p_offsetpos;
+	}
+	void SetOffsetPos(float x, float y) {
+		m_OffsetPos.x = x;
+		m_OffsetPos.y = y;
+	}
+	Vec2 GetOffsetPos() const {
+		return m_OffsetPos;
+	}
 
 public:
     bool GetISDebugBoundBox() const { return m_ISDebugBoundBox; }
@@ -63,17 +75,25 @@ public:
 	Gdiplus::Image* GetImage( );
 
 	void SetDrawRect(int p_drawwidth, int p_drawheight
-		, int p_imgleft, int p_imgtop, int p_imgright, int p_imgbottom)
+		, int p_imgleft, int p_imgtop, int p_imgright, int p_imgbottom
+		, float p_offsetposx = 0.f, float p_offsetposy = 0.f)
 	{
 		drawWidth = p_drawwidth;
 		drawHeight = p_drawheight;
 
 		drawRect = { p_imgleft, p_imgtop, p_imgright, p_imgbottom };
 		useDrawRect = true;
+
+		m_OffsetPos.x = p_offsetposx;
+		m_OffsetPos.y = p_offsetposy;
 	}
-	void SetDrawRect(int left, int top, int right, int bottom) {
+	void SetDrawRect(int left, int top, int right, int bottom
+		, float p_offsetposx = 0.f, float p_offsetposy = 0.f) {
 		drawRect = { left, top, right, bottom };
 		useDrawRect = true;
+
+		m_OffsetPos.x = p_offsetposx;
+		m_OffsetPos.y = p_offsetposy;
 	}
     void SetSize(int width, int height) {
         drawWidth = width;

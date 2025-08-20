@@ -136,10 +136,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor_State_Com.h" />
+    <ClInclude Include="Base_ZombiActor.h" />
     <ClInclude Include="BGImageCom.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="InGameDefineDatas.h" />
     <ClInclude Include="InGame_PVSZ.h" />
+    <ClInclude Include="Move_Com.h" />
     <ClInclude Include="ObjectPoolManager.h" />
     <ClInclude Include="Pea_Com.h" />
     <ClInclude Include="PlantSelectCom.h" />
@@ -156,8 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor_State_Com.cpp" />
+    <ClCompile Include="Base_ZombiActor.cpp" />
     <ClCompile Include="BGImageCom.cpp" />
     <ClCompile Include="InGame_PVSZ.cpp" />
+    <ClCompile Include="Move_Com.cpp" />
     <ClCompile Include="ObjectPoolManager.cpp" />
     <ClCompile Include="Pea_Com.cpp" />
     <ClCompile Include="PlantSelectCom.cpp" />

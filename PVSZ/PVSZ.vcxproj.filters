@@ -34,6 +34,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{e068481b-4b2e-4f9a-8afb-4f3b6d582e8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actors\Interaction">
+      <UniqueIdentifier>{b501852d-8bdf-4f13-8e27-448046005088}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -90,6 +93,12 @@
     <ClInclude Include="ObjectPoolManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Move_Com.h">
+      <Filter>Actors\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="Base_ZombiActor.h">
+      <Filter>Actors\Zombies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -130,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="ObjectPoolManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Move_Com.cpp">
+      <Filter>Actors\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="Base_ZombiActor.cpp">
+      <Filter>Actors\Zombies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -205,11 +205,11 @@ void ImageComponent::Render(HDC hdc) {
     int h = drawHeight > 0 ? drawHeight : m_Image->GetHeight();
 
     if (useDrawRect) {
-        Gdiplus::Rect destRect(0, 0, w, h);
+        Gdiplus::Rect destRect(m_OffsetPos.x, m_OffsetPos.y, w, h);
         Gdiplus::Rect srcRect(drawRect.left, drawRect.top, drawRect.right - drawRect.left, drawRect.bottom - drawRect.top);
         graphics.DrawImage(m_Image, destRect, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, Gdiplus::UnitPixel);
     } else {
-        graphics.DrawImage(m_Image, 0, 0, w, h);
+        graphics.DrawImage(m_Image, (int)m_OffsetPos.x, (int)m_OffsetPos.y, w, h);
     }
 
 	mainCamera->End_Update_GraphicsMatrix(graphics, temptransform);

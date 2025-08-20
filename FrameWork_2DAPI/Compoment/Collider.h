@@ -260,8 +260,8 @@ public:
 	// Point collision (using InverseTransformPoint)
     bool CollidesWith(const Vec2& point) override {
         Vec2 localPoint = InverseTransformPoint(point);
-        float halfWidth = width / 2.0f;
-        float halfHeight = height / 2.0f;
+        float halfWidth = width * 0.5f; // width / 2.0f;
+        float halfHeight = height * 0.5f; // height / 2.0f;
         return (localPoint.x >= -halfWidth && localPoint.x <= halfWidth && localPoint.y >= -halfHeight && localPoint.y <= halfHeight);
     }
 
