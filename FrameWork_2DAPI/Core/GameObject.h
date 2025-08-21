@@ -216,6 +216,8 @@ protected:
 	std::vector<std::unique_ptr<Component>> m_pendingComponents;
 	std::vector<Component*> m_pendingStartComponents;
 
+	std::vector<Component*> m_tempstartcomponents; // 런타임에 추가된 컴포넌트들
+
 	// 삭제 예약
 	std::vector<Component*> m_destroyQueue;
 

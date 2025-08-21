@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor_State_Com.h" />
+    <ClInclude Include="NormalZombie.h" />
     <ClInclude Include="Base_ZombiActor.h" />
     <ClInclude Include="BGImageCom.h" />
     <ClInclude Include="framework.h" />
@@ -150,14 +151,18 @@
     <ClInclude Include="PVSZ_AllContentDatas.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Stage01.h" />
+    <ClInclude Include="StageInfo_WaveData.h" />
+    <ClInclude Include="StageWaveManager.h" />
     <ClInclude Include="Sunflower_Com.h" />
     <ClInclude Include="Sun_Com.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UI_SelectBTNCom.h" />
     <ClInclude Include="UI_TopSelectPanelCom.h" />
+    <ClInclude Include="ZombieFactoryManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor_State_Com.cpp" />
+    <ClCompile Include="NormalZombie.cpp" />
     <ClCompile Include="Base_ZombiActor.cpp" />
     <ClCompile Include="BGImageCom.cpp" />
     <ClCompile Include="InGame_PVSZ.cpp" />
@@ -168,10 +173,13 @@
     <ClCompile Include="Plant_PeaShooter.cpp" />
     <ClCompile Include="PVSZ.cpp" />
     <ClCompile Include="Stage01.cpp" />
+    <ClCompile Include="StageInfo_WaveData.cpp" />
+    <ClCompile Include="StageWaveManager.cpp" />
     <ClCompile Include="Sunflower_Com.cpp" />
     <ClCompile Include="Sun_Com.cpp" />
     <ClCompile Include="UI_SelectBTNCom.cpp" />
     <ClCompile Include="UI_TopSelectPanelCom.cpp" />
+    <ClCompile Include="ZombieFactoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PVSZ.rc" />

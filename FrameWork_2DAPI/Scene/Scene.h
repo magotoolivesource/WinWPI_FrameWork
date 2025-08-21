@@ -36,19 +36,19 @@ protected:
 public:
 	GameObject* CreateObject(const std::string& name);
 
-	void DestroyObject(GameObject* obj);
+	virtual void DestroyObject(GameObject* obj);
 
-    void Start() 
+	virtual void Start()
     {
         for (auto& obj : m_AllOjects) 
             obj->Start();
     }
 
-	void UpdateLoop(float dt);
+	virtual void UpdateLoop(float dt);
 
-	void Render(HDC p_hdc);
+	virtual void Render(HDC p_hdc);
 
-    void Release() 
+	virtual void Release()
     {
         for (size_t i = 0; i < m_AllOjects.size(); i++)
         {

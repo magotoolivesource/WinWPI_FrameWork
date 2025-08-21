@@ -18,13 +18,31 @@
 
 using namespace std;
 
+Base_ZombiActor* Base_ZombiActor::Create_ZombiActorObject( )
+{
+
+	return nullptr;
+}
+
 Base_ZombiActor::Base_ZombiActor( )
 {
+	SetZombiStateData(2, 50);
 }
 
 Base_ZombiActor::~Base_ZombiActor( )
 {
 
+}
+
+void Base_ZombiActor::SetZombiStateData(int hp, int speed)
+{
+	m_ZombiStateData.HP = hp;
+	m_ZombiStateData.Speed = speed;
+}
+
+ZombiStateData& Base_ZombiActor::GetZombiStateData( )
+{
+	return m_ZombiStateData;
 }
 
 void Base_ZombiActor::Start()

@@ -14,6 +14,7 @@ public:
     //virtual void Update() {}
     //GameObject* gameObject = nullptr;
     //virtual ~Component() = default;
+	Component( ) = default;
 	virtual ~Component( ) {}
 
 

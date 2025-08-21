@@ -37,6 +37,9 @@
     <Filter Include="Actors\Interaction">
       <UniqueIdentifier>{b501852d-8bdf-4f13-8e27-448046005088}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actors\Manager">
+      <UniqueIdentifier>{2a0f2fdb-b651-48db-bd1d-4608ab22b7d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -99,6 +102,18 @@
     <ClInclude Include="Base_ZombiActor.h">
       <Filter>Actors\Zombies</Filter>
     </ClInclude>
+    <ClInclude Include="NormalZombie.h">
+      <Filter>Actors\Zombies</Filter>
+    </ClInclude>
+    <ClInclude Include="ZombieFactoryManager.h">
+      <Filter>Actors\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="StageWaveManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="StageInfo_WaveData.h">
+      <Filter>CoreInGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -145,6 +160,18 @@
     </ClCompile>
     <ClCompile Include="Base_ZombiActor.cpp">
       <Filter>Actors\Zombies</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalZombie.cpp">
+      <Filter>Actors\Zombies</Filter>
+    </ClCompile>
+    <ClCompile Include="ZombieFactoryManager.cpp">
+      <Filter>Actors\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StageWaveManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StageInfo_WaveData.cpp">
+      <Filter>CoreInGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

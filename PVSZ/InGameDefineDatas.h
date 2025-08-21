@@ -49,3 +49,17 @@ enum class E_ALLLayerType
 	Effect = 5000,
 
 };
+
+
+enum class E_ZOMBIE_TYPE
+{
+	Zombie_Normal = 0,
+	Zombie_Fast,
+	Zombie_Strong,
+	Zombie_Flying,
+	Zombie_Boss,
+	// 추가적인 좀비 타입이 필요할 경우 여기에 추가
+
+
+	MAX
+};

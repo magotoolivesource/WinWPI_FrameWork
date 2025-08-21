@@ -175,14 +175,23 @@ void GameObject::ProcessNewComponents( )
 	if ( m_pendingStartComponents.empty( ) )
 		return;
 
-	// Start 호출
+	m_tempstartcomponents.clear( );
 	for ( auto* comp : m_pendingStartComponents ) {
-		comp->Start( );
+		//comp->Start( );
 		m_activeComponents.push_back(comp);
 		components[ std::type_index(typeid( *comp )) ] = std::move(FindPendingUniquePtr(comp));
+
+		m_tempstartcomponents.push_back(comp);
 	}
 	m_pendingStartComponents.clear( );
 	m_pendingComponents.clear( );
+
+
+	// Start 지연 호출적용하기
+	for(auto* comp : m_tempstartcomponents ) {
+		comp->Start( );
+	}
+	m_tempstartcomponents.clear( );
 
 }
 

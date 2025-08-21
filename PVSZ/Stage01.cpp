@@ -1,15 +1,29 @@
 ﻿#include "Stage01.h"
+#include <functional>
+#include <fcntl.h>
+#include <Core/MyUtil.h>
+
+#include <Core/Vector.h>
 #include "Core/GameObject.h"
-#include "Compoment/ImageComponent.h"
 #include "Compoment/Transform.h"
+#include "Compoment/ImageComponent.h"
 #include "Compoment/RectLineComponent.h"
 #include "PlantSelectCom.h"
 #include "UI_TopSelectPanelCom.h"
 #include "PlantSelectCom.h"
 
+#include "StageInfo_WaveData.h"
+#include "StageWaveManager.h"
+#include "InGameDefineDatas.h"
+
+#include "ZombieFactoryManager.h"
+#include "Base_ZombiActor.h"
+#include "NormalZombie.h"
+
 
 Stage01::~Stage01( )
 {
+	SAFEDELETE(m_StageInfoData);
 }
 
 void Stage01::PrevInitSettings()
@@ -20,6 +34,11 @@ void Stage01::PrevInitSettings()
 void Stage01::InitSettings()
 {
 	__super::InitSettings();
+
+	_Test_InitStageInfoData( );
+
+	// 스테이지 정보 등록
+	//StageWaveManager::GetI( )->SetStageInfoWaveData(nullptr);
 
 	InitBGCom( );
 	InitSelectCom();
@@ -61,4 +80,98 @@ void Stage01::InitHeaderCard()
 
 	// 기본 등록 하기용
 	m_PlantSelectCom->m_TopSelectPanelCom = topuipanelcom;
+}
+
+void Stage01::UpdateLoop(float dt)
+{
+	StageWaveManager::GetI( )->Update(dt);
+
+	__super::UpdateLoop(dt);
+	
+}
+
+void Stage01::_Test_InitStageInfoData( )
+{
+
+	m_StageInfoData = new StageInfoData( );
+
+	// 10초 생성
+	StageInfo_WaveElement* wavedata = nullptr;
+
+	wavedata = new StageInfo_WaveElement( );
+	wavedata->m_ElapsedTime = 3.f;
+	wavedata->m_ZombiDataVec.push_back(
+		new WaveLineData( E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal )
+	);
+	wavedata->m_ZombiDataVec.push_back(
+		new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
+	);
+	m_StageInfoData->AddWave(
+		wavedata
+	);
+
+
+	//wavedata = new StageInfo_WaveElement( );
+	//wavedata->m_ElapsedTime = 15.f;
+	//wavedata->m_ZombiDataVec.push_back(
+	//	new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
+	//);
+	//m_StageInfoData->AddWave(
+	//	wavedata
+	//);
+
+	//wavedata = new StageInfo_WaveElement( );
+	//wavedata->m_ElapsedTime = 25.f;
+	//wavedata->m_ZombiDataVec.push_back(
+	//	new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
+	//);
+	//m_StageInfoData->AddWave(
+	//	wavedata
+	//);
+
+
+
+	StageWaveManager::GetI( )->SetStageInfoWaveData(m_StageInfoData
+		, std::bind(&Stage01::CreateWaveZombi_CallFN, this, std::placeholders::_1, std::placeholders::_2) );
+	//StageWaveManager::GetI( )->SetCreateWaveZombi_CallFN(
+	//	std::bind(&Stage01::CreateWaveZombi_CallFN, this, std::placeholders::_1, std::placeholders::_2)
+	//);
+	StageWaveManager::GetI( )->Play( );
+}
+
+void Stage01::CreateWaveZombi_CallFN(StageInfo_WaveElement* p_element, int p_index)
+{
+	static Vec2 lineposarr[ ( int ) E_LINETYPE::LINE5 + 1 ] = {
+		Vec2( 600, 100 ),
+		Vec2( 600, 200 ),
+		Vec2( 600, 300 ),
+		Vec2( 600, 400 ),
+		Vec2( 600, 500 )
+	};
+
+
+	//NormalZombie tempzom;
+
+
+	ZombieFactoryManager* manager = ZombieFactoryManager::GetI( );
+	Vec2 temppos;
+	for ( auto* item : p_element->m_ZombiDataVec )
+	{
+		NormalZombie* zombi = manager->CreateZombie<NormalZombie>( );
+
+
+		if ( item->E_LineType == E_LINETYPE::RANDOM )
+		{
+			temppos = lineposarr[ MyUtil::GetRandInt(0, ( int ) E_LINETYPE::LINE5)  ];
+		}
+		else
+		{
+			temppos = lineposarr[ rand( ) % ( int ) item->E_LineType ];
+		}
+
+		zombi->transform->SetDepth(( int ) E_ALLLayerType::Zombie);
+		zombi->transform->SetWorldPosition(temppos);
+	}
+	
+
 }
