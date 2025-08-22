@@ -26,7 +26,7 @@ protected:
 	bool m_ISCameraMatrix = false;
     bool m_ISTransformMatrix = false; // transform 사용하지 않음
 
-	std::wstring m_Text = L"";
+	std::wstring m_TextW = L"";
 
 	Gdiplus::FontFamily* family;
     Gdiplus::Font* font;
@@ -35,8 +35,8 @@ public:
     void Initlize();
 
 	// Getter/Setter for m_Text
-    const std::wstring& GetText() const { return m_Text; }
-    void SetText(const std::wstring& text) { m_Text = text; }
+    const std::wstring& GetTextW() const { return m_TextW; }
+    void SetTextW(const std::wstring& text) { m_TextW = text; }
 
     void SetPosition(const Vec2& p_pos)
 	{

@@ -56,7 +56,7 @@ void DebugText::Render(HDC hdc) {
     format.SetLineAlignment(vAlign);
     Gdiplus::PointF point(Position.x, Position.y);
 
-	graphics.DrawString(m_Text.c_str(), -1, font, point, &brush);
+	graphics.DrawString(m_TextW.c_str(), -1, font, point, &brush);
     //graphics.DrawString(drawText.c_str(), -1, &font, point, &brush);
 
 

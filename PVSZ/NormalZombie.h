@@ -12,7 +12,8 @@
 //class Button;
 
 class NormalZombie;
-
+class Collider;
+class UtilTimer;
 
 class NormalZombie : public AutoZombie<NormalZombie>
 {
@@ -31,6 +32,22 @@ public:
 	void Update(float dt) override;
 	void Render(HDC hdc) override;
 
+protected:
+	virtual void Collider_TriggerEnter(Collider* src_other, Collider* dest_other, void* p_data) override;
+	virtual void Collider_TriggerStay(Collider* src_other, Collider* dest_other, void* p_data) override;
+	virtual void Collider_TriggerExit(Collider* src_other, Collider* dest_other, void* p_data) override;
 
+public:
+	virtual void SetDieEvent( ) override;
+	virtual void SetDamage(float p_atk) override;
+	virtual void UpdateUI( ) override;
+	virtual void SetMove(bool p_ismove) override;
+
+	virtual void DestroyEvent( ) override;
+	virtual void DestroyEvent_CallFN(UtilTimer* p_timer, void* p_data);
+
+protected:
+	void InitSettingBaseAnimations( );
+	void Set_DieAnimations( );
 };
 

@@ -8,19 +8,12 @@
 
 class UI_SelectBTNCom;
 class Button;
-class Collider;
-class PlantATKData;
 
-
-class Pea_Com : public Component
+class Base_ZombiActor : public Component
 {
 public:
-	static Pea_Com* Create_PeaComObject( );
-
-
-public:
-	Pea_Com();
-	virtual ~Pea_Com( ) override;
+	Base_ZombiActor();
+	virtual ~Base_ZombiActor( ) override;
 
 public:
 	void InitSettings( );
@@ -31,13 +24,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Render(HDC hdc) override;
 
-protected:
-	void Collider_TriggerEnter(Collider* src_other, Collider* dest_other, void* p_data);
 
 
-public:
-	void SetPlantATKData(PlantATKData* p_atkdata);
-protected:
-	PlantATKData* m_PlantATKData;
 };
 

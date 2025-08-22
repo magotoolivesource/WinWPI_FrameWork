@@ -134,6 +134,7 @@
     <ClInclude Include="Compoment\Camera.h" />
     <ClInclude Include="Compoment\Collider.h" />
     <ClInclude Include="Compoment\Component.h" />
+    <ClInclude Include="Compoment\ImageAni_Component.h" />
     <ClInclude Include="Compoment\ImageComponent.h" />
     <ClInclude Include="Compoment\LineComponent.h" />
     <ClInclude Include="Compoment\RectLineComponent.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Compoment\Camera.cpp" />
     <ClCompile Include="Compoment\Collider.cpp" />
     <ClCompile Include="Compoment\Component.cpp" />
+    <ClCompile Include="Compoment\ImageAni_Component.cpp" />
     <ClCompile Include="Compoment\ImageComponent.cpp" />
     <ClCompile Include="Compoment\LineComponent.cpp" />
     <ClCompile Include="Compoment\RectLineComponent.cpp" />

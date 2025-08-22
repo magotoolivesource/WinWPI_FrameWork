@@ -114,6 +114,9 @@
     <ClInclude Include="StageInfo_WaveData.h">
       <Filter>CoreInGame</Filter>
     </ClInclude>
+    <ClInclude Include="PVSZ_ALLTableDatas.h">
+      <Filter>Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PVSZ.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="StageInfo_WaveData.cpp">
       <Filter>CoreInGame</Filter>
+    </ClCompile>
+    <ClCompile Include="PVSZ_ALLTableDatas.cpp">
+      <Filter>Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

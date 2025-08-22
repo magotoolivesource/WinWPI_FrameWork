@@ -10,6 +10,7 @@
 #include <Compoment/ImageComponent.h>
 #include <UICompoment/Button.h>
 #include <Core/UtilLoger.h>
+#include <Core/UtilTimerManager.h>
 
 #include "InGameDefineDatas.h"
 #include "InGame_PVSZ.h"
@@ -77,4 +78,47 @@ void Base_ZombiActor::Initialize_AddCompoment( )
 	__super::Initialize_AddCompoment( );
 
 	InitSettings( );
+}
+
+
+void Base_ZombiActor::SetDieEvent( )
+{
+
+}
+
+void Base_ZombiActor::DestroyEvent( )
+{
+}
+
+void Base_ZombiActor::DestroyEvent_CallFN(UtilTimer* p_timer, void* p_data)
+{
+}
+
+void Base_ZombiActor::SetDamage(float p_atk)
+{
+
+}
+
+void Base_ZombiActor::UpdateUI( )
+{
+
+}
+
+void Base_ZombiActor::ResetAllDatas( )
+{
+	m_ISDie = false;
+
+
+}
+
+bool Base_ZombiActor::ISDie( )
+{
+	if ( m_ZombiStateData.HP <= 0 )
+		return true;
+
+	return false;
+}
+
+void Base_ZombiActor::SetMove(bool p_ismove)
+{
 }

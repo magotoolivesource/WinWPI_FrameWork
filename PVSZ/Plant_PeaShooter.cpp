@@ -8,6 +8,7 @@
 #include <Core/InputManager.h>
 #include <Core/GameObject.h>
 #include <Compoment/ImageComponent.h>
+#include <Compoment/ImageAni_Component.h>
 #include <UICompoment/Button.h>
 #include <Core/UtilLoger.h>
 //#include <Core/TimerManager.h>
@@ -34,6 +35,10 @@ Plant_PeaShooter* Plant_PeaShooter::Create_PeaShooterObject( )
 	auto* imgcom = peashooterobj->AddComponent<ImageComponent>( );
 	imgcom->ImageLoadImage(L"Assets/Images/Plants/Peashooter/Peashooter_1.png");
 	imgcom->SetDrawRect(ONEBLOCKSIZEW - 10, ONEBLOCKSIZEH - 10, 0, 0, 73, 74);
+
+
+	peashooter_com->SetIdleAnimation( );
+	//anicom->AddDrawImageInfo
 
 	return peashooter_com;
 
@@ -76,6 +81,7 @@ void Plant_PeaShooter::Call_CreatePeaFN(UtilTimer* utiltimer, void* p_data)
 
 	Pea_Com* peacom = Pea_Com::Create_PeaComObject( );
 
+	peacom->SetPlantATKData(&m_PlantATKData);
 
 	Vec2 offsetpos(50, 20);
 	Vec2 temppos = this->transform->GetWorldPosition( ) + offsetpos;
@@ -84,6 +90,36 @@ void Plant_PeaShooter::Call_CreatePeaFN(UtilTimer* utiltimer, void* p_data)
 		temppos
 	);
 	peacom->transform->SetDepth(( int ) E_ALLLayerType::Shooter);
+}
+
+void Plant_PeaShooter::SetIdleAnimation( )
+{
+	if ( !m_LinkImaeAniCom )
+	{
+		m_LinkImaeAniCom = this->owner->AddComponent<ImageAni_Component>( );
+	}
+
+	ImageAni_Component* aniimgcom = m_LinkImaeAniCom;
+	aniimgcom->ResetAllDatasNClear( );
+
+
+	wstring path = L"";
+	for ( size_t i = 0; i < 13; i++ )
+	{
+		path = format(L"Assets/Images/Plants/Peashooter/Peashooter_{}.png", i + 1);
+		aniimgcom->AddDrawImageInfo(0.2f, path
+			, ONEBLOCKSIZEW - 10, ONEBLOCKSIZEH - 10
+			, 0, 0, 73, 74
+			, 0 //, -( ONEBLOCKSIZEW - 10 ) * 0.5f
+			, 0 //, -( ONEBLOCKSIZEH - 10 ) * 0.5f
+		);
+	}
+
+	aniimgcom->SetNAdjustImageInfoTotalFrame(3.f);
+	aniimgcom->SetLoopTime(-1); // 무한 루프
+	aniimgcom->SetISPlayAni(true);
+	aniimgcom->SetCurrentIndex(0);
+	aniimgcom->SetWeight_AnimationVal(1.f);
 }
 
 void Plant_PeaShooter::InitSettings( )

@@ -70,7 +70,7 @@ public:
 	);
 
 	DebugText* DrawDebugText(std::wstring p_str, Vec2& p_pos, Gdiplus::Color color = Gdiplus::Color(255, 255, 0, 0) );
-
+	DebugText* DrawDebugText(std::string p_str, Vec2& p_pos, Gdiplus::Color color = Gdiplus::Color(255, 255, 0, 0));
 public:
     void ResetAllDebugObjects();
     void AllDebugUpdate(float dt);

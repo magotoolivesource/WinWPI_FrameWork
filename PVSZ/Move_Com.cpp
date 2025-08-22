@@ -49,8 +49,8 @@ void Move_Com::Update(float dt)
 	// 화면 밖으로 나가면 삭제 적용
 	Vec2 temppos = transform->GetWorldPosition( );
 
-	if (temppos.x < 100 || temppos.x > SCREEN_W - 100 ||
-		temppos.y < 100 || temppos.y > SCREEN_H + 100
+	if (temppos.x < 10 || temppos.x > SCREEN_W - 10 ||
+		temppos.y < 10 || temppos.y > SCREEN_H + 10
 		)
 	{
 		InGame_PVSZ::DestroyGameObject(this->owner);

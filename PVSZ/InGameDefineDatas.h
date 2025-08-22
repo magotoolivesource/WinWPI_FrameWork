@@ -21,6 +21,9 @@ const Vec2 OneBlockSize = { 80, 98 };
 #define SHOOTERBLOCKSIZEH 34 * 1.f
 
 
+#define ISDEBUG true
+
+
 #define SCREEN_W 1280
 #define SCREEN_H 720
 

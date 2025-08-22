@@ -147,6 +147,7 @@
     <ClInclude Include="Pea_Com.h" />
     <ClInclude Include="PlantSelectCom.h" />
     <ClInclude Include="Plant_PeaShooter.h" />
+    <ClInclude Include="PVSZ_ALLTableDatas.h" />
     <ClInclude Include="PVSZ.h" />
     <ClInclude Include="PVSZ_AllContentDatas.h" />
     <ClInclude Include="Resource.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Pea_Com.cpp" />
     <ClCompile Include="PlantSelectCom.cpp" />
     <ClCompile Include="Plant_PeaShooter.cpp" />
+    <ClCompile Include="PVSZ_ALLTableDatas.cpp" />
     <ClCompile Include="PVSZ.cpp" />
     <ClCompile Include="Stage01.cpp" />
     <ClCompile Include="StageInfo_WaveData.cpp" />

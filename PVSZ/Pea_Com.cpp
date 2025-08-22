@@ -17,6 +17,8 @@
 #include "UI_SelectBTNCom.h"
 
 #include "InGameDefineDatas.h"
+#include "Base_ZombiActor.h"
+#include "PVSZ_ALLTableDatas.h"
 
 
 using namespace std;
@@ -96,6 +98,26 @@ void Pea_Com::Collider_TriggerEnter(Collider* src_other
 		, dest_other->owner->GetName( ), dest_other->owner->GetTag() );
 	UtilLoger::Log( wlog );
 
+
+	string tag = dest_other->owner->GetTag( );
+	if ( tag != TAG_ZOMBIE )
+		return;
+
+	Base_ZombiActor* zombiactor = dest_other->owner->GetComponent<Base_ZombiActor>( );
+	if ( zombiactor && !zombiactor->ISDie( ) )
+	{
+		zombiactor->SetDamage(m_PlantATKData->m_ATKVal);
+
+		string wlog = std::format("발사체 삭제 : {}, {}", this->owner->GetName( ), src_other->id );
+		UtilLoger::Log(wlog);
+		InGame_PVSZ::DestroyGameObject(this->owner);
+	}
+
+}
+
+void Pea_Com::SetPlantATKData(PlantATKData* p_atkdata)
+{
+	m_PlantATKData = p_atkdata;
 }
 
 void Pea_Com::InitSettings( )

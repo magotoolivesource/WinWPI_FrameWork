@@ -99,12 +99,12 @@ void Stage01::_Test_InitStageInfoData( )
 	StageInfo_WaveElement* wavedata = nullptr;
 
 	wavedata = new StageInfo_WaveElement( );
-	wavedata->m_ElapsedTime = 3.f;
+	wavedata->m_ElapsedTime = 6.f;
 	wavedata->m_ZombiDataVec.push_back(
-		new WaveLineData( E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal )
+		new WaveLineData( E_LINETYPE::LINE2, E_ZOMBIE_TYPE::Zombie_Normal )
 	);
 	wavedata->m_ZombiDataVec.push_back(
-		new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
+		new WaveLineData(E_LINETYPE::LINE4, E_ZOMBIE_TYPE::Zombie_Normal)
 	);
 	m_StageInfoData->AddWave(
 		wavedata
@@ -112,7 +112,7 @@ void Stage01::_Test_InitStageInfoData( )
 
 
 	//wavedata = new StageInfo_WaveElement( );
-	//wavedata->m_ElapsedTime = 15.f;
+	//wavedata->m_ElapsedTime = 25.f;
 	//wavedata->m_ZombiDataVec.push_back(
 	//	new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
 	//);
@@ -121,7 +121,7 @@ void Stage01::_Test_InitStageInfoData( )
 	//);
 
 	//wavedata = new StageInfo_WaveElement( );
-	//wavedata->m_ElapsedTime = 25.f;
+	//wavedata->m_ElapsedTime = 35.f;
 	//wavedata->m_ZombiDataVec.push_back(
 	//	new WaveLineData(E_LINETYPE::RANDOM, E_ZOMBIE_TYPE::Zombie_Normal)
 	//);
@@ -142,11 +142,11 @@ void Stage01::_Test_InitStageInfoData( )
 void Stage01::CreateWaveZombi_CallFN(StageInfo_WaveElement* p_element, int p_index)
 {
 	static Vec2 lineposarr[ ( int ) E_LINETYPE::LINE5 + 1 ] = {
-		Vec2( 600, 100 ),
-		Vec2( 600, 200 ),
-		Vec2( 600, 300 ),
-		Vec2( 600, 400 ),
-		Vec2( 600, 500 )
+		Vec2( 900, 100 ),
+		Vec2( 900, 200 ),
+		Vec2( 900, 300 ),
+		Vec2( 900, 400 ),
+		Vec2( 900, 500 )
 	};
 
 
@@ -160,13 +160,13 @@ void Stage01::CreateWaveZombi_CallFN(StageInfo_WaveElement* p_element, int p_ind
 		NormalZombie* zombi = manager->CreateZombie<NormalZombie>( );
 
 
-		if ( item->E_LineType == E_LINETYPE::RANDOM )
+		if ( item->E_LineType >= E_LINETYPE::RANDOM )
 		{
 			temppos = lineposarr[ MyUtil::GetRandInt(0, ( int ) E_LINETYPE::LINE5)  ];
 		}
 		else
 		{
-			temppos = lineposarr[ rand( ) % ( int ) item->E_LineType ];
+			temppos = lineposarr[ ( int ) item->E_LineType ];
 		}
 
 		zombi->transform->SetDepth(( int ) E_ALLLayerType::Zombie);

@@ -16,6 +16,7 @@
 #include "../Core/DebugLineComponent.h"
 #include "../Core/DebugRectLineComponent.h"
 #include "../Core/DebugText.h"
+#include "../Core/MyString.h"
 
 
 void DebugObjectManager::AddDebugRect_ResizeCount(int p_addsize) 
@@ -171,7 +172,7 @@ DebugText* DebugObjectManager::DrawDebugText(std::wstring p_str, Vec2& p_pos, Gd
         return nullptr;
     }
 
-	outtext->SetText(p_str);
+	outtext->SetTextW(p_str);
     outtext->SetColor(color);
     outtext->SetPosition(p_pos);
     outtext->SetActive(true);
@@ -180,6 +181,12 @@ DebugText* DebugObjectManager::DrawDebugText(std::wstring p_str, Vec2& p_pos, Gd
 
     return outtext;
 
+}
+
+DebugText* DebugObjectManager::DrawDebugText(std::string p_str, Vec2& p_pos, Gdiplus::Color color)
+{
+	std::wstring str = MyString::StringToWString(p_str);
+	return DrawDebugText( str, p_pos, color );
 }
 
 void DebugObjectManager::ResetAllDebugObjects() 

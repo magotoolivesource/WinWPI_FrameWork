@@ -174,6 +174,9 @@
     <ClInclude Include="Base_FrameWorkCls.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Compoment\ImageAni_Component.h">
+      <Filter>Compoment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameWork_2DAPI.cpp">
@@ -289,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="Base_FrameWorkCls.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Compoment\ImageAni_Component.cpp">
+      <Filter>Compoment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

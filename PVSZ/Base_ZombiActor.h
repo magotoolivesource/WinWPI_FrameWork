@@ -10,10 +10,17 @@
 
 //#include "ZombieFactoryManager.h"
 
+#include "PVSZ_ALLTableDatas.h"
+
 
 class UI_SelectBTNCom;
 class Button;
 class NormalZombie;
+class Collider;
+class ImageComponent;
+class ImageAni_Component;
+class Move_Com;
+class UtilTimer;
 
 // 팩토리패턴들 적용
 // https://chatgpt.com/c/68a654aa-5f48-8323-8325-6b9dd258d170
@@ -60,6 +67,33 @@ public:
 protected:
 	//ZombiStateData* m_ZombiStateData = nullptr;
 	ZombiStateData m_ZombiStateData;
+	ZombiATKData m_ZombiATKData = {1.f};
+
+protected:
+	virtual void Collider_TriggerEnter(Collider* src_other, Collider* dest_other, void* p_data) {};
+	virtual void Collider_TriggerStay(Collider* src_other, Collider* dest_other, void* p_data) {};
+	virtual void Collider_TriggerExit(Collider* src_other, Collider* dest_other, void* p_data) {};
+
+protected:
+	GameObject* m_TargetPlant = nullptr;
+
+public:
+	virtual void SetDieEvent( );
+	virtual void DestroyEvent( );
+	virtual void DestroyEvent_CallFN(UtilTimer* p_timer, void* p_data);
+	virtual void SetDamage(float p_atk);
+	virtual void UpdateUI( );
+
+	virtual void ResetAllDatas( );
+	virtual bool ISDie( );
+
+	virtual void SetMove(bool p_ismove);
+protected:
+	bool m_ISDie = false;
+	ImageComponent* m_ImageCom = nullptr;
+	ImageAni_Component* m_LinkImaeAniCom = nullptr;
+	Move_Com* m_MoveCom = nullptr;
+	float m_MoveSpeed = 0.f; // 이동 속도
 };
 
 //

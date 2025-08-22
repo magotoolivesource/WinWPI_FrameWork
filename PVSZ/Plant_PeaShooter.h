@@ -4,12 +4,13 @@
 #include "Compoment/RectLineComponent.h"
 #include "Core/Vector.h"
 #include <vector>
+#include "PVSZ_ALLTableDatas.h"
 
 
 class UI_SelectBTNCom;
 class Button;
 class UtilTimer;
-
+class ImageAni_Component;
 
 class Plant_PeaShooter : public Component
 {
@@ -36,8 +37,12 @@ protected:
 
 	float m_BuyCoin = 50.f;
 
-
+	PlantATKData m_PlantATKData = {1.f};
 protected:
 	void Call_CreatePeaFN(UtilTimer* utiltimer, void* p_data);
+
+protected:
+	void SetIdleAnimation( );
+	ImageAni_Component* m_LinkImaeAniCom = nullptr; // 애니메이션 컴포넌트 링크용
 };
 
