@@ -122,10 +122,17 @@ void GameScene::Initialize()
 
 ## AI에게 할 수 있는 질문
 
-- "`Component` 클래스에서 `owner`와 `transform` 멤버 변수가 왜 필요한지 설명해 줘."
-- "사용자 정의 컴포넌트를 만들 때 반드시 `Component` 클래스를 상속받아야 하는 이유는 무엇이야?"
-- "`Start()`와 `Initialize_AddCompoment()`의 차이점은 무엇이며, 각각 어떤 용도로 사용해야 해?"
-- "컴포넌트를 비활성화(`SetEnabled(false)`)하면 어떤 일이 발생하는지 설명해 줘."
+### 개념 이해
+- "`Component` 클래스에서 `owner`와 `transform` 멤버 변수가 왜 필요한지, 그리고 `owner->GetComponent<Transform>()` 대신 `transform`을 사용하는 것의 이점은 무엇인지 설명해 줘."
+- "모든 컴포넌트가 `Component` 기본 클래스를 상속받아야 하는 이유는 무엇이야? 이것이 `GameObject`가 다양한 종류의 컴포넌트를 동일한 방식으로 관리할 수 있게 해주는 원리는 뭐야? (다형성)"
+- "`Start()`와 `Initialize_AddCompoment()`의 호출 시점과 용도의 차이점을 설명해 줘. `Start`에서는 다른 컴포넌트를 `GetComponent`로 찾는 것이 안전하지만, `Initialize_AddCompoment`에서는 왜 위험할 수 있는지 알려줘."
+- "컴포넌트를 비활성화(`SetEnabled(false)`)했을 때 `Update`와 `Render`만 중단되는 것인지, 아니면 컴포넌트 자체가 메모리에서 제거되는 것인지 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "`GameObject`가 파괴될 때(`RemoveCompoment` 호출 시) 특정 효과음을 재생하는 `SoundOnDestroy` 컴포넌트를 만들어보고 싶어. `RemoveCompoment` 메서드를 어떻게 오버라이드하고, 그 안에서 어떤 코드를 호출해야 하는지 보여줘."
+- "`PlayerController` 컴포넌트의 `Start` 메서드에서, 같은 `GameObject`에 있는 `StatComponent`를 찾아서 `m_StatComponent`라는 멤버 변수에 저장해두고 싶어. `Start` 메서드에 어떤 코드를 작성해야 하는지 보여줘."
+- "특정 아이템을 먹으면 5초 동안 플레이어의 이동 속도가 2배가 되는 기능을 구현하고 싶어. `PlayerController` 컴포넌트에 `EnableSpeedBoost(float duration)`라는 메서드를 만들고, 이 메서드가 `Move_Com`의 속도를 변경한 뒤 타이머를 사용해 5초 후에 원래 속도로 되돌리도록 코드를 작성해 줘."
+- "컴포넌트의 `Update` 메서드에서 `owner->RemoveComponent<MyComponent>()`처럼 자기 자신을 제거하는 코드를 호출하면 어떤 문제가 발생할 수 있을까? 이런 경우 안전하게 컴포넌트를 제거하려면 어떻게 해야 할까?"
 
 ## PVSZ 예제: 컴포넌트의 실제 활용
 

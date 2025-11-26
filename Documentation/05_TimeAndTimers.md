@@ -133,7 +133,14 @@ UtilTimerManager::GetI()->RemoveTimer(myTimerId);
 
 ## AI에게 할 수 있는 질문
 
-- "`DeltaTime`을 사용하지 않고 게임을 만들면 어떤 문제가 발생할 수 있는지 구체적인 예를 들어 설명해 줘."
-- "`UtilTimerManager`를 사용하여 구현할 수 있는 게임 기능에는 어떤 것들이 있을까?"
-- "타이머의 콜백 함수로 람다(lambda) 함수를 사용하는 것의 장점은 무엇이야?"
-- "한 번만 실행되는 타이머와 무한히 반복되는 타이머를 만들려면 `AddTimer`의 인자를 어떻게 설정해야 해?"
+### 개념 이해
+- "`DeltaTime`을 사용하지 않고 `position.x += 1;`과 같이 코드를 작성하면 왜 '프레임 종속적'이 되는지 컴퓨터 성능(FPS)과 관련하여 설명해 줘. 60FPS 환경과 30FPS 환경에서 1초 동안 `GameObject`가 이동하는 거리가 어떻게 달라지는지 구체적인 숫자를 들어 비교해 줘."
+- "`UtilTimerManager`의 `Update` 메서드에서 `timers` 벡터를 순회하면서 `timer->Update(deltaTime)`을 호출하는데, 만약 타이머의 콜백 함수 안에서 새로운 타이머를 추가(`AddTimer`)하면 어떤 일이 발생할까? 다음 프레임부터 즉시 업데이트되는지, 아니면 현재 프레임의 `Update` 루프에 포함되는지 알려줘."
+- "타이머의 콜백 함수로 람다(lambda) 함수를 사용할 때, 외부 변수를 값으로 캡처(`[=]`)하는 것과 참조로 캡처(`[&]`)하는 것의 차이점은 무엇이며, 어떤 경우에 참조 캡처가 위험할 수 있는지 구체적인 예를 들어 설명해 줘. (예: 지역 변수 캡처)"
+- "`AddTimer`의 `repeatcount` 인자가 0일 때와 1일 때는 동일하게 한 번만 실행되는데, -1일 때는 왜 무한 반복이 되는지 `UtilTimer`의 `Update` 메서드 내부 로직을 통해 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "게임에 '일시정지' 기능을 추가하고 싶어. `TimerManager`를 수정해서 `TimeScale`이라는 개념(예: `m_TimeScale = 1.0f`)을 도입하고, `GetDeltaTime`이 `deltaTime * m_TimeScale`을 반환하도록 만들고 싶어. `TimeScale`을 0으로 만들면 모든 게임 내 시간 흐름과 `UtilTimerManager`가 멈추게 되는지, 그리고 UI 애니메이션처럼 일시정지와 상관없이 움직여야 하는 요소는 어떻게 처리해야 하는지 알려줘."
+- "3초에 걸쳐 `GameObject`를 A 지점에서 B 지점으로 부드럽게 이동(선형 보간, Lerp)시키는 기능을 `UtilTimerManager`를 사용해서 구현하고 싶어. `AddTimer`의 업데이트 콜백(`p_updatecallback`)을 사용하여 매 프레임 `GameObject`의 위치를 갱신하는 전체 코드를 작성해 줘."
+- "`UtilTimerManager`에 등록된 모든 타이머를 한 번에 중지시키는 `PauseAllTimers()`와 다시 재개하는 `ResumeAllTimers()` 함수를 추가하고 싶어. `UtilTimerManager` 클래스에 어떤 멤버 변수와 로직을 추가해야 하는지 코드로 보여줘."
+- "활을 쏠 때, 키를 누르고 있는 시간에 비례해서 `ImageComponent`의 색상이 점차 붉게 변하는 시각적 피드백을 주고 싶어. `AddTimer`의 업데이트 콜백을 사용해서, 타이머의 경과 시간(`GetElapsed`)에 따라 `ImageComponent`의 색상을 변경하는 코드를 작성하는 방법을 알려줘."

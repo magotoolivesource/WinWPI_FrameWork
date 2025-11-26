@@ -126,10 +126,17 @@ void RemovePlayerSprite(GameObject* player)
 
 ## AI에게 할 수 있는 질문
 
-- "`GameObject`와 `Component`의 관계를 상속 대신 구성을 사용하는 이유와 함께 설명해 줘."
-- "`Transform` 컴포넌트가 모든 `GameObject`에 자동으로 추가되는 이유는 무엇이야?"
-- "컴포넌트의 추가 및 제거를 즉시 처리하지 않고 지연시키는 이유는 무엇이며, 이로 인해 얻는 이점은 무엇이야?"
-- "`GetComponent`를 호출했을 때 요청한 타입의 자식 클래스 컴포넌트도 찾아줄 수 있는지 설명해 줘."
+### 개념 이해
+- "`GameObject`와 `Component`의 관계를 '상속 대신 구성'이라는 원칙을 사용하여 설명해 줘. 이 방식이 게임 개발에서 어떤 장점을 가져?"
+- "`Transform` 컴포넌트가 모든 `GameObject`에 필수적으로 포함되는 이유는 무엇이며, 만약 이게 없다면 어떤 문제가 발생할까?"
+- "컴포넌트의 추가 및 제거를 '지연된 처리' 방식으로 구현한 이유가 뭐야? 게임 루프 중에 `GameObject`의 컴포넌트 리스트를 즉시 수정하면 어떤 위험이 있어?"
+- "`GetComponent`를 호출했을 때, 정확히 요청한 타입의 컴포넌트만 찾는지, 아니면 해당 타입을 상속받는 자식 클래스의 컴포넌트도 찾을 수 있는지 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "체력(Health)과 마나(Mana) 값을 가지는 'StatComponent'를 직접 만들어보고 싶어. `Component`를 상속받아서 어떻게 클래스를 설계하고 구현해야 하는지 단계별로 코드를 작성해 줘."
+- "플레이어가 스페이스 바를 누르면 `GameObject`의 `transform.position.y` 값을 변경하여 점프하는 것처럼 보이게 만들고 싶어. 이 기능을 담당할 `PlayerController` 컴포넌트의 `Update` 메서드 코드를 어떻게 작성해야 할까?"
+- "특정 `GameObject`에 `ImageComponent`가 이미 추가되어 있는지 확인하고, 만약 없다면 새로 추가하는 코드를 작성해 줘. `GetComponent`의 반환 값을 어떻게 활용해야 해?"
+- "`GameObject`에 `PowerUpComponent`를 추가하고 5초 후에 자동으로 `RemoveComponent`를 호출하여 제거하는 기능을 구현하고 싶어. 어떤 타이머 기능을 사용해야 하며, 구체적인 코드는 어떻게 작성해야 할까?"
 
 ## PVSZ 예제: `GameObject`의 실제 활용
 

@@ -134,10 +134,17 @@ void BaseGame::GameLoop()
 
 ## AI에게 할 수 있는 질문
 
-- "`Scene`이 `GameObject`의 렌더링 순서를 결정하는 기준은 무엇이며, 어떻게 제어할 수 있어?"
-- "`Scene`에서 `GameObject`를 생성할 때 `new GameObject()` 대신 `CreateObject()`를 사용해야 하는 이유는 무엇이야?"
-- "현재 프레임워크에 `SceneManager`가 없는 상황에서 `Scene` 전환을 구현하려면 어떻게 해야 할까?"
-- "`Scene`의 `Release()` 메서드가 호출될 때 어떤 일들이 발생하는지 설명해 줘."
+### 개념 이해
+- "`Scene`이 `GameObject`의 렌더링 순서를 `transform`의 `depth` 값을 기준으로 정렬한다고 했는데, 만약 두 `GameObject`의 `depth` 값이 같다면 어떤 순서로 그려져? 그리고 `depth` 값을 어떻게 활용하면 2.5D와 같은 깊이감을 표현할 수 있을까?"
+- "`Scene`에서 `CreateObject()`를 사용하면 `GameObject`가 '대기' 목록에 들어간다고 했는데, `new GameObject()`를 직접 호출해서 `Scene`의 `m_AllOjects` 벡터에 바로 추가하면 어떤 문제가 발생할 수 있을까?"
+- "문서에서 제안된 `BaseGame::ChangeScene` 메서드는 `Scene`을 전환할 때 이전 `Scene`을 파괴하고 새로운 `Scene`을 생성해. 만약 `Scene` 전환 시 로딩 시간이 길다면, 비동기 로딩(Asynchronous Loading)을 구현하려면 `ChangeScene` 메서드를 어떻게 수정해야 할까?"
+- "`Scene`의 `Release()` 메서드가 호출될 때, `Scene`이 소유한 모든 `GameObject`의 `Release` 메서드도 연쇄적으로 호출되는지, 그리고 메모리 해제는 어떤 순서로 이루어지는지 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "게임이 끝났을 때 보여줄 'GameOverScene'을 직접 만들어보고 싶어. `Scene`을 상속받고, 화면 중앙에 'Game Over'라는 텍스트를 표시하는 `InitSettings` 메서드를 가진 `GameOverScene` 클래스의 전체 코드를 작성해 줘."
+- "현재 `Scene`에 있는 모든 'Enemy' 태그를 가진 `GameObject`를 찾아서 리스트로 반환하는 함수를 `Scene` 클래스에 추가하고 싶어. `FindObjectsByTag(const std::string& tag)` 함수의 구현 코드를 보여줘."
+- "게임 플레이 `Scene`에서 일시정지 메뉴를 띄우고 싶어. '일시정지' `Scene`을 따로 만들지 않고, 현재 `Scene` 위에 UI `GameObject`들을 동적으로 생성했다가 제거하는 방식으로 구현하고 싶어. 일시정지 버튼을 눌렀을 때 UI를 생성하고 게임 시간을 멈추는(TimeScale = 0) 코드와, '계속하기' 버튼을 눌렀을 때 UI를 제거하고 게임 시간을 원래대로 되돌리는 코드를 작성해 줘."
+- "현재 `Scene`에 있는 `GameObject`를 다른 `Scene`으로 이동시키는 기능을 구현하고 싶어. `GameObject`를 현재 `Scene`의 관리 목록에서 제거하고 다음 `Scene`의 '대기' 목록으로 넘겨주는 `MoveObjectToScene(GameObject* obj, Scene* newScene)` 함수의 아이디어와 구현 방법을 설명해 줘. (Don't Destroy On Load와 유사한 기능)"
 
 ## PVSZ 예제: 실제 게임 씬(Scene) 구성
 

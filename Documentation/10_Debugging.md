@@ -105,7 +105,14 @@ void Player::TakeDamage(int damage)
 
 ## AI에게 할 수 있는 질문
 
-- "`DebugObjectManager`가 매 프레임 디버깅 객체를 새로 생성하는 대신 재활용하는 방식을 사용하는 이유는 무엇이며, 이로 인한 성능상의 이점은 무엇이야?"
-- "게임의 특정 `GameObject`가 왜 화면에 보이지 않는지 디버깅하고 싶을 때 `DebugObjectManager`를 어떻게 활용할 수 있을까?"
-- "`UtilLoger`를 사용하여 특정 함수의 호출 횟수를 추적하려면 코드를 어떻게 작성해야 해?"
-- "`DebugText`는 기본적으로 월드 좌표를 기준으로 텍스트를 그리는데, 카메라의 움직임과 상관없이 항상 화면의 특정 위치에 텍스트를 표시하려면 어떻게 해야 할까?"
+### 개념 이해
+- "`DebugObjectManager`가 `m_DebugRectLineVec`에 미리 `DebugRectLineComponent` 객체들을 생성해두고, `DrawRectLine`이 호출될 때마다 `m_RectLineCount`를 증가시켜 순차적으로 재사용하는 '객체 풀링(Object Pooling)' 방식의 작동 원리에 대해 설명해 줘. 만약 요청이 풀의 크기를 초과하면 어떻게 동작하는지도 알려줘."
+- "게임 루프의 맨 마지막에 `DebugObjectManager::ResetAllDebugObjects()`를 호출하여 `m_RectLineCount`와 같은 카운터들을 0으로 리셋하는데, 이 작업이 왜 '자동으로 지워지는' 효과를 만들어내는지 설명해 줘. 실제 메모리 해제가 일어나는 것은 아니라는 점을 명확히 해줘."
+- "`UtilLoger::Log` 함수가 Windows API 함수인 `SetConsoleTextAttribute`를 사용하여 콘솔 텍스트 색상을 변경하는 원리를 설명해 줘. 이 방식이 C++ 표준 출력(`std::cout`)과 어떻게 함께 동작하는지 알려줘."
+- "`DebugText` 객체는 `DebugObjectManager`에 의해 관리되는데, `DebugText`의 렌더링에 카메라 변환이 적용되는지 여부를 어떻게 제어할 수 있을까? (`DebugText`가 `TextComponent`와 유사한 내부 구조를 가졌다고 가정하고 설명해 줘)"
+
+### 기능 구현 및 결과 도출
+- "캐릭터의 이동 경로를 시각적으로 디버깅하고 싶어. `PlayerController`의 `Update` 메서드에서 매 프레임 캐릭터의 이전 위치와 현재 위치를 `DebugObjectManager::DrawLine`으로 연결하여 이동 궤적을 화면에 그리는 코드를 작성해 줘."
+- "특정 `GameObject`의 위치(`transform->GetWorldPosition()`)와 이름(`GetName()`)을 매 프레임 화면에 표시하여 디버깅하고 싶어. `MyDebugInfo`라는 컴포넌트를 만들고, `Update` 메서드에서 `DebugObjectManager::DrawDebugText`를 호출하여 `owner`의 정보를 표시하는 코드를 작성해 줘."
+- "콘솔에 너무 많은 로그가 출력되어 확인하기 어려울 때가 있어. `UtilLoger`에 로그 레벨 필터링 기능을 추가하고 싶어. `UtilLoger::SetLogLevel(E_LogLevel level)` 함수를 추가해서, 설정된 레벨 이상의 로그만 콘솔에 출력되도록 `Log` 함수를 수정하는 코드를 보여줘."
+- "3D 공간에서의 레이캐스트를 디버깅하기 위해 시작점과 끝점을 받아 월드 좌표계의 선을 그리는 `DrawLine3D` 함수를 `DebugObjectManager`에 추가한다고 상상해 보자. 3D 좌표를 2D 화면 좌표로 변환(투영, Projection)하기 위해 어떤 행렬(View, Projection Matrix)이 필요하며, 변환된 좌표로 선을 그리기 위해 GDI+를 어떻게 사용해야 할지 그 과정을 설명해 줘."

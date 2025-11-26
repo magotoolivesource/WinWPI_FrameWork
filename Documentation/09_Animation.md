@@ -109,10 +109,17 @@ void Zombie::Attack()
 
 ## AI에게 할 수 있는 질문
 
-- "`ImageAni_Component`가 `ImageComponent`와 분리되어 있는 이유는 무엇이며, 두 컴포넌트가 어떻게 상호작용하는지 설명해 줘."
-- "애니메이션의 각 프레임 지속 시간을 모두 동일하게 설정하는 `SetNAdjustImageInfoTotalFrame` 메서드는 어떤 경우에 유용하게 사용될 수 있어?"
-- "애니메이션의 재생 속도를 2배로 빠르게 하려면 `SetWeight_AnimationVal` 값을 어떻게 설정해야 해?"
-- "`ImageAni_Component`를 확장하여 애니메이션 재생이 끝났을 때 특정 함수를 호출하는 '완료 이벤트' 기능을 추가하려면 어떻게 구현해야 할까?"
+### 개념 이해
+- "`ImageAni_Component`가 렌더링을 직접 처리하지 않고 `ImageComponent`를 제어하는 방식으로 설계된 이유는 무엇일까? 만약 `ImageAni_Component`가 `ImageComponent`를 상속받아 렌더링까지 직접 처리한다면 어떤 장단점이 있을지 단일 책임 원칙(Single Responsibility Principle) 관점에서 설명해 줘."
+- "`SetNAdjustImageInfoTotalFrame(3.f)`를 호출하면 왜 모든 프레임의 `m_DurationSec`가 `(3.0f / 프레임 수)`로 설정되는지 내부 코드를 통해 설명해 줘. 이 기능이 애니메이션 제작 과정에서 어떻게 편리함을 제공하는지 알려줘."
+- "`SetWeight_AnimationVal` 값을 2.0으로 설정하면 애니메이션 재생 속도가 두 배 빨라지는 원리를 `ImageAni_Component::Update` 메서드의 `m_RemineSec -= (dt * m_Weight_AnimationVal);` 코드를 통해 설명해 줘. 이 값을 음수로 설정하면 어떻게 될까?"
+- "`NormalZombie::Set_DieAnimations` 함수에서 `ResetAllDatasNClear()`를 호출하는 이유는 무엇이야? 만약 이 함수를 호출하지 않고 그냥 `AddDrawImageInfo`를 계속 호출하면 기존의 걷기 애니메이션 프레임과 죽는 애니메이션 프레임이 어떻게 섞이게 될지 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "애니메이션 재생이 끝나면 특정 함수를 호출하는 '완료 콜백' 기능을 추가하고 싶어. `ImageAni_Component`에 `std::function<void()>` 타입의 `OnAnimationEnd` 멤버 변수를 추가하고, 애니메이션 루프가 끝나는 시점에 이 콜백을 호출하도록 `SetNextDatas` 함수를 수정하는 코드를 보여줘."
+- "현재 애니메이션을 역방향으로 재생하는 기능을 구현하고 싶어. `ImageAni_Component`에 `bool m_IsReversed = false;` 플래그를 추가하고, `Update`와 `SetNextDatas` 메서드를 수정하여 `m_IsReversed`가 `true`일 때 프레임 인덱스가 감소하도록 만드는 코드를 작성해 줘."
+- "여러 애니메이션 클립(걷기, 공격, 죽음 등)을 `ImageAni_Component` 하나로 관리하는 '애니메이션 상태 머신(Animation State Machine)'을 간단하게 구현하고 싶어. `std::map<std::string, std::vector<DrawImageRectInfoData>>`를 사용해 애니메이션 클립들을 저장하고, `Play(const std::string& clipName)` 함수를 호출하면 해당 클립으로 전환되는 방식으로 `ImageAni_Component`를 확장하는 방법을 설명해 줘."
+- "애니메이션의 특정 프레임(예: 공격 애니메이션의 3번째 프레임)에 도달했을 때 이벤트를 발생시키는 '애니메이션 이벤트' 기능을 구현하고 싶어. 각 프레임 정보(`DrawImageRectInfoData`)에 `std::function<void()>` 타입의 이벤트 콜백을 추가하고, 해당 프레임으로 전환될 때 이 콜백을 호출하도록 `SetCurrentIndex` 또는 `SetNextDatas` 함수를 수정하는 아이디어를 제시해 줘."
 
 ## PVSZ 예제: 상태에 따른 애니메이션 전환
 

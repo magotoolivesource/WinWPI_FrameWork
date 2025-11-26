@@ -111,7 +111,14 @@ void CameraController::Update(float dt)
 
 ## AI에게 할 수 있는 질문
 
-- "렌더링 파이프라인에서 `Camera`의 뷰 변환 행렬이 적용되는 시점은 언제이며, 이 행렬은 어떤 정보들을 바탕으로 계산돼?"
-- "`ImageComponent`의 `SetDrawRect`와 `SetSize` 메서드는 각각 어떤 역할을 하며, 두 메서드를 함께 사용하면 어떤 효과를 얻을 수 있어?"
-- "카메라의 `Zoom` 값을 변경하면 화면에 보이는 `GameObject`들에 어떤 변화가 생기는지 설명해 줘."
-- "GDI+의 `Graphics::MultiplyTransform` 메서드는 어떤 순서로 행렬을 곱하는 것이 중요한 이유는 무엇이야?"
+### 개념 이해
+- "`Camera::GetCameraWorldMatrix()` 내부에서 뷰 행렬을 계산할 때, GDI+ 행렬 연산(Scale, Rotate, Translate)이 어떤 순서로 적용되는지, 그리고 이 순서가 왜 중요한지 설명해 줘. 만약 순서를 바꾸면 어떤 시각적 문제가 발생할까?"
+- "`ImageComponent`의 `Render` 함수에서 `graphics.MultiplyTransform(&transformmat)`를 먼저 호출하고 `graphics.MultiplyTransform(&campmat)`를 나중에 호출하고 있어. 이 두 행렬 곱셈의 순서가 최종적으로 `(ObjectWorldMatrix * CameraViewMatrix)` 연산을 수행하는 것과 동일한지 행렬 연산의 원리에 기반하여 설명해 줘."
+- "카메라의 `Zoom` 값을 2.0으로 설정하면 `GetCameraWorldMatrix` 내부에서는 `Scale(0.5, 0.5)`를 호출하는데, 왜 확대 효과를 내기 위해 스케일 값을 역수(1/zoom)로 적용하는지 뷰 변환의 원리와 연관지어 설명해 줘."
+- "`ImageComponent`의 `SetDrawRect`는 스프라이트 시트의 '어느 부분'을 사용할지 결정하고, `SetSize`는 그것을 화면에 '얼마나 크게' 그릴지 결정한다고 했는데, 이 두 가지를 조합해서 9분할(9-slicing) UI 이미지를 렌더링하는 원리를 설명하고, 이 프레임워크에서 구현하려면 `ImageComponent`를 어떻게 수정해야 할지 아이디어를 제시해 줘."
+
+### 기능 구현 및 결과 도출
+- "미니맵(Minimap)을 구현하고 싶어. 화면 우측 상단에 게임 월드의 축소판을 보여주는 두 번째 카메라를 추가하려면 `CameraManager`와 렌더링 파이프라인을 어떻게 수정해야 할까? 두 카메라의 렌더링 결과를 화면의 다른 영역에 각각 그리는 방법을 단계별로 설명해 줘."
+- "`GameObject`가 피해를 입었을 때 0.1초 동안 빨간색으로 깜박이는 효과를 주고 싶어. GDI+의 `ColorMatrix`를 사용한다고 가정할 때, `ImageComponent`에 `TintColor`와 같은 속성을 추가하고 `Render` 함수에서 이를 적용하는 코드를 작성해 줘."
+- "화면 전체에 적용되는 후처리 효과(Post-processing effect), 예를 들어 회색조(Grayscale) 효과를 구현하고 싶어. 모든 렌더링이 끝난 후 화면 전체 비트맵에 접근해서 픽셀 색상을 변경하려면, `BaseGame`의 렌더링 루프를 어떻게 수정해야 하는지 코드로 보여줘."
+- "플레이어 캐릭터가 화면의 특정 영역(예: 중앙 80%)을 벗어나면 카메라가 플레이어를 따라가도록 만들고 싶어. `Camera`를 제어하는 `CameraController` 컴포넌트의 `Update` 메서드에서 플레이어의 화면 좌표를 계산하고, 이 좌표가 영역을 벗어났는지 판단하여 카메라 위치를 부드럽게 이동시키는 코드를 작성해 줘."

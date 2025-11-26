@@ -121,7 +121,14 @@ void BaseGame::GameLoop()
 
 ## AI에게 할 수 있는 질문
 
-- "`ISKeyDown`, `IsKeyPressed`, `ISKeyUp`의 차이점은 무엇이며, 각각 어떤 상황에서 사용해야 해?"
-- "`InputManager`가 정적 클래스로 구현된 이유는 무엇이며, 이로 인해 얻는 장점과 단점은 무엇이야?"
-- "게임 루프에서 `InputManager::ResetAllKey()`를 호출하는 것을 잊으면 어떤 문제가 발생할 수 있어?"
-- "마우스 위치는 어떤 좌표계를 기준으로 반환되며, 이를 게임 월드 좌표로 변환하려면 어떻게 해야 할까?"
+### 개념 이해
+- "`ISKeyDown`, `IsKeyPressed`, `ISKeyUp`의 내부 구현이 어떻게 다른지 설명해 줘. `iskeys_down`, `keys`, `iskeys_up` 배열이 WinAPI의 `WM_KEYDOWN`, `WM_KEYUP` 메시지에 의해 어떻게 업데이트되고, `ResetAllKey`에 의해 어떻게 초기화되는지 단계별로 알려줘."
+- "`InputManager`가 정적(static) 클래스로 구현된 것의 장점과 단점은 무엇일까? 만약 `InputManager`를 싱글턴(Singleton)으로 바꾼다면 코드가 어떻게 달라지고 어떤 이점이 있을까?"
+- "게임 루프에서 `InputManager::ResetAllKey()`를 `PeekMessage` 루프보다 먼저 호출하는 것이 왜 중요해? 만약 순서가 바뀐다면 `ISKeyDown`과 `ISKeyUp`의 동작에 어떤 문제가 발생할 수 있어?"
+- "마우스 커서의 위치(`GetMousePosition`)는 화면(Screen) 좌표계 기준인데, 이걸 게임 세계(World) 좌표계로 변환하려면 `Camera`의 어떤 정보(위치, 줌, 회전)를 어떻게 사용해야 하는지 구체적인 변환 공식과 함께 설명해 줘."
+
+### 기능 구현 및 결과 도출
+- "키를 누르고 있는 시간에 비례해서 파워가 충전되는 '차지 샷(Charge Shot)' 기능을 구현하고 싶어. `InputKey::C`를 누르기 시작하면(`ISKeyDown`) 충전을 시작하고, 누르고 있는 동안(`IsKeyPressed`) 충전 시간을 누적하고, 키를 떼면(`ISKeyUp`) 누적된 시간에 비례하는 공격을 발사하는 `Update` 메서드 코드를 작성해 줘."
+- "더블 클릭을 감지하는 기능을 `InputManager`에 추가하고 싶어. `ISMouseDblClick(E_MOUSEETYPE btn)` 함수를 `InputManager`에 추가하려면 어떤 멤버 변수(예: 마지막 클릭 시간)와 로직이 필요한지 코드로 보여줘."
+- "WASD 키를 이용해 상하좌우로 움직이는 기능을 구현하고 싶어. `PlayerController`의 `Update` 메서드에서 `IsKeyPressed`를 사용하여 WASD 입력에 따라 `owner->transform->position`을 변경하는 코드를 작성해 줘. 대각선으로 움직일 때 속도가 더 빨라지지 않도록 정규화(Normalize)하는 방법도 포함해 줘."
+- "게임패드(조이패드) 입력을 지원하도록 `InputManager`를 확장하고 싶어. XInput 라이브러리를 사용한다고 가정할 때, `InputManager`에 어떤 함수들(예: `IsButtonDown(int padIndex, GamepadButton btn)`)과 내부 로직을 추가해야 하는지 설계思路를 설명해 줘."
