@@ -26,6 +26,7 @@
 *   [13. 핵심 아키텍처: GameObject와 Component (Core Architecture)](13_Core_GameObject_Component.md)
 *   [14. 씬 시스템 (Scene System)](14_Scene_System.md)
 *   [15. 핵심 매니저: 입력과 시간 (Core Managers: Input & Time)](15_Core_Managers_Input_Timer.md)
+*   [16. 물리와 충돌 시스템 (Physics & Collision System)](16_Physics_Collision_System.md)
 
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
@@ -36,5 +37,6 @@
 3.  [x] **콘텐츠 생성**: `BaseGame` 클래스 및 게임 루프 분석 문서 작성 (`12_GameManager_BaseGame.md` 완료).
 4.  [x] **콘텐츠 생성**: `Core` 아키텍처(GameObject, Component) 및 `Scene` 시스템 문서화 완료.
 5.  [x] **콘텐츠 생성**: 주요 매니저 클래스 (`TimerManager`, `InputManager`) 문서화 완료.
-6.  [ ] **다음 타겟 선정**: 물리 및 충돌 시스템 (`CollisionManager`, `PhysicsManager`).
-7.  [ ] **반복**: 다음 모듈로 이동.
+6.  [x] **콘텐츠 생성**: 물리 및 충돌 시스템 (`CollisionManager`, `PhysicsManager`) 문서화 완료.
+7.  [ ] **다음 타겟 선정**: 카메라 및 렌더링 시스템 (`CameraManager`, `ImageComponent`).
+8.  [ ] **반복**: 다음 모듈로 이동.
