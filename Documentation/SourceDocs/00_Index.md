@@ -50,6 +50,10 @@
 ### Part 3. UI 및 상호작용 (UI & Interaction)
 *   [32. 인게임 UI와 상호작용 (Ingame UI & Interaction)](32_PVSZ_UI_Interaction.md)
 
+### Part 4. 게임플레이 메커니즘 (Gameplay Mechanics)
+*   [33. 게임플레이 메커니즘: 식물과 투사체 (Plants & Projectiles)](33_PVSZ_Gameplay_Mechanics.md)
+*   [34. 스테이지 디자인 (Stage Design)](34_PVSZ_Stage_Design.md)
+
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
 작업의 연속성을 보장하고 중단을 방지하기 위한 로드맵입니다:
@@ -70,4 +74,5 @@
 14. [x] **콘텐츠 생성**: PVSZ Part 1 - 게임플레이 패턴 (FSM, Object Pooling) 문서화 완료.
 15. [x] **콘텐츠 생성**: PVSZ Part 2 - 게임 구조 (Loop, Stage, Actor, Factory) 문서화 완료.
 16. [x] **콘텐츠 생성**: PVSZ Part 3 - UI 및 상호작용 문서화 완료.
-17. [ ] **완료**: PVSZ 샘플 게임 문서화 전체 마무리.
+17. [x] **콘텐츠 생성**: PVSZ Part 4 - 게임플레이 메커니즘 및 스테이지 디자인 문서화 완료.
+18. [x] **완료**: PVSZ 샘플 게임 문서화 전체 마무리.
