@@ -1,33 +1,33 @@
-# Source Code Documentation Project (S3)
+# 소스 코드 문서화 프로젝트 (S3)
 
-## Overview
+## 개요 (Overview)
 
-This directory (`Documentation/SourceDocs`) is dedicated to storing documentation generated directly from the analysis of the source code during the "S3" phase of the project.
+이 디렉토리(`Documentation/SourceDocs`)는 "S3" 단계에서 소스 코드 분석을 통해 생성된 문서를 저장하는 공간입니다.
 
-The goal is to bridge the gap between high-level concepts and actual code implementation, creating a comprehensive guide for students or future developers.
+추상적인 개념과 실제 코드 구현 사이의 간극을 줄여, 학생이나 미래의 개발자를 위한 포괄적인 가이드를 만드는 것을 목표로 합니다.
 
-## Usage Guide
+## 사용 가이드 (Usage Guide)
 
-When creating new documentation files here, please adhere to the structure defined in `Template.md`.
+새로운 문서를 작성할 때는 `Template.md`에 정의된 구조를 따라주세요.
 
-### Workflow
-1.  **Select a Source File or Module**: Pick a specific file (e.g., `Scene.cpp`) or a logical module (e.g., `Input System`).
-2.  **Analyze**: Understand the code, its dependencies, and its role in the architecture.
-3.  **Document**: Create a new `.md` file in this directory (e.g., `11_SceneManager.md` if following the numbering scheme) using the content from `Template.md`.
-4.  **Link**: Update this index file or the main `README.md` to point to the new document.
+### 작업 흐름 (Workflow)
+1.  **소스 파일 또는 모듈 선택**: 분석할 파일(예: `Scene.cpp`)이나 논리적 모듈(예: `Input System`)을 선택합니다.
+2.  **분석**: 코드의 의존성과 아키텍처 내 역할을 이해합니다.
+3.  **문서화**: `Template.md`의 내용을 바탕으로 새로운 `.md` 파일을 생성합니다 (예: 번호 체계에 따라 `11_SceneManager.md`).
+4.  **연결**: 이 인덱스 파일이나 메인 `README.md`를 업데이트하여 새 문서를 연결합니다.
 
-## Documentation Index
+## 문서 목차 (Documentation Index)
 
-*(This list will be populated as work progresses)*
+*(작업이 진행됨에 따라 이 목록이 업데이트됩니다)*
 
-*   [Template for New Documents](Template.md)
-*   *(Future documents will be listed here)*
+*   [문서 작성 템플릿 (Template)](Template.md)
+*   [11. 윈도우 생성 및 메인 루프 (Window Creation & Main Loop)](11_WindowAndMainLoop.md)
 
-## Next Steps / To-Do List
+## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
-To ensure work continuity and prevent "stopping", here is the immediate roadmap:
+작업의 연속성을 보장하고 중단을 방지하기 위한 로드맵입니다:
 
-1.  [ ] **Select Target**: Identify the next critical module to document (Recommended: `Scene.cpp` or `Application.cpp`).
-2.  [ ] **Generate Content**: Use the AI to analyze the target source code and fill out the `Template.md`.
-3.  [ ] **Review**: Verify the code snippets and explanations against the actual codebase.
-4.  [ ] **Repeat**: Move to the next module.
+1.  [x] **타겟 선정**: 다음 문서화 대상 모듈 식별 (추천: `Scene.cpp` 또는 `Application.cpp`).
+2.  [x] **콘텐츠 생성**: AI를 활용하여 소스 코드를 분석하고 문서 작성 (`11_WindowAndMainLoop.md` 완료).
+3.  [ ] **다음 타겟 선정**: `BaseGame` 클래스 또는 `Scene` 관리 시스템 분석 및 문서화.
+4.  [ ] **반복**: 다음 모듈로 이동.
