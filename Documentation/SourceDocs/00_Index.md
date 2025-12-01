@@ -38,6 +38,8 @@
 *   [25. 전역 유틸리티와 매크로 (Global Utilities & Macros)](25_Global_Utils_Defines.md)
 *   [26. 확장 코어 유틸리티 (Extended Core Utilities)](26_Extended_Core_Utilities.md)
 *   [27. 프로젝트 설정 및 빌드 환경 (Project Configuration & Build Environment)](27_Project_Configuration.md)
+*   [28. 디자인 패턴: 유한 상태 머신 (FSM: Finite State Machine)](28_Pattern_FSM.md)
+*   [29. 디자인 패턴: 오브젝트 풀링 (Object Pooling)](29_Pattern_ObjectPooling.md)
 
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
@@ -56,4 +58,6 @@
 11. [x] **콘텐츠 생성**: 고급 UI 시스템(RichText, InputField) 문서화 완료.
 12. [x] **콘텐츠 생성**: 시각 효과(Primitives) 및 전역 유틸리티(Macros) 문서화 완료.
 13. [x] **콘텐츠 생성**: 확장 유틸리티 및 프로젝트 설정 문서화 완료.
-14. [x] **완료**: FrameWork_2DAPI 전체 문서화 완료.
+14. [x] **콘텐츠 생성**: 게임플레이 패턴 (FSM, Object Pooling) 문서화 완료.
+15. [ ] **다음 타겟 선정**: PVSZ 게임 구조 (Game Loop, Stage).
+16. [ ] **반복**: 다음 모듈로 이동.
