@@ -5,9 +5,16 @@
 #include <string>
 #include "../Core/DefineHeader.h"
 
+
+#define DEFAULTANINAME L"DEFAULTANI"
+
 using namespace std;
 
 class ImageComponent;
+
+
+// 구조를 string 방식으로 범위들 지정 되도록 해서 그 범위안에서만 움직이도록 하는것 추가적용하기
+
 
 class DrawImageRectInfoData
 {
@@ -21,6 +28,7 @@ public:
 	int drawWidth = 0, drawHeight = 0;
 	RECT drawRect = { 0, 0, 128, 128 };
 	float OffsetPosX = 0, OffsetPosY = 0;
+	std::wstring m_AnimationName = DEFAULTANINAME;
 };
 
 class ImgCom_DrawImageRectInfoData : public DrawImageRectInfoData
@@ -44,7 +52,10 @@ public:
 		drawRect = p_data.drawRect;
 		OffsetPosX = p_data.OffsetPosX;
 		OffsetPosY = p_data.OffsetPosY;
+		m_AnimationName = p_data.m_AnimationName;
+
 	}
+
 public:
 	Gdiplus::Image* m_Image;
 
@@ -76,6 +87,12 @@ public:
 		, float p_left, float p_top, float p_right, float p_bottom
 		, float p_offsetx, float p_offsety);
 
+	void AddDrawImageInfo(wstring p_aniname
+		, float p_durationsec
+		, wstring p_imgpath, int p_draww, int p_drawh
+		, float p_left, float p_top, float p_right, float p_bottom
+		, float p_offsetx, float p_offsety);
+
 	void SwapDrawInfoAt(int p_srcindex, int p_destindex);
 	void RemoveDrawInfoAt(int p_at);
 
@@ -94,10 +111,13 @@ protected:
 	int m_CurrentIndex = 0; // 현재 인덱스
 	int m_RemineLoopCount = 1;
 	int m_PrevIndex = -1;
+	wstring m_CurrentAniName = DEFAULTANINAME;
 
 	vector<unique_ptr<ImgCom_DrawImageRectInfoData>> m_AllImageAniComVec; // 이미지 컴포넌트 벡터
 
 public:
+	void SetChangeAnimation(wstring p_aniname, int p_looptime = -1, int p_stindex);
+
 	void ResetAllDatasNClear( );
 	void SetCurrentIndex(int p_index);
 	void SetRemineSec(float p_reminesec);
