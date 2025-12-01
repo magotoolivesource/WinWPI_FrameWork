@@ -23,6 +23,8 @@
 *   [문서 작성 템플릿 (Template)](Template.md)
 *   [11. 윈도우 생성 및 메인 루프 (Window Creation & Main Loop)](11_WindowAndMainLoop.md)
 *   [12. 게임 매니저와 생명주기 (Game Manager & Lifecycle)](12_GameManager_BaseGame.md)
+*   [13. 핵심 아키텍처: GameObject와 Component (Core Architecture)](13_Core_GameObject_Component.md)
+*   [14. 씬 시스템 (Scene System)](14_Scene_System.md)
 
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
@@ -31,5 +33,6 @@
 1.  [x] **타겟 선정**: 다음 문서화 대상 모듈 식별 (추천: `Scene.cpp` 또는 `Application.cpp`).
 2.  [x] **콘텐츠 생성**: AI를 활용하여 소스 코드를 분석하고 문서 작성 (`11_WindowAndMainLoop.md` 완료).
 3.  [x] **콘텐츠 생성**: `BaseGame` 클래스 및 게임 루프 분석 문서 작성 (`12_GameManager_BaseGame.md` 완료).
-4.  [ ] **다음 타겟 선정**: `Scene` 클래스 및 씬 관리 시스템 분석 및 문서화.
-5.  [ ] **반복**: 다음 모듈로 이동.
+4.  [x] **콘텐츠 생성**: `Core` 아키텍처(GameObject, Component) 및 `Scene` 시스템 문서화 완료.
+5.  [ ] **다음 타겟 선정**: 주요 매니저 클래스 (`TimerManager`, `InputManager`) 분석.
+6.  [ ] **반복**: 다음 모듈로 이동.
