@@ -36,6 +36,8 @@
 *   [23. 고급 UI 시스템: RichText와 입력창 (Advanced UI: RichText & InputField)](23_Advanced_UI_RichText_Input.md)
 *   [24. 시각 효과와 도형 (Visual Effects & Primitives)](24_VisualEffects_Primitives.md)
 *   [25. 전역 유틸리티와 매크로 (Global Utilities & Macros)](25_Global_Utils_Defines.md)
+*   [26. 확장 코어 유틸리티 (Extended Core Utilities)](26_Extended_Core_Utilities.md)
+*   [27. 프로젝트 설정 및 빌드 환경 (Project Configuration & Build Environment)](27_Project_Configuration.md)
 
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
@@ -53,4 +55,5 @@
 10. [x] **콘텐츠 생성**: 유틸리티/트랜스폼 시스템 및 튜토리얼(플레이어 만들기) 문서화 완료.
 11. [x] **콘텐츠 생성**: 고급 UI 시스템(RichText, InputField) 문서화 완료.
 12. [x] **콘텐츠 생성**: 시각 효과(Primitives) 및 전역 유틸리티(Macros) 문서화 완료.
-13. [x] **완료**: FrameWork_2DAPI 전체 문서화 완료.
+13. [x] **콘텐츠 생성**: 확장 유틸리티 및 프로젝트 설정 문서화 완료.
+14. [x] **완료**: FrameWork_2DAPI 전체 문서화 완료.
