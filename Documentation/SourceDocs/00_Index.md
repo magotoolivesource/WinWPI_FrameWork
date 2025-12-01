@@ -38,8 +38,17 @@
 *   [25. 전역 유틸리티와 매크로 (Global Utilities & Macros)](25_Global_Utils_Defines.md)
 *   [26. 확장 코어 유틸리티 (Extended Core Utilities)](26_Extended_Core_Utilities.md)
 *   [27. 프로젝트 설정 및 빌드 환경 (Project Configuration & Build Environment)](27_Project_Configuration.md)
+
+### Part 1. 게임플레이 패턴 (Gameplay Patterns)
 *   [28. 디자인 패턴: 유한 상태 머신 (FSM: Finite State Machine)](28_Pattern_FSM.md)
 *   [29. 디자인 패턴: 오브젝트 풀링 (Object Pooling)](29_Pattern_ObjectPooling.md)
+
+### Part 2. 게임 구조 분석 (Game Structure Analysis)
+*   [30. 게임 루프와 스테이지 관리 (Game Loop & Stage Management)](30_PVSZ_GameLoop_Stage.md)
+*   [31. 액터와 팩토리 패턴 (Actor & Factory Pattern)](31_PVSZ_Actor_Factory.md)
+
+### Part 3. UI 및 상호작용 (UI & Interaction)
+*   [32. 인게임 UI와 상호작용 (Ingame UI & Interaction)](32_PVSZ_UI_Interaction.md)
 
 ## 다음 단계 / 할 일 목록 (Next Steps / To-Do List)
 
@@ -58,6 +67,7 @@
 11. [x] **콘텐츠 생성**: 고급 UI 시스템(RichText, InputField) 문서화 완료.
 12. [x] **콘텐츠 생성**: 시각 효과(Primitives) 및 전역 유틸리티(Macros) 문서화 완료.
 13. [x] **콘텐츠 생성**: 확장 유틸리티 및 프로젝트 설정 문서화 완료.
-14. [x] **콘텐츠 생성**: 게임플레이 패턴 (FSM, Object Pooling) 문서화 완료.
-15. [ ] **다음 타겟 선정**: PVSZ 게임 구조 (Game Loop, Stage).
-16. [ ] **반복**: 다음 모듈로 이동.
+14. [x] **콘텐츠 생성**: PVSZ Part 1 - 게임플레이 패턴 (FSM, Object Pooling) 문서화 완료.
+15. [x] **콘텐츠 생성**: PVSZ Part 2 - 게임 구조 (Loop, Stage, Actor, Factory) 문서화 완료.
+16. [x] **콘텐츠 생성**: PVSZ Part 3 - UI 및 상호작용 문서화 완료.
+17. [ ] **완료**: PVSZ 샘플 게임 문서화 전체 마무리.
