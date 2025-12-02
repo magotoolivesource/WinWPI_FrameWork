@@ -103,6 +103,11 @@ void ImageAni_Component::AddDrawImageInfo(float p_delaysec
 	m_AllDrawImaTableVec.emplace_back(std::move(infodata));
 }
 
+void ImageAni_Component::AddDrawImageInfo(wstring p_aniname, float p_durationsec, wstring p_imgpath, int p_draww, int p_drawh, float p_left, float p_top, float p_right, float p_bottom, float p_offsetx, float p_offsety)
+{
+
+}
+
 void ImageAni_Component::SwapDrawInfoAt(int p_srcindex, int p_destindex)
 {
 	if ( !(p_srcindex >= 0 && p_srcindex < m_AllDrawImaTableVec.size( ) &&
@@ -171,6 +176,10 @@ void ImageAni_Component::SetNAdjustImageInfoTotalFrame(float p_totalanisec)
 	}
 
 	AdjustImageInfo( );
+}
+
+void ImageAni_Component::SetChangeAnimation(wstring p_aniname, int p_looptime, int p_stindex)
+{
 }
 
 void ImageAni_Component::ResetAllDatasNClear( )
