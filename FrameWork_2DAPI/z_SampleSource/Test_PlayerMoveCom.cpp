@@ -28,6 +28,8 @@ void Test_PlayerMoveCom::RemoveCompoment()
 void Test_PlayerMoveCom::Start()
 {
 	__super::Start();
+
+	m_LinkRigidBodyCom = owner->GetComponent<RigidbodyComponent>( );
 }
 
 void Test_PlayerMoveCom::Update(float dt)

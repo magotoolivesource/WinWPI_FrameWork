@@ -116,7 +116,7 @@ protected:
 	vector<unique_ptr<ImgCom_DrawImageRectInfoData>> m_AllImageAniComVec; // 이미지 컴포넌트 벡터
 
 public:
-	void SetChangeAnimation(wstring p_aniname, int p_looptime = -1, int p_stindex);
+	void SetChangeAnimation(wstring p_aniname, int p_looptime = -1, int p_stindex = 0);
 
 	void ResetAllDatasNClear( );
 	void SetCurrentIndex(int p_index);

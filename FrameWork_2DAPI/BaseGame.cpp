@@ -412,11 +412,11 @@ void BaseGame::ReleaseGDIPlus()
 void BaseGame::Test_InitScene()
 {
 
-	//Test_Button();
+	Test_Button();
 
-	//Test_Image();
+	Test_Image();
 
-	//Test_TextLabel();
+	Test_TextLabel();
 
 	////Test_Collider();
 
